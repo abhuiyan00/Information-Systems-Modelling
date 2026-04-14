@@ -1,0 +1,1131 @@
+openapi: 3.0.3
+info:
+  title: ModellingClub API
+  version: 1.0.0
+  description: >
+    REST API for ModellingClub – a self-hosted web platform for scale-model
+    and drone hobbyists.
+
+servers:
+  - url: /api/v1
+
+components:
+
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+
+  schemas:
+
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum:
+            - member
+            - admin
+        created_at:
+          type: string
+          format: date-time
+
+    BuildStatus:
+      type: string
+      enum:
+        - draft
+        - pending_review
+        - published
+        - rejected
+        - archived
+
+    BuildType:
+      type: string
+      enum:
+        - fixed_wing
+        - drone
+        - helicopter
+        - boat
+        - car
+        - scale_model
+        - other
+
+    BuildCreateRequest:
+      type: object
+      required:
+        - title
+        - type
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        type:
+          $ref: '#/components/schemas/BuildType'
+        description:
+          type: string
+        scale:
+          type: string
+          example: "1:72"
+        wingspan_mm:
+          type: integer
+        frame_size_mm:
+          type: integer
+        num_motors:
+          type: integer
+        flight_controller:
+          type: string
+        max_takeoff_weight_g:
+          type: integer
+        rotor_diameter_mm:
+          type: integer
+        hull_length_mm:
+          type: integer
+        wheelbase_mm:
+          type: integer
+
+    Build:
+      allOf:
+        - $ref: '#/components/schemas/BuildCreateRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Server-generated build ID.
+            status:
+              $ref: '#/components/schemas/BuildStatus'
+            owner_id:
+              type: string
+              format: uuid
+            score:
+              type: number
+              format: float
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+
+    BuildList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Build'
+        total:
+          type: integer
+        page:
+          type: integer
+        size:
+          type: integer
+
+    ReviewRequest:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          enum:
+            - approve
+            - reject
+        reason:
+          type: string
+          maxLength: 500
+          description: Required when action is reject
+
+    MediaFile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        url:
+          type: string
+          format: uri
+        filename:
+          type: string
+        size_bytes:
+          type: integer
+        mime_type:
+          type: string
+
+    InviteRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+
+    Collaborator:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        role:
+          type: string
+          enum:
+            - co_author
+
+    FlightLogCreateRequest:
+      type: object
+      required:
+        - flight_date
+        - location_name
+        - duration_min
+        - max_altitude_m
+        - drone_identifier
+        - conditions
+      properties:
+        flight_date:
+          type: string
+          format: date
+        location_name:
+          type: string
+          minLength: 1
+          maxLength: 200
+        duration_min:
+          type: integer
+          minimum: 1
+          maximum: 600
+        max_altitude_m:
+          type: number
+          minimum: 0
+          maximum: 120
+          description: Max 120 m per EU Open Category limit (EU 2019/945)
+        drone_identifier:
+          type: string
+          pattern: '^[A-Z]{2}-[A-Z0-9]{6,12}$'
+          description: EASA UAS operator registration format
+        conditions:
+          type: string
+          enum:
+            - SUNNY
+            - CLOUDY
+            - WINDY
+            - RAIN
+        notebook:
+          type: string
+          maxLength: 1000
+
+    FlightLog:
+      allOf:
+        - $ref: '#/components/schemas/FlightLogCreateRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            build_id:
+              type: string
+              format: uuid
+            created_at:
+              type: string
+              format: date-time
+
+    CommentRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          maxLength: 1000
+
+    Comment:
+      allOf:
+        - $ref: '#/components/schemas/CommentRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            author_id:
+              type: string
+              format: uuid
+            author_username:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+
+    VoteRequest:
+      type: object
+      required:
+        - vote
+      properties:
+        vote:
+          type: string
+          enum:
+            - up
+            - down
+            - none
+
+    VoteResponse:
+      type: object
+      properties:
+        upvotes:
+          type: integer
+        downvotes:
+          type: integer
+        user_vote:
+          type: string
+          enum:
+            - up
+            - down
+            - none
+
+    GdprExportStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - pending
+            - ready
+        download_url:
+          type: string
+          format: uri
+          nullable: true
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+  responses:
+    Unauthorized:
+      description: Unauthenticated
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden – insufficient role
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+paths:
+
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: "UC-01: Register a new member"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Account created; confirmation email queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '409':
+          description: Username or email already taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: "UC-02: Login – issues HttpOnly JWT session cookie (bcrypt verify)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Authenticated; session cookie set
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: "session=<jwt>; HttpOnly; SameSite=Lax; Max-Age=604800"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Invalid credentials (lockout after 5 failed attempts / 15 min)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: "UC-02: Logout – invalidates session"
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: Session invalidated
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/me:
+    get:
+      tags:
+        - Auth
+      summary: Return current authenticated user
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /builds:
+    get:
+      tags:
+        - Builds
+      summary: "UC-09: Browse and search published builds"
+      parameters:
+        - name: q
+          in: query
+          description: Full-text search (PostgreSQL tsvector)
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            $ref: '#/components/schemas/BuildType'
+        - name: author
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        '200':
+          description: Paginated list of published builds
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildList'
+
+    post:
+      tags:
+        - Builds
+      summary: "UC-03: Create a new build (starts as draft)"
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildCreateRequest'
+      responses:
+        '201':
+          description: Build created
+          headers:
+            Location:
+              description: Relative URL of the created build (contains the generated build ID).
+              schema:
+                type: string
+                example: /builds/6f6d7154-7d2f-4a35-9e20-8536f6cbe6df
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /builds/{buildId}:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Builds
+      summary: Get a single build by ID
+      responses:
+        '200':
+          description: Build detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - Builds
+      summary: Update a build (owner or co-author; only while in draft)
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildCreateRequest'
+      responses:
+        '200':
+          description: Updated build
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Builds
+      summary: Delete a draft build (owner only)
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /builds/{buildId}/submit:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags:
+        - Builds
+      summary: "UC-06: Submit draft for admin review"
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Status changed to pending_review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+        '400':
+          description: Preconditions not met (missing photo or missing flight log for drone)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /builds/{buildId}/review:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags:
+        - Admin
+      summary: "UC-07: Admin approve or reject a build"
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewRequest'
+      responses:
+        '200':
+          description: Build status updated (published or rejected)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Build'
+        '400':
+          description: Reason is required when rejecting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /builds/{buildId}/media:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Media
+      summary: List media files for a build
+      responses:
+        '200':
+          description: List of media files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaFile'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - Media
+      summary: "UC-04: Upload media files to a build"
+      description: "Allowed: JPEG, PNG, GIF, PDF, STL. Max 20 MB per file, max 50 files per build."
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: Files uploaded
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MediaFile'
+        '400':
+          description: Invalid file type, size exceeded, or 50-file limit reached
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /builds/{buildId}/media/{mediaId}:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: mediaId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      tags:
+        - Media
+      summary: Delete a media file
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: Deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /builds/{buildId}/collaborators:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Collaboration
+      summary: List collaborators on a build
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Collaborator list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collaborator'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - Collaboration
+      summary: "UC-05: Invite a member as co-author (link expires 48 h)"
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteRequest'
+      responses:
+        '202':
+          description: Invitation email sent
+        '400':
+          description: Email does not belong to a registered member
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /invitations/{token}/accept:
+    parameters:
+      - name: token
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - Collaboration
+      summary: Accept a collaboration invitation via token
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Co-author role granted
+        '400':
+          description: Token expired or invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /builds/{buildId}/flight-logs:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - FlightLogs
+      summary: List flight log entries for a drone build
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Flight log list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FlightLog'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - FlightLogs
+      summary: "UC-08: Add a flight log entry (mandatory for drone builds)"
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlightLogCreateRequest'
+      responses:
+        '201':
+          description: Flight log created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlightLog'
+        '400':
+          description: Altitude exceeds 120 m EU limit or drone identifier format invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Build is not of drone type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /builds/{buildId}/comments:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Community
+      summary: List comments on a build
+      responses:
+        '200':
+          description: Comment list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - Community
+      summary: "UC-10: Post a comment (max 1000 chars)"
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentRequest'
+      responses:
+        '201':
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /builds/{buildId}/vote:
+    parameters:
+      - name: buildId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - Community
+      summary: Get vote counts for a build
+      responses:
+        '200':
+          description: Vote summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoteResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      tags:
+        - Community
+      summary: "UC-10: Cast or change a vote (self-voting disallowed)"
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoteRequest'
+      responses:
+        '200':
+          description: Vote registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoteResponse'
+        '400':
+          description: Self-voting is not allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /account/export:
+    post:
+      tags:
+        - Account
+      summary: "UC-11: Request personal data export (ready within 24 h)"
+      security:
+        - cookieAuth: []
+      responses:
+        '202':
+          description: Export queued
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    get:
+      tags:
+        - Account
+      summary: Check export status and retrieve download link
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Export status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GdprExportStatus'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /account/delete:
+    post:
+      tags:
+        - Account
+      summary: "UC-11: Delete account and anonymise builds (irreversible)"
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: Account deleted and personal data anonymised
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /admin/users:
+    get:
+      tags:
+        - Admin
+      summary: List all users (admin only)
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Paginated user list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserProfile'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/users/{userId}/ban:
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      tags:
+        - Admin
+      summary: Ban a user account
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: User banned
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /admin/queue:
+    get:
+      tags:
+        - Admin
+      summary: List builds pending moderation review
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Moderation queue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /health:
+    get:
+      tags:
+        - System
+      summary: Health check (used after deployment per SRS §11)
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
