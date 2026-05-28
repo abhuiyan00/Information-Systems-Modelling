@@ -1,0 +1,22 @@
+<h2>
+  @if (studentId) {
+    Edit Student
+  } @else {
+    Create Student
+  }
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <input formControlName="name" placeholder="Name" />
+  @if (form.controls.name.invalid && form.controls.name.touched) {
+    <small>Name is required</small>
+  }
+
+  <input formControlName="birthDay" placeholder="BirthDay" />
+  @if (form.controls.birthDay.invalid && form.controls.birthDay.touched) {
+    <small>Valid birthday is required</small>
+  }
+
+  <button type="submit">Save</button>
+</form>

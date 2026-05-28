@@ -1,0 +1,41 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1>Explore</h1>
+      <p style="margin-top:0.25rem; font-size:0.9rem">Browse published builds from the community.</p>
+    </div>
+    @if (isLoggedIn()) {
+      <a routerLink="/builds/create" class="btn btn-primary">+ New Build</a>
+    }
+  </div>
+
+  <div class="type-chips">
+    @for (c of chipTypes; track c.value) {
+      <button type="button"
+              [class.active]="filters.type === c.value"
+              (click)="setType(c.value)">{{ c.label }}</button>
+    }
+  </div>
+
+  <app-search-bar [filters]="filters" (filtersChange)="onFiltersChange($event)"></app-search-bar>
+
+  @if (visibleBuilds.length > 0) {
+    <div class="build-grid">
+      @for (b of visibleBuilds; track b.id) {
+        <app-build-card [build]="b"></app-build-card>
+      }
+    </div>
+  } @else {
+    <div class="glass-card" style="text-align:center; padding:3rem">
+      <p style="color:var(--text-muted)">
+        @if (allBuilds.length === 0) {
+          No published builds yet. @if (isLoggedIn()) {
+            <a routerLink="/builds/create" style="color:var(--primary)">Create the first one.</a>
+          }
+        } @else {
+          No builds match your filters. Try clearing the search.
+        }
+      </p>
+    </div>
+  }
+</div>

@@ -1,0 +1,79 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1>Marketplace</h1>
+      <p style="margin-top:0.25rem; font-size:0.9rem">Trade parts and full kits between members.</p>
+    </div>
+    @if (isLoggedIn()) {
+      <button (click)="toggleCreate()" class="btn btn-primary">{{ creating ? 'Cancel' : '+ List a part' }}</button>
+    }
+  </div>
+
+  @if (creating) {
+    <div class="glass-card" style="margin-bottom:1.5rem">
+      @if (error) { <p style="color:var(--danger); margin-bottom:0.5rem">{{ error }}</p> }
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem">
+          <div class="form-group"><label>Title</label><input formControlName="title" type="text" /></div>
+          <div class="form-group"><label>Part category</label>
+            <select formControlName="part_category">
+              <option value="motor">Motor</option><option value="esc">ESC</option>
+              <option value="battery">Battery</option><option value="propeller">Propeller</option>
+              <option value="fc">Flight controller</option><option value="frame">Frame</option>
+              <option value="camera">Camera</option><option value="radio">Radio</option>
+              <option value="chassis">Chassis</option><option value="hull">Hull</option>
+              <option value="airframe">Airframe</option><option value="kit">Kit</option>
+              <option value="paint">Paint</option><option value="blade">Blade</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Brand</label><input formControlName="brand" type="text" /></div>
+          <div class="form-group"><label>Condition</label>
+            <select formControlName="condition"><option value="new">New</option><option value="used">Used</option></select>
+          </div>
+          <div class="form-group"><label>Price (PLN)</label><input formControlName="price_pln" type="number" /></div>
+          <div class="form-group" style="grid-column:span 2"><label>Description</label><textarea formControlName="description" rows="2"></textarea></div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save listing</button>
+      </form>
+    </div>
+  }
+
+  <div class="type-chips">
+    <button [class.active]="statusFilter === ''"        (click)="setStatus('')">All status</button>
+    <button [class.active]="statusFilter === 'active'"  (click)="setStatus('active')">Active</button>
+    <button [class.active]="statusFilter === 'sold'"    (click)="setStatus('sold')">Sold</button>
+  </div>
+
+  @if (loading) {
+    <div class="glass-card" style="text-align:center; padding:2rem"><p style="color:var(--text-muted)">Loading…</p></div>
+  } @else if (listings.length === 0) {
+    <div class="glass-card" style="text-align:center; padding:2rem"><p style="color:var(--text-muted)">No listings.</p></div>
+  } @else {
+    <div class="glass-card">
+      <table>
+        <thead><tr><th>Title</th><th>Category</th><th>Brand</th><th>Condition</th><th>Price</th><th>Status</th><th>Seller</th><th></th></tr></thead>
+        <tbody>
+          @for (l of listings; track l.id) {
+            <tr>
+              <td><strong>{{ l.title }}</strong>
+                @if (l.description) { <div style="color:var(--text-muted); font-size:0.8rem">{{ l.description }}</div> }
+              </td>
+              <td>{{ l.part_category }}</td>
+              <td>{{ l.brand }}</td>
+              <td>{{ l.condition }}</td>
+              <td>{{ l.price_pln }} {{ l.currency }}</td>
+              <td><span class="badge badge-{{ l.status }}">{{ l.status }}</span></td>
+              <td>{{ l.seller_username }}</td>
+              <td>
+                @if (isLoggedIn() && l.status === 'active') {
+                  <button class="btn btn-ghost" (click)="markSold(l.id)">Sold</button>
+                  <button class="btn btn-danger"  (click)="remove(l.id)">×</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

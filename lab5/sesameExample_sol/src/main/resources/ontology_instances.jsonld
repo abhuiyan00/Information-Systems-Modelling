@@ -1,0 +1,3741 @@
+[
+  {
+    "@id": "http://modellingclub.local/ontology#messageText",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Message"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "message text"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing23",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "39.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Spektrum AR8020T 8-Ch DSMX Receiver with Telemetry"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "SAFE Select compatible. AS3X gyro stabilisation. Used in Radian, works perfectly."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#sentAt",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Message"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sent at"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing10",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "175.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "RadioMaster TX16S Mark II ELRS Radio"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Full-size hall sensor gimbals, EdgeTX 2.9, internal ELRS. Practically new, 2 months old."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#comment2",
+    "@type": [
+      "http://modellingclub.local/ontology#Comment"
+    ],
+    "http://modellingclub.local/ontology#commentText": [
+      {
+        "@value": "What props are you running on the 5-inch?"
+      }
+    ],
+    "http://modellingclub.local/ontology#postedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user9"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#AircraftBuild",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A fixed-wing or glider aircraft build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Aircraft Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Person",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A human participant on the platform."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Person"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Agent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing8",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "55.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Tattu R-Line 6S 1300mAh 130C LiPo (pair)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Premium racing LiPo. 60 cycles each, both cells balanced, capacity tested above 1250mAh."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#TelemetryRecord",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Performance telemetry data (speed, range, crashes) for a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Telemetry Record"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing3",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "49.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Kakute H7 V2 Flight Controller"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "BetaFlight 4.4 ready. All UARTs working, gyro perfect. Selling because upgrading to H7 Slim."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#email",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "email"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#attendedBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TestRun"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "attended by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user6",
+    "@type": [
+      "http://modellingclub.local/ontology#Collaborator"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "jan@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2023-06-20T11:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "robo_hacker_jan"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#TestRun",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "An organised outdoor test session at a geo-located venue."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Test Run"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#telemetry3",
+    "@type": [
+      "http://modellingclub.local/ontology#TelemetryRecord"
+    ],
+    "http://modellingclub.local/ontology#crashCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 1
+      }
+    ],
+    "http://modellingclub.local/ontology#maxRange": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "3200.0"
+      }
+    ],
+    "http://modellingclub.local/ontology#topSpeed": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "85.0"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#DownVote",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Down Vote"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Vote"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing24",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "52.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Hitec HS-5085MG Digital Micro Servo (4 pcs)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Metal gear, 3.0 kg·cm at 6V. Ideal for aileron/elevator on 1.5–2m gliders."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#comment3",
+    "@type": [
+      "http://modellingclub.local/ontology#Comment"
+    ],
+    "http://modellingclub.local/ontology#commentText": [
+      {
+        "@value": "200 km/h verified! Insane XO-1 build."
+      }
+    ],
+    "http://modellingclub.local/ontology#postedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Message",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A direct message sent between two users."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Message"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing20",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "78.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "RPLIDAR A1M8 360° Laser Scanner"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "12m range, 8000 samples/s. USB interface. Perfect for ROS SLAM robotics projects."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing27",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "85.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user8"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Hobbywing Seaking 180A V3 Boat ESC"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "180A continuous, water-cooled, BEC 6V/5A. Perfect for catamaran up to 65 km/h."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#vote1",
+    "@type": [
+      "http://modellingclub.local/ontology#UpVote"
+    ],
+    "http://modellingclub.local/ontology#castedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing15",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "88.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user5"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Spektrum DX5 Pro DSMR 5-Ch Transmitter + Receiver"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Telemetry-capable radio, pinpoint steering wheel design. Great for surface runners."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build4",
+    "@type": [
+      "http://modellingclub.local/ontology#RobotBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "Raspberry Pi 5-based autonomous robot with PID line-following, ultrasonic obstacle avoidance, and OLED telemetry display."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "Autonomous Line-Following Robot v3"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 82
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#RCCarBuild",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A remote-controlled car build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "RC Car Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing19",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "55.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Pololu Romi 32U4 Robot Chassis Kit (complete)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Full chassis + encoders + 32U4 control board. Assembled and tested, then project cancelled."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#flightLog2",
+    "@type": [
+      "http://modellingclub.local/ontology#FlightLog"
+    ],
+    "http://modellingclub.local/ontology#flightAltitude": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "110.0"
+      }
+    ],
+    "http://modellingclub.local/ontology#pilotLicenseId": [
+      {
+        "@value": "PL-XYZ789012"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#ImageFile",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Image File"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#MediaFile"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#flightAltitude",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Maximum altitude reached (metres). EU limit 120 m."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#FlightLog"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "flight altitude"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#communityDrone",
+    "@type": [
+      "http://modellingclub.local/ontology#Community"
+    ],
+    "http://modellingclub.local/ontology#isSubCommunityOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityMain"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "FPV & Drone Builders"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasTelemetry",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has telemetry"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#TelemetryRecord"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#rep1",
+    "@type": [
+      "http://modellingclub.local/ontology#ReputationRecord"
+    ],
+    "http://modellingclub.local/ontology#builderScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 95
+      }
+    ],
+    "http://modellingclub.local/ontology#helperScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 40
+      }
+    ],
+    "http://modellingclub.local/ontology#organiserScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 10
+      }
+    ],
+    "http://modellingclub.local/ontology#reliabilityScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 88
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasContent",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Relates a resource to associated content."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has content"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#FramePart",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Frame Part"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#PartCategory"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user3",
+    "@type": [
+      "http://modellingclub.local/ontology#AdminUser"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "admin@modellingclub.local"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2020-01-01T00:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "admin_marek"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build5",
+    "@type": [
+      "http://modellingclub.local/ontology#AircraftBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "E-flite Radian Pro 2m ARF with upgraded Spektrum AR8020T receiver, SAFE Select technology. Perfect thermal soaring platform."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "Radian Pro 2m Glider Thermal Build"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 90
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing4",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "72.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "ImpulseRC Apex 5\" HD Frame Kit"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "3K carbon fibre, 5mm arms. DJI O3 compatible. Used one season, no cracks."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#testRunLocation",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TestRun"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "test run location"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#ApprovedStatus",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Approved"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#BuildStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasFlightLog",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#DroneBuild"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has flight log"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#FlightLog"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#maxRange",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TelemetryRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "max range"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#DroneBuild",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A build of type drone/UAV."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Drone Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing26",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "55.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user8"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#MotorPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Dynamite Marine 3900Kv Brushless Motor (Boat)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Waterproofed, corrosion-resistant. Fits Pro Boat hulls directly. One season use."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#vote3",
+    "@type": [
+      "http://modellingclub.local/ontology#DownVote"
+    ],
+    "http://modellingclub.local/ontology#castedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#VideoFile",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Video File"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#MediaFile"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build1",
+    "@type": [
+      "http://modellingclub.local/ontology#DroneBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "Full custom 5-inch freestyle build on ImpulseRC Apex frame. T-Motor F40 Pro IV 2306 motors, Hobbywing XRotor 45A ESC stack, Kakute H7 v2 FC. Tuned BetaFlight 4.4."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "ImpulseRC Apex 5\" FPV Freestyle Drone"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasComment": [
+      {
+        "@id": "http://modellingclub.local/instances#comment1"
+      },
+      {
+        "@id": "http://modellingclub.local/instances#comment2"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasFlightLog": [
+      {
+        "@id": "http://modellingclub.local/instances#flightLog1"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 95
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasTelemetry": [
+      {
+        "@id": "http://modellingclub.local/instances#telemetry1"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasVote": [
+      {
+        "@id": "http://modellingclub.local/instances#vote1"
+      },
+      {
+        "@id": "http://modellingclub.local/instances#vote2"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#RobotBuild",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A robot or autonomous machine build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Robot Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#Ontology"
+    ],
+    "http://purl.org/dc/elements/1.1/creator": [
+      {
+        "@value": "ModellingClub Lab 4"
+      }
+    ],
+    "http://purl.org/dc/elements/1.1/description": [
+      {
+        "@value": "Vocabulary for the ModellingClub platform covering users, builds, community, test runs, marketplace and reputation. RDFS++ reasoning only."
+      }
+    ],
+    "http://purl.org/dc/elements/1.1/title": [
+      {
+        "@value": "ModellingClub Ontology"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#telemetry1",
+    "@type": [
+      "http://modellingclub.local/ontology#TelemetryRecord"
+    ],
+    "http://modellingclub.local/ontology#crashCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 2
+      }
+    ],
+    "http://modellingclub.local/ontology#maxRange": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "1800.0"
+      }
+    ],
+    "http://modellingclub.local/ontology#topSpeed": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "127.5"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#createdBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "The primary owner/author of a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "created by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing16",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "120.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Castle Creations Mamba Monster X 8S ESC"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Handles 8S LiPo. Link data logging, Castle Link USB programmer included. Mint."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#partName",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#MarketplaceListing"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "part name"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasStatus",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Current lifecycle status of a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has status"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#BuildStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing17",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "24.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Pro-Line Trencher SC 2.2/3.0 Short Course Tires (pair)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Molded foam inserts included. Pinned for loose dirt. One season use, lots of tread left."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#organisedBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TestRun"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "organised by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#organiserScore",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#ReputationRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "organiser score"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build8",
+    "@type": [
+      "http://modellingclub.local/ontology#RCCarBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "Kyosho Inferno MP10e electric buggy. Orion Vortex R10 ESC, Reedy 2050Kv motor, upgraded oil-filled shocks, full ball-bearing kit."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "Kyosho Inferno MP10e 1/8 Buggy"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 85
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#SubmittedStatus",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Submitted"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#BuildStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build7",
+    "@type": [
+      "http://modellingclub.local/ontology#DroneBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "3-inch ultralight toothpick build. ELRS 2.4GHz, 4-in-1 20x20 stack, GoPro Session 5 mounted. Sub-250g without battery."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "3\" Toothpick Micro Quad Long Range"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasFlightLog": [
+      {
+        "@id": "http://modellingclub.local/instances#flightLog3"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 78
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasTelemetry": [
+      {
+        "@id": "http://modellingclub.local/instances#telemetry3"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Collaborator",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A user who is a co-author on someone else's build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Collaborator"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2002/07/owl#equivalentClass": [
+      {
+        "@id": "http://modellingclub.local/ontology#Builder"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing31",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "480.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Kyosho Inferno MP10e Electric Buggy — Complete"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Fully upgraded: Orion R10 + Reedy 2050Kv + upgraded shocks. Race-ready, immaculate."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+      {
+        "@id": "http://modellingclub.local/instances#build8"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user8",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "michal@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#isMemberOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityRC"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2022-05-18T12:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "boat_captain_michal"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user4",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "tomasz@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#isMemberOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityDrone"
+      }
+    ],
+    "http://modellingclub.local/ontology#knows": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2023-01-15T09:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "fpv_freak_tomasz"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#BuildStatus",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "The lifecycle status of a build (draft, submitted, approved, rejected)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Build Status"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#AdminUser",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A user with administrative privileges (review, user management)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Admin User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user2",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "anna@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasReputation": [
+      {
+        "@id": "http://modellingclub.local/instances#rep2"
+      }
+    ],
+    "http://modellingclub.local/ontology#isMemberOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityRC"
+      }
+    ],
+    "http://modellingclub.local/ontology#knows": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2021-07-22T10:30:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "rc_wizard_anna"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasVote",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has vote"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#Vote"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#hasContent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#vote2",
+    "@type": [
+      "http://modellingclub.local/ontology#UpVote"
+    ],
+    "http://modellingclub.local/ontology#castedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user9"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#username",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "username"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#involvesAgent",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Relates any resource to a participating agent."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "involves agent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#Agent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#isSubCommunityOf",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#TransitiveProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Hierarchical containment of communities. Transitive."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Community"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "is sub-community of"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#Community"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#askingPrice",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#MarketplaceListing"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "asking price"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#comment1",
+    "@type": [
+      "http://modellingclub.local/ontology#Comment"
+    ],
+    "http://modellingclub.local/ontology#commentText": [
+      {
+        "@value": "Incredible build! The Apex frame is so rigid."
+      }
+    ],
+    "http://modellingclub.local/ontology#postedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#MediaFile",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "An image or video file attached to a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Media File"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing21",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "110.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Dynamixel AX-12A Servo (set of 6)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Smart servos with position/temp/load feedback. Used in hexapod project, all functional."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#CommunityContent",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Any user-generated content that relates to a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Community Content"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#knows",
+    "@type": [
+      "http://www.w3.org/2002/07/owl#SymmetricProperty"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Two users who have interacted (voted, commented, co-authored). Symmetric."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "knows"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Build",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A modelling project submitted by a user (drone, RC car, robot, etc.)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Build"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#MotorPart",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Motor Part"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#PartCategory"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing13",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "42.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#MotorPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Reedy Sonic 540-M3 Brushless Motor 13.5T"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Competition-grade 540 motor. 13.5T spec for carpet/asphalt track. 3 races, rebearinged."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#flightLog3",
+    "@type": [
+      "http://modellingclub.local/ontology#FlightLog"
+    ],
+    "http://modellingclub.local/ontology#flightAltitude": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "45.0"
+      }
+    ],
+    "http://modellingclub.local/ontology#pilotLicenseId": [
+      {
+        "@value": "PL-ABC123456"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#crashCount",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TelemetryRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "crash count"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#reliabilityScore",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#ReputationRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "reliability score"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing5",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "145.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "DJI O3 Air Unit (with antennas + cables)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Original DJI O3 full combo. 60fps 1080p low-latency video. Upgraded to O3 Pro."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing6",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "28.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "ExpressLRS 2.4GHz Nano Receiver (5 pcs)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "ELRS 3.3 firmware. Tiny nano size, perfect for toothpick and 3-inch builds. New in bag."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasReputation",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has reputation"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#ReputationRecord"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build3",
+    "@type": [
+      "http://modellingclub.local/ontology#RCCarBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "Traxxas XO-1 fully upgraded: Velineon 3500 motor, LiPo 6S, aluminium chassis braces, RPM rear bumper. Verified 200 km/h on GPS."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "Traxxas XO-1 200km/h Build"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasComment": [
+      {
+        "@id": "http://modellingclub.local/instances#comment3"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 97
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasTelemetry": [
+      {
+        "@id": "http://modellingclub.local/instances#telemetry2"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasVote": [
+      {
+        "@id": "http://modellingclub.local/instances#vote4"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing18",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "95.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user6"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Raspberry Pi 5 (8GB) + Official Active Cooler"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Latest Rpi 5 board, never overclocked. Active cooler keeps temps below 50°C under load."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#User",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A registered member of ModellingClub."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Person"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build6",
+    "@type": [
+      "http://modellingclub.local/ontology#BoatBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "Pro Boat Miss Geico with brushless Dynamite 3900Kv motor upgrade. Capable of 65 km/h on flat water. Custom paint scheme."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "Pro Boat Miss Geico 17\" Catamaran"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user8"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 0
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#SubmittedStatus"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasVote": [
+      {
+        "@id": "http://modellingclub.local/instances#vote3"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#buildTitle",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "build title"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing25",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "35.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Robbe Funtana 125 ARF Wing Set (replacement)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Balsa + fibreglass wing set. Minor hangar rash, structurally perfect. Rare to find."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#UpVote",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Up Vote"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Vote"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#helperScore",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#ReputationRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "helper score"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing28",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "140.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user8"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "AquaCraft ARTR Deep Vee Carbon Fibre Hull 600mm"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Pre-painted red/white deep vee hull. Accepts standard 3650 motor. Ready to fit electronics."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user7",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "katarzyna@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#isMemberOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityMain"
+      }
+    ],
+    "http://modellingclub.local/ontology#knows": [
+      {
+        "@id": "http://modellingclub.local/instances#user8"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2021-11-30T16:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "glider_pro_katarzyna"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing2",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "64.50"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Hobbywing XRotor 45A 4-in-1 ESC Stack"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Pulled from a crashed quad — ESC itself undamaged. Full BLHeli_32 firmware. Great deal."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#topSpeed",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TelemetryRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "top speed"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#decimal"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing22",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "48.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#MotorPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "E-flite Power 15 950Kv BL Motor + 40A ESC"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Matched combo for 1.2–1.5m aircraft. Pulled from retired Apprentice. Low flight hours."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#testRunDate",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#TestRun"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "test run date"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user10",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "rafal@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2020-09-12T07:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "speed_demon_rafal"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#sentTo",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Message"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sent to"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#DraftStatus",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Draft"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#BuildStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing12",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "95.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Orion Vortex R10 1/8 ESC 200A"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Latest firmware, data logging capable. Used one race season. Perfect for Kyosho Inferno."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#communityMain",
+    "@type": [
+      "http://modellingclub.local/ontology#Community"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "ModellingClub Main"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#commentText",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Comment"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "comment text"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#RejectedStatus",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Rejected"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#BuildStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasComment",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has comment"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#Comment"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#hasContent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Vote",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "An upvote or downvote cast on a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Vote"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#CommunityContent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#pilotLicenseId",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Drone operator ID matching pattern [A-Z]{2}-[A-Z0-9]{6,12}."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#FlightLog"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "pilot license ID"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#sentBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Message"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sent by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Community",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A named group or club within ModellingClub (e.g. Drone Racers, Scale Builders)."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Community"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing14",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "19.99"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "RPM Rear Bumper & Skid Plate Set Traxxas Slash 4×4"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Unbreakable RPM plastic. Saved my Slash many times. Selling after retiring the car."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#listedBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#MarketplaceListing"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "listed by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user1",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "piotr@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasReputation": [
+      {
+        "@id": "http://modellingclub.local/instances#rep1"
+      }
+    ],
+    "http://modellingclub.local/ontology#isMemberOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityDrone"
+      }
+    ],
+    "http://modellingclub.local/ontology#knows": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      },
+      {
+        "@id": "http://modellingclub.local/instances#user9"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2022-03-10T08:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "dronemaster_piotr"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Builder",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A user who has created at least one build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Builder"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Agent",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "An entity (person or system) that can act on the platform."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Agent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#SystemAccount",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "An automated or system-managed account."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "System Account"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Agent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#vote4",
+    "@type": [
+      "http://modellingclub.local/ontology#UpVote"
+    ],
+    "http://modellingclub.local/ontology#castedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#ElectronicsPart",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Electronics Part"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#PartCategory"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#build2",
+    "@type": [
+      "http://modellingclub.local/ontology#DroneBuild"
+    ],
+    "http://modellingclub.local/ontology#buildDescription": [
+      {
+        "@value": "DJI Avata 2 with ND filter kit and custom foam case. Extended battery mod for 23 min flight time. Used for real-estate aerial photography."
+      }
+    ],
+    "http://modellingclub.local/ontology#buildTitle": [
+      {
+        "@value": "DJI Avata 2 Long-Range Cinema Setup"
+      }
+    ],
+    "http://modellingclub.local/ontology#createdBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasFlightLog": [
+      {
+        "@id": "http://modellingclub.local/instances#flightLog2"
+      }
+    ],
+    "http://modellingclub.local/ontology#hasScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 88
+      }
+    ],
+    "http://modellingclub.local/ontology#hasStatus": [
+      {
+        "@id": "http://modellingclub.local/ontology#ApprovedStatus"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user5",
+    "@type": [
+      "http://modellingclub.local/ontology#Builder"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "ewa@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#isMemberOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityMain"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2022-08-05T14:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "scale_builder_ewa"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#collaboratesOn",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A user who co-authors a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "collaborates on"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing29",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "320.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Complete 5\" FPV Freestyle Quad — Bind-and-Fly"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Full ready-to-fly 5-inch quad. Apex HD + O3 + T-Motor F40 IV + Kakute H7. Just add ELRS receiver."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+      {
+        "@id": "http://modellingclub.local/instances#build1"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#ReputationRecord",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Aggregated reputation scores (builder, helper, organiser, reliability) for a user."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Reputation Record"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#registeredAt",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "registered at"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#dateTime"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#testRun1",
+    "@type": [
+      "http://modellingclub.local/ontology#TestRun"
+    ],
+    "http://modellingclub.local/ontology#attendedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      },
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      },
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#organisedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user3"
+      }
+    ],
+    "http://modellingclub.local/ontology#testRunDate": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2024-05-10T10:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#testRunLocation": [
+      {
+        "@value": "Wrocław, Błonia Odrzańskie, 51.1079° N 17.0385° E"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#user9",
+    "@type": [
+      "http://modellingclub.local/ontology#User"
+    ],
+    "http://modellingclub.local/ontology#email": [
+      {
+        "@value": "zofia@example.com"
+      }
+    ],
+    "http://modellingclub.local/ontology#registeredAt": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "@value": "2024-02-01T08:00:00"
+      }
+    ],
+    "http://modellingclub.local/ontology#username": [
+      {
+        "@value": "newcomer_zofia"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#buildDescription",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "build description"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#string"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#builderScore",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#ReputationRecord"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "builder score"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#TestRunAttendance",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A record that links a user to a test run they attended."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Test Run Attendance"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasScore",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Numeric quality score assigned to an approved build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has score"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#isMemberOf",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "is member of"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#Community"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#MarketplaceListing",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A listing for a part or component for sale on the platform."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Marketplace Listing"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing30",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "210.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Traxxas Rustler 4×4 VXL Ready-to-Run Stadium Truck"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Complete 4WD 1/10 stadium truck. VXL-3s brushless, Traxxas 2.4GHz radio, never raced."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing1",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "89.99"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user1"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#MotorPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "T-Motor F40 Pro IV 2306 2450KV Motor (set of 4)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Barely used, 3 flights. Best freestyle motor available. Includes original packaging and spare screws."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#PartCategory",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A category of parts sold in the marketplace."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Part Category"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#partCategory",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#MarketplaceListing"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "part category"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#PartCategory"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#flightLog1",
+    "@type": [
+      "http://modellingclub.local/ontology#FlightLog"
+    ],
+    "http://modellingclub.local/ontology#flightAltitude": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "85.0"
+      }
+    ],
+    "http://modellingclub.local/ontology#pilotLicenseId": [
+      {
+        "@value": "PL-ABC123456"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#rep2",
+    "@type": [
+      "http://modellingclub.local/ontology#ReputationRecord"
+    ],
+    "http://modellingclub.local/ontology#builderScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 72
+      }
+    ],
+    "http://modellingclub.local/ontology#helperScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 65
+      }
+    ],
+    "http://modellingclub.local/ontology#organiserScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 50
+      }
+    ],
+    "http://modellingclub.local/ontology#reliabilityScore": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 90
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#BoatBuild",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A remote-controlled boat or watercraft build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Boat Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing11",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "130.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user2"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#MotorPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Traxxas Velineon 3500 BL Motor + VXL-6s ESC Combo"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Original Traxxas combo from XO-1. Runs perfectly on 6S. Selling for Hobbywing upgrade."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing9",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "18.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user10"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#FramePart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "HQProp 5.1×4.6×3 Bi-Blade Props (10 pairs)"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Best efficiency props for 5-inch freestyle. Mixed new and very lightly used."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#communityRC",
+    "@type": [
+      "http://modellingclub.local/ontology#Community"
+    ],
+    "http://modellingclub.local/ontology#isSubCommunityOf": [
+      {
+        "@id": "http://modellingclub.local/instances#communityMain"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "RC Car & Boat Racers"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#castedBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Vote"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "casted by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#telemetry2",
+    "@type": [
+      "http://modellingclub.local/ontology#TelemetryRecord"
+    ],
+    "http://modellingclub.local/ontology#crashCount": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#integer",
+        "@value": 0
+      }
+    ],
+    "http://modellingclub.local/ontology#maxRange": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "500.0"
+      }
+    ],
+    "http://modellingclub.local/ontology#topSpeed": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "198.7"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#FlightLog",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A recorded flight session for a drone build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Flight Log"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#Comment",
+    "@type": [
+      "http://www.w3.org/2000/01/rdf-schema#Class"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "A textual comment posted on a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Comment"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subClassOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#CommunityContent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing32",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "280.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user7"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "2m Radian Pro Glider — Complete Setup with Radio"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "E-flite Radian Pro 2m + Spektrum DX6e + AR8020T + 3S 2200mAh. Ready for thermals."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
+      {
+        "@id": "http://modellingclub.local/instances#build5"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#fileUrl",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#MediaFile"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "file URL"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://www.w3.org/2001/XMLSchema#anyURI"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/instances#listing7",
+    "@type": [
+      "http://modellingclub.local/ontology#MarketplaceListing"
+    ],
+    "http://modellingclub.local/ontology#askingPrice": [
+      {
+        "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+        "@value": "22.00"
+      }
+    ],
+    "http://modellingclub.local/ontology#listedBy": [
+      {
+        "@id": "http://modellingclub.local/instances#user4"
+      }
+    ],
+    "http://modellingclub.local/ontology#partCategory": [
+      {
+        "@id": "http://modellingclub.local/ontology#ElectronicsPart"
+      }
+    ],
+    "http://modellingclub.local/ontology#partName": [
+      {
+        "@value": "Foxeer Razer Micro FPV Camera 1200TVL"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Super WDR, 1.8mm lens, starlight night vision mode. Used 5 flights, mint condition."
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#hasMedia",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#comment": [
+      {
+        "@value": "Associates a media file with a build."
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#Build"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "has media"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#MediaFile"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#hasContent"
+      }
+    ]
+  },
+  {
+    "@id": "http://modellingclub.local/ontology#postedBy",
+    "@type": [
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#domain": [
+      {
+        "@id": "http://modellingclub.local/ontology#CommunityContent"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "posted by"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#range": [
+      {
+        "@id": "http://modellingclub.local/ontology#User"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#subPropertyOf": [
+      {
+        "@id": "http://modellingclub.local/ontology#involvesAgent"
+      }
+    ]
+  }
+]

@@ -1,0 +1,319 @@
+<div class="page-wrapper">
+  <h1 style="margin-bottom:0.25rem">Analytics Dashboard</h1>
+  <p style="margin-bottom:1.5rem; color:var(--text-muted)">Live metrics across community, telemetry, geography, marketplace and reputation.</p>
+
+  @if (loading) {
+    <div class="glass-card" style="text-align:center; padding:3rem">
+      <p style="color:var(--text-muted)">Loading analytics&hellip;</p>
+    </div>
+  }
+
+  @if (bundle; as b) {
+    <!-- Hero summary tiles -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem; margin-bottom:1.5rem">
+      <div class="glass-card" style="text-align:center">
+        <div style="font-size:2rem; font-weight:800; color:var(--primary)">{{ asNumber(get(b['dashboard'], 'active_pilots_today')) }}</div>
+        <div style="color:var(--text-muted); font-size:0.8rem">Active pilots today</div>
+      </div>
+      <div class="glass-card" style="text-align:center">
+        <div style="font-size:2rem; font-weight:800; color:#10b981">{{ asNumber(get(b['dashboard'], 'scheduled_runs')) }}</div>
+        <div style="color:var(--text-muted); font-size:0.8rem">Scheduled runs</div>
+      </div>
+      <div class="glass-card" style="text-align:center">
+        <div style="font-size:1.1rem; font-weight:700; color:#8b5cf6; margin-top:0.5rem">{{ asString(get(b['dashboard'], 'most_popular_category')) }}</div>
+        <div style="color:var(--text-muted); font-size:0.8rem">Most popular category</div>
+      </div>
+      <div class="glass-card" style="text-align:center">
+        <div style="font-size:2rem; font-weight:800; color:#f59e0b">{{ asNumber(get(b['dashboard'], 'avg_attendance')) }}</div>
+        <div style="color:var(--text-muted); font-size:0.8rem">Avg attendance / run</div>
+      </div>
+      <div class="glass-card" style="text-align:center">
+        <div style="font-size:2rem; font-weight:800; color:#ef4444">{{ asNumber(get(b['dashboard'], 'fastest_car_kmh')) }} km/h</div>
+        <div style="color:var(--text-muted); font-size:0.8rem">Fastest car</div>
+      </div>
+      <div class="glass-card" style="text-align:center">
+        <div style="font-size:2rem; font-weight:800; color:#3b82f6">{{ asNumber(get(b['dashboard'], 'longest_flight_sec')) }} s</div>
+        <div style="color:var(--text-muted); font-size:0.8rem">Longest flight</div>
+      </div>
+    </div>
+
+    <!-- 1) Community engagement -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Community engagement</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem">
+        <div class="spec-item"><span class="spec-label">DAU</span><span class="spec-value">{{ asNumber(get(b['community'], 'dau')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">MAU</span><span class="spec-value">{{ asNumber(get(b['community'], 'mau')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Collaborations</span><span class="spec-value">{{ asNumber(get(b['community'], 'collaborations')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Comments per project</span><span class="spec-value">{{ asNumber(get(b['community'], 'avg_comments_per_project')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Top hobby category</span><span class="spec-value">{{ asString(get(b['community'], 'top_hobby_category')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Retention rate</span><span class="spec-value">{{ asNumber(get(b['community'], 'retention_rate')) * 100 | number:'1.0-1' }}%</span></div>
+      </div>
+      @if (asArray(get(b['community'], 'peak_hours')).length) {
+        <h3 style="margin-top:1rem">Peak hours</h3>
+        <table>
+          <thead><tr><th>Hour (UTC)</th><th>Activity</th></tr></thead>
+          <tbody>
+            @for (row of asArray(get(b['community'], 'peak_hours')); track $index) {
+              <tr><td>{{ asString(get(row, 'hour')) }}:00</td><td>{{ asNumber(get(row, 'activity')) }}</td></tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <!-- 2) Test runs -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Test run &amp; event analytics</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem">
+        <div class="spec-item"><span class="spec-label">Scheduled</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'scheduled')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Completed</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'completed')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Cancelled</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'cancelled')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Attendance rate</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'attendance_rate')) * 100 | number:'1.0-1' }}%</span></div>
+        <div class="spec-item"><span class="spec-label">Avg travel km</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'avg_travel_distance_km')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Cancellation</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'cancellation_rate')) * 100 | number:'1.0-1' }}%</span></div>
+        <div class="spec-item"><span class="spec-label">Avg success</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'avg_success_rating')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Repeat attendees</span><span class="spec-value">{{ asNumber(get(b['testRuns'], 'repeat_attendees')) }}</span></div>
+      </div>
+      <h3 style="margin-top:1rem">Popular locations</h3>
+      <table>
+        <thead><tr><th>City</th><th>Runs</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['testRuns'], 'popular_locations')); track $index) {
+            <tr><td>{{ asString(get(row, 'city')) }}</td><td>{{ asNumber(get(row, 'count')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Weather impact (avg rating)</h3>
+      <table>
+        <thead><tr><th>Weather</th><th>Avg rating</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['testRuns'], 'weather_impact')); track $index) {
+            <tr><td>{{ asString(get(row, 'weather')) }}</td><td>{{ asNumber(get(row, 'avg_rating')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3) Builds -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Build &amp; project stats</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem">
+        <div class="spec-item"><span class="spec-label">Completion rate</span><span class="spec-value">{{ asNumber(get(b['builds'], 'completion_rate')) * 100 | number:'1.0-1' }}%</span></div>
+        <div class="spec-item"><span class="spec-label">Avg build days</span><span class="spec-value">{{ asNumber(get(b['builds'], 'avg_build_duration_days')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Avg difficulty</span><span class="spec-value">{{ asNumber(get(b['builds'], 'avg_difficulty_rating')) }}</span></div>
+      </div>
+      <h3 style="margin-top:1rem">Popular models</h3>
+      <table>
+        <thead><tr><th>Type</th><th>Count</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['builds'], 'popular_models')); track $index) {
+            <tr><td><span class="badge badge-{{ asString(get(row, 'type')) }}">{{ asString(get(row, 'type')) }}</span></td><td>{{ asNumber(get(row, 'count')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Common flight controllers</h3>
+      <table>
+        <thead><tr><th>Flight controller</th><th>Count</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['builds'], 'common_flight_controllers')); track $index) {
+            <tr><td>{{ asString(get(row, 'flight_controller')) }}</td><td>{{ asNumber(get(row, 'count')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4) Telemetry -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Performance &amp; telemetry</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem">
+        <div class="spec-item"><span class="spec-label">Avg speed</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'avg_speed_kmh')) }} km/h</span></div>
+        <div class="spec-item"><span class="spec-label">Top speed</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'top_speed_kmh')) }} km/h</span></div>
+        <div class="spec-item"><span class="spec-label">Avg flight</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'avg_flight_duration_sec')) }} s</span></div>
+        <div class="spec-item"><span class="spec-label">Longest flight</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'longest_flight_sec')) }} s</span></div>
+        <div class="spec-item"><span class="spec-label">Avg battery used</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'avg_battery_used_pct')) }}%</span></div>
+        <div class="spec-item"><span class="spec-label">Avg range</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'avg_range_m')) }} m</span></div>
+        <div class="spec-item"><span class="spec-label">Avg altitude</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'avg_altitude_m')) }} m</span></div>
+        <div class="spec-item"><span class="spec-label">Total crashes</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'total_crashes')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Best lap</span><span class="spec-value">{{ asNumber(get(b['telemetry'], 'best_lap_time_sec')) }} s</span></div>
+      </div>
+      <h3 style="margin-top:1rem">Terrain breakdown</h3>
+      <table>
+        <thead><tr><th>Terrain</th><th>Runs</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['telemetry'], 'terrain_breakdown')); track $index) {
+            <tr><td>{{ asString(get(row, 'terrain')) }}</td><td>{{ asNumber(get(row, 'runs')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 5) Geography -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Geographic trends</h2>
+      <h3>Active cities</h3>
+      <table>
+        <thead><tr><th>City</th><th>Country</th><th>Runs</th><th>Coords</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['geography'], 'active_cities')); track $index) {
+            <tr>
+              <td>{{ asString(get(row, 'city')) }}</td>
+              <td>{{ asString(get(row, 'country')) }}</td>
+              <td>{{ asNumber(get(row, 'runs')) }}</td>
+              <td style="color:var(--text-muted); font-size:0.8rem">{{ asNumber(get(row, 'latitude')) | number:'1.2-2' }}, {{ asNumber(get(row, 'longitude')) | number:'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Seasonal participation (by month)</h3>
+      <table>
+        <thead><tr><th>Month</th><th>Runs</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['geography'], 'seasonal_participation')); track $index) {
+            <tr><td>{{ asString(get(row, 'month')) }}</td><td>{{ asNumber(get(row, 'runs')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 6) Marketplace -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Marketplace insights</h2>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem">
+        <div class="spec-item"><span class="spec-label">Active listings</span><span class="spec-value">{{ asNumber(get(b['marketplace'], 'active_listings')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Sold listings</span><span class="spec-value">{{ asNumber(get(b['marketplace'], 'sold_listings')) }}</span></div>
+        <div class="spec-item"><span class="spec-label">Avg price</span><span class="spec-value">{{ asNumber(get(b['marketplace'], 'avg_listing_price_pln')) }} PLN</span></div>
+      </div>
+      <h3 style="margin-top:1rem">Most traded parts</h3>
+      <table>
+        <thead><tr><th>Category</th><th>Listings</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['marketplace'], 'most_traded_parts')); track $index) {
+            <tr><td>{{ asString(get(row, 'part_category')) }}</td><td>{{ asNumber(get(row, 'listings')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Popular brands</h3>
+      <table>
+        <thead><tr><th>Brand</th><th>Listings</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['marketplace'], 'popular_brands')); track $index) {
+            <tr><td>{{ asString(get(row, 'brand')) }}</td><td>{{ asNumber(get(row, 'listings')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 7) Social reputation -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">Social reputation</h2>
+      <h3>Top builders</h3>
+      <table>
+        <thead><tr><th>Username</th><th>Score</th><th>Skill</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['social'], 'top_builders')); track $index) {
+            <tr><td><strong>{{ asString(get(row, 'username')) }}</strong></td><td>{{ asNumber(get(row, 'score')) }}</td><td><span class="badge">{{ asString(get(row, 'skill_level')) }}</span></td></tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Top helpful collaborators</h3>
+      <table>
+        <thead><tr><th>Username</th><th>Score</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['social'], 'top_helpful_collaborators')); track $index) {
+            <tr><td>{{ asString(get(row, 'username')) }}</td><td>{{ asNumber(get(row, 'score')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Best organizers</h3>
+      <table>
+        <thead><tr><th>Username</th><th>Score</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['social'], 'best_organizers')); track $index) {
+            <tr><td>{{ asString(get(row, 'username')) }}</td><td>{{ asNumber(get(row, 'score')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 8) AI / Recommendations -->
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h2 style="margin-bottom:0.75rem">AI &amp; recommendations</h2>
+      <div class="spec-item" style="margin-bottom:1rem">
+        <span class="spec-label">Event outlook</span>
+        <span class="spec-value">{{ asString(get(b['ai'], 'event_prediction')) }} ({{ asNumber(get(b['ai'], 'upcoming_events')) }} upcoming)</span>
+      </div>
+      <h3>Suggested collaborators</h3>
+      @if (asArray(get(b['ai'], 'suggested_collaborators')).length) {
+        <table>
+          <thead><tr><th>Username</th></tr></thead>
+          <tbody>
+            @for (row of asArray(get(b['ai'], 'suggested_collaborators')); track $index) {
+              <tr><td>{{ asString(get(row, 'username')) }}</td></tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p style="color:var(--text-muted)">Log in to see personalised suggestions.</p>
+      }
+      <h3 style="margin-top:1rem">Suggested test locations</h3>
+      <table>
+        <thead><tr><th>City</th><th>Avg rating</th><th>Runs</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['ai'], 'suggested_test_locations')); track $index) {
+            <tr><td>{{ asString(get(row, 'city')) }}</td><td>{{ asNumber(get(row, 'avg_rating')) }}</td><td>{{ asNumber(get(row, 'runs')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+      <h3 style="margin-top:1rem">Trending categories</h3>
+      <table>
+        <thead><tr><th>Type</th><th>New builds (30d)</th></tr></thead>
+        <tbody>
+          @for (row of asArray(get(b['ai'], 'trending_categories')); track $index) {
+            <tr><td><span class="badge badge-{{ asString(get(row, 'type')) }}">{{ asString(get(row, 'type')) }}</span></td><td>{{ asNumber(get(row, 'new_builds')) }}</td></tr>
+          }
+        </tbody>
+      </table>
+      @if (asArray(get(b['ai'], 'maintenance_alerts')).length) {
+        <h3 style="margin-top:1rem">Maintenance alerts</h3>
+        <table>
+          <thead><tr><th>Build</th><th>Crashes</th><th>Alert</th></tr></thead>
+          <tbody>
+            @for (row of asArray(get(b['ai'], 'maintenance_alerts')); track $index) {
+              <tr>
+                <td>{{ asString(get(row, 'title')) }}</td>
+                <td>{{ asNumber(get(row, 'total_crashes')) }}</td>
+                <td style="color:#f59e0b">{{ asString(get(row, 'alert')) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  }
+
+  <!-- Legacy AOP-tracked usage table -->
+  @if (stats; as s) {
+    <div class="glass-card">
+      <h2 style="margin-bottom:0.5rem">Raw API usage (AOP-tracked)</h2>
+      <p style="color:var(--text-muted); margin-bottom:1rem">Endpoint call counters from the live <code>/statistics</code> endpoint.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.75rem; margin-bottom:1rem">
+        <div class="spec-item"><span class="spec-label">Total calls</span><span class="spec-value">{{ s.total_calls }}</span></div>
+        <div class="spec-item"><span class="spec-label">Builds retrieved</span><span class="spec-value">{{ s.data_insights.total_builds_retrieved }}</span></div>
+        <div class="spec-item"><span class="spec-label">Most called endpoint</span><span class="spec-value">{{ s.data_insights.most_called_endpoint }}</span></div>
+        <div class="spec-item"><span class="spec-label">Most common build type</span><span class="spec-value">{{ s.data_insights.most_common_build_type }}</span></div>
+      </div>
+      <table>
+        <thead><tr><th>Endpoint</th><th>Calls</th><th>Share</th></tr></thead>
+        <tbody>
+          @for (key of endpointKeys(s); track key) {
+            <tr>
+              <td style="font-family:monospace; color:var(--primary); font-size:0.85rem">{{ key }}</td>
+              <td style="font-weight:600">{{ s['endpoint_usage'][key].calls }}</td>
+              <td style="color:var(--text-muted)">{{ s['endpoint_usage'][key].percentage }}%</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

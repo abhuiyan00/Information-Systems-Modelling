@@ -1,0 +1,73 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1>Test runs</h1>
+      <p style="margin-top:0.25rem; font-size:0.9rem">Scheduled meetups across cities. Filter by status, RSVP, organise your own.</p>
+    </div>
+    @if (isLoggedIn()) {
+      <button (click)="toggleCreate()" class="btn btn-primary">{{ creating ? 'Cancel' : '+ Schedule run' }}</button>
+    }
+  </div>
+
+  @if (creating) {
+    <div class="glass-card" style="margin-bottom:1.5rem">
+      @if (error) { <p style="color:var(--danger); margin-bottom:0.5rem">{{ error }}</p> }
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem">
+          <div class="form-group"><label>Location name</label><input formControlName="location_name" type="text" /></div>
+          <div class="form-group"><label>City</label><input formControlName="city" type="text" /></div>
+          <div class="form-group"><label>Country</label><input formControlName="country" type="text" /></div>
+          <div class="form-group"><label>Scheduled at</label><input formControlName="scheduled_at" type="datetime-local" /></div>
+          <div class="form-group"><label>Latitude</label><input formControlName="latitude" type="number" step="0.0001" /></div>
+          <div class="form-group"><label>Longitude</label><input formControlName="longitude" type="number" step="0.0001" /></div>
+          <div class="form-group"><label>Weather</label>
+            <select formControlName="weather">
+              <option value="SUNNY">Sunny</option><option value="CLOUDY">Cloudy</option>
+              <option value="WINDY">Windy</option><option value="RAIN">Rain</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Max participants</label><input formControlName="max_participants" type="number" /></div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save</button>
+      </form>
+    </div>
+  }
+
+  <div class="type-chips">
+    <button [class.active]="statusFilter === ''"          (click)="setStatus('')">All</button>
+    <button [class.active]="statusFilter === 'scheduled'" (click)="setStatus('scheduled')">Scheduled</button>
+    <button [class.active]="statusFilter === 'completed'" (click)="setStatus('completed')">Completed</button>
+    <button [class.active]="statusFilter === 'cancelled'" (click)="setStatus('cancelled')">Cancelled</button>
+  </div>
+
+  @if (loading) {
+    <div class="glass-card" style="text-align:center; padding:2rem"><p style="color:var(--text-muted)">Loading…</p></div>
+  } @else if (runs.length === 0) {
+    <div class="glass-card" style="text-align:center; padding:2rem"><p style="color:var(--text-muted)">No test runs match this filter.</p></div>
+  } @else {
+    <div class="glass-card">
+      <table>
+        <thead>
+          <tr><th>When</th><th>Location</th><th>Status</th><th>Weather</th><th>Organizer</th><th>Rating</th><th></th></tr>
+        </thead>
+        <tbody>
+          @for (r of runs; track r.id) {
+            <tr>
+              <td>{{ r.scheduled_at | date:'medium' }}</td>
+              <td>{{ r.location_name }} <span style="color:var(--text-muted)">— {{ r.city }}, {{ r.country }}</span></td>
+              <td><span class="badge badge-{{ r.status }}">{{ r.status }}</span></td>
+              <td>{{ r.weather }}</td>
+              <td>{{ r.organizer_username ?? '—' }}</td>
+              <td>{{ r.success_rating ?? 0 }}</td>
+              <td>
+                @if (isLoggedIn() && r.status === 'scheduled') {
+                  <button class="btn btn-ghost" (click)="join(r.id)">Join</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

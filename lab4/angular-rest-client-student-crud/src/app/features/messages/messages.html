@@ -1,0 +1,131 @@
+<div class="page-wrapper">
+  <div class="msg-header">
+    <h1>Messages</h1>
+    @if (isLoggedIn()) {
+      <button class="btn btn-primary btn-compose" (click)="openPicker()">+ New conversation</button>
+    }
+  </div>
+
+  @if (!isLoggedIn()) {
+    <div class="glass-card" style="text-align:center; padding:2rem">
+      <p style="color:var(--text-muted)">Log in to read your messages.</p>
+    </div>
+  } @else if (loading) {
+    <div class="glass-card" style="text-align:center; padding:2rem">
+      <p style="color:var(--text-muted)">Loading inbox…</p>
+    </div>
+  } @else {
+
+    <div class="chat-shell glass-card">
+      <!-- LEFT RAIL: thread list -->
+      <aside class="chat-rail">
+        @if (threads.length === 0) {
+          <div class="rail-empty">
+            <p>No conversations yet.</p>
+            <button class="btn btn-primary" (click)="openPicker()">Start one</button>
+          </div>
+        } @else {
+          @for (t of threads; track t.otherId) {
+            <button class="rail-thread"
+                    [class.active]="selectedThread?.otherId === t.otherId"
+                    (click)="select(t)">
+              <span class="avatar">{{ initials(t.otherUsername) }}</span>
+              <span class="rail-meta">
+                <span class="rail-name">
+                  {{ t.otherUsername }}
+                  @if (t.unread > 0) { <span class="unread-dot">{{ t.unread }}</span> }
+                </span>
+                <span class="rail-preview">{{ t.messages[t.messages.length - 1]?.content }}</span>
+              </span>
+              <span class="rail-time">{{ t.lastAt | date:'shortTime' }}</span>
+            </button>
+          }
+        }
+      </aside>
+
+      <!-- RIGHT PANE: selected conversation -->
+      <section class="chat-pane">
+        @if (!selectedThread) {
+          <div class="pane-empty">
+            <p style="color:var(--text-muted)">Pick a conversation, or start a new one.</p>
+          </div>
+        } @else {
+          <header class="pane-header">
+            <span class="avatar lg">{{ initials(selectedThread.otherUsername) }}</span>
+            <div>
+              <div class="pane-name">{{ selectedThread.otherUsername }}</div>
+              <div class="pane-sub">{{ selectedThread.messages.length }} messages</div>
+            </div>
+          </header>
+
+          <div class="pane-body">
+            @if (selectedThread.messages.length === 0) {
+              <p class="pane-hint">No messages yet — say hi.</p>
+            } @else {
+              @for (m of selectedThread.messages; track m.id) {
+                <div class="bubble-row" [class.mine]="isMine(m)">
+                  <div class="bubble">
+                    <p class="bubble-text">{{ m.content }}</p>
+                    <span class="bubble-time">
+                      {{ m.created_at | date:'short' }}
+                      @if (isMine(m) && m.read) { · read }
+                    </span>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+
+          @if (error) { <p class="pane-error">{{ error }}</p> }
+
+          <form class="pane-compose" (submit)="$event.preventDefault(); sendReply()">
+            <textarea
+              [(ngModel)]="draft"
+              name="draft"
+              rows="2"
+              placeholder="Write a reply…"
+              (keydown.enter)="$event.preventDefault(); sendReply()"></textarea>
+            <button type="submit" class="btn btn-primary" [disabled]="!draft.trim()">Send</button>
+          </form>
+        }
+      </section>
+    </div>
+  }
+
+  <!-- RECIPIENT PICKER MODAL -->
+  @if (showPicker) {
+    <div class="modal-backdrop" (click)="closePicker()">
+      <div class="modal-card" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Start a new conversation</h3>
+          <button class="btn-icon" (click)="closePicker()" aria-label="Close">×</button>
+        </div>
+        <input
+          type="text"
+          class="modal-search"
+          placeholder="Search by username or email…"
+          [ngModel]="pickerQuery"
+          (ngModelChange)="onPickerInput($event)"
+          name="pickerQuery"
+          autofocus />
+        <div class="modal-results">
+          @if (pickerLoading) {
+            <p class="pane-hint">Searching…</p>
+          } @else if (pickerResults.length === 0) {
+            <p class="pane-hint">No users match.</p>
+          } @else {
+            @for (u of pickerResults; track u.id) {
+              <button class="result-row" (click)="startConversation(u)">
+                <span class="avatar">{{ initials(u.username) }}</span>
+                <span class="result-meta">
+                  <span class="result-name">{{ u.username }}</span>
+                  <span class="result-email">{{ u.email }}</span>
+                </span>
+              </button>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:mc="http://modellingclub.local/ontology#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Person">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Agent"/>
+    <rdfs:label>Person</rdfs:label>
+    <rdfs:comment>A human participant on the platform.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#messageText">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>message text</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Message"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing24">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Hitec HS-5085MG Digital Micro Servo (4 pcs)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">52.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <rdfs:comment>Metal gear, 3.0 kg·cm at 6V. Ideal for aileron/elevator on 1.5–2m gliders.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing16">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Castle Creations Mamba Monster X 8S ESC</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">120.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user10"/>
+    <rdfs:comment>Handles 8S LiPo. Link data logging, Castle Link USB programmer included. Mint.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#comment1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Comment"/>
+    <mc:commentText>Incredible build! The Apex frame is so rigid.</mc:commentText>
+    <mc:postedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#knows">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>knows</rdfs:label>
+    <rdfs:comment>Two users who have interacted (voted, commented, co-authored). Symmetric.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Collaborator">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:label>Collaborator</rdfs:label>
+    <rdfs:comment>A user who is a co-author on someone else's build.</rdfs:comment>
+    <owl:equivalentClass rdf:resource="http://modellingclub.local/ontology#Builder"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#sentTo">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>sent to</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Message"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing7">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Foxeer Razer Micro FPV Camera 1200TVL</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">22.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+    <rdfs:comment>Super WDR, 1.8mm lens, starlight night vision mode. Used 5 flights, mint condition.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#RCCarBuild"/>
+    <mc:buildTitle>Traxxas XO-1 200km/h Build</mc:buildTitle>
+    <mc:buildDescription>Traxxas XO-1 fully upgraded: Velineon 3500 motor, LiPo 6S, aluminium chassis braces, RPM rear bumper. Verified 200 km/h on GPS.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user2"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">97</mc:hasScore>
+    <mc:hasTelemetry rdf:resource="http://modellingclub.local/instances#telemetry2"/>
+    <mc:hasComment rdf:resource="http://modellingclub.local/instances#comment3"/>
+    <mc:hasVote rdf:resource="http://modellingclub.local/instances#vote4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user10">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>speed_demon_rafal</mc:username>
+    <mc:email>rafal@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-09-12T07:00:00</mc:registeredAt>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#DroneBuild"/>
+    <mc:buildTitle>ImpulseRC Apex 5" FPV Freestyle Drone</mc:buildTitle>
+    <mc:buildDescription>Full custom 5-inch freestyle build on ImpulseRC Apex frame. T-Motor F40 Pro IV 2306 motors, Hobbywing XRotor 45A ESC stack, Kakute H7 v2 FC. Tuned BetaFlight 4.4.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">95</mc:hasScore>
+    <mc:hasFlightLog rdf:resource="http://modellingclub.local/instances#flightLog1"/>
+    <mc:hasTelemetry rdf:resource="http://modellingclub.local/instances#telemetry1"/>
+    <mc:hasComment rdf:resource="http://modellingclub.local/instances#comment1"/>
+    <mc:hasComment rdf:resource="http://modellingclub.local/instances#comment2"/>
+    <mc:hasVote rdf:resource="http://modellingclub.local/instances#vote1"/>
+    <mc:hasVote rdf:resource="http://modellingclub.local/instances#vote2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing13">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Reedy Sonic 540-M3 Brushless Motor 13.5T</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">42.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#MotorPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+    <rdfs:comment>Competition-grade 540 motor. 13.5T spec for carpet/asphalt track. 3 races, rebearinged.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing20">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>RPLIDAR A1M8 360° Laser Scanner</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">78.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user6"/>
+    <rdfs:comment>12m range, 8000 samples/s. USB interface. Perfect for ROS SLAM robotics projects.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#DownVote">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Vote"/>
+    <rdfs:label>Down Vote</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user4">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>fpv_freak_tomasz</mc:username>
+    <mc:email>tomasz@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-01-15T09:00:00</mc:registeredAt>
+    <mc:isMemberOf rdf:resource="http://modellingclub.local/instances#communityDrone"/>
+    <mc:knows rdf:resource="http://modellingclub.local/instances#user6"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#MarketplaceListing">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Marketplace Listing</rdfs:label>
+    <rdfs:comment>A listing for a part or component for sale on the platform.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#testRunLocation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>test run location</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TestRun"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#sentAt">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>sent at</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Message"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#rep2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+    <mc:builderScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">72</mc:builderScore>
+    <mc:helperScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">65</mc:helperScore>
+    <mc:organiserScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">50</mc:organiserScore>
+    <mc:reliabilityScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">90</mc:reliabilityScore>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>rc_wizard_anna</mc:username>
+    <mc:email>anna@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-07-22T10:30:00</mc:registeredAt>
+    <mc:isMemberOf rdf:resource="http://modellingclub.local/instances#communityRC"/>
+    <mc:hasReputation rdf:resource="http://modellingclub.local/instances#rep2"/>
+    <mc:knows rdf:resource="http://modellingclub.local/instances#user10"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#flightLog2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#FlightLog"/>
+    <mc:flightAltitude rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">110.0</mc:flightAltitude>
+    <mc:pilotLicenseId>PL-XYZ789012</mc:pilotLicenseId>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>dronemaster_piotr</mc:username>
+    <mc:email>piotr@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-03-10T08:00:00</mc:registeredAt>
+    <mc:isMemberOf rdf:resource="http://modellingclub.local/instances#communityDrone"/>
+    <mc:hasReputation rdf:resource="http://modellingclub.local/instances#rep1"/>
+    <mc:knows rdf:resource="http://modellingclub.local/instances#user4"/>
+    <mc:knows rdf:resource="http://modellingclub.local/instances#user9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build6">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#BoatBuild"/>
+    <mc:buildTitle>Pro Boat Miss Geico 17" Catamaran</mc:buildTitle>
+    <mc:buildDescription>Pro Boat Miss Geico with brushless Dynamite 3900Kv motor upgrade. Capable of 65 km/h on flat water. Custom paint scheme.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user8"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#SubmittedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</mc:hasScore>
+    <mc:hasVote rdf:resource="http://modellingclub.local/instances#vote3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Build">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Build</rdfs:label>
+    <rdfs:comment>A modelling project submitted by a user (drone, RC car, robot, etc.).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#VideoFile">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#MediaFile"/>
+    <rdfs:label>Video File</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build7">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#DroneBuild"/>
+    <mc:buildTitle>3" Toothpick Micro Quad Long Range</mc:buildTitle>
+    <mc:buildDescription>3-inch ultralight toothpick build. ELRS 2.4GHz, 4-in-1 20x20 stack, GoPro Session 5 mounted. Sub-250g without battery.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">78</mc:hasScore>
+    <mc:hasFlightLog rdf:resource="http://modellingclub.local/instances#flightLog3"/>
+    <mc:hasTelemetry rdf:resource="http://modellingclub.local/instances#telemetry3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing14">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>RPM Rear Bumper &amp; Skid Plate Set Traxxas Slash 4×4</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">19.99</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+    <rdfs:comment>Unbreakable RPM plastic. Saved my Slash many times. Selling after retiring the car.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#collaboratesOn">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>collaborates on</rdfs:label>
+    <rdfs:comment>A user who co-authors a build.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#Build"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#castedBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>casted by</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Vote"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasMedia">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#hasContent"/>
+    <rdfs:label>has media</rdfs:label>
+    <rdfs:comment>Associates a media file with a build.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#MediaFile"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#buildTitle">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>build title</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build5">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#AircraftBuild"/>
+    <mc:buildTitle>Radian Pro 2m Glider Thermal Build</mc:buildTitle>
+    <mc:buildDescription>E-flite Radian Pro 2m ARF with upgraded Spektrum AR8020T receiver, SAFE Select technology. Perfect thermal soaring platform.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">90</mc:hasScore>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing19">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Pololu Romi 32U4 Robot Chassis Kit (complete)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">55.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user6"/>
+    <rdfs:comment>Full chassis + encoders + 32U4 control board. Assembled and tested, then project cancelled.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#rep1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+    <mc:builderScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">95</mc:builderScore>
+    <mc:helperScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">40</mc:helperScore>
+    <mc:organiserScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10</mc:organiserScore>
+    <mc:reliabilityScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">88</mc:reliabilityScore>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing10">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>RadioMaster TX16S Mark II ELRS Radio</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">175.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user10"/>
+    <rdfs:comment>Full-size hall sensor gimbals, EdgeTX 2.9, internal ELRS. Practically new, 2 months old.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#SystemAccount">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Agent"/>
+    <rdfs:label>System Account</rdfs:label>
+    <rdfs:comment>An automated or system-managed account.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Hobbywing XRotor 45A 4-in-1 ESC Stack</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">64.50</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <rdfs:comment>Pulled from a crashed quad — ESC itself undamaged. Full BLHeli_32 firmware. Great deal.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasContent">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>has content</rdfs:label>
+    <rdfs:comment>Relates a resource to associated content.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Comment">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#CommunityContent"/>
+    <rdfs:label>Comment</rdfs:label>
+    <rdfs:comment>A textual comment posted on a build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#BuildStatus">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Build Status</rdfs:label>
+    <rdfs:comment>The lifecycle status of a build (draft, submitted, approved, rejected).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#TestRunAttendance">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Test Run Attendance</rdfs:label>
+    <rdfs:comment>A record that links a user to a test run they attended.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing23">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Spektrum AR8020T 8-Ch DSMX Receiver with Telemetry</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">39.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <rdfs:comment>SAFE Select compatible. AS3X gyro stabilisation. Used in Radian, works perfectly.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user5">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>scale_builder_ewa</mc:username>
+    <mc:email>ewa@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-08-05T14:00:00</mc:registeredAt>
+    <mc:isMemberOf rdf:resource="http://modellingclub.local/instances#communityMain"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#vote4">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#UpVote"/>
+    <mc:castedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#maxRange">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>max range</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user9">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#User"/>
+    <mc:username>newcomer_zofia</mc:username>
+    <mc:email>zofia@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2024-02-01T08:00:00</mc:registeredAt>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing6">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>ExpressLRS 2.4GHz Nano Receiver (5 pcs)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">28.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <rdfs:comment>ELRS 3.3 firmware. Tiny nano size, perfect for toothpick and 3-inch builds. New in bag.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing31">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Kyosho Inferno MP10e Electric Buggy — Complete</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">480.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user10"/>
+    <rdfs:comment>Fully upgraded: Orion R10 + Reedy 2050Kv + upgraded shocks. Race-ready, immaculate.</rdfs:comment>
+    <rdfs:seeAlso rdf:resource="http://modellingclub.local/instances#build8"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build4">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#RobotBuild"/>
+    <mc:buildTitle>Autonomous Line-Following Robot v3</mc:buildTitle>
+    <mc:buildDescription>Raspberry Pi 5-based autonomous robot with PID line-following, ultrasonic obstacle avoidance, and OLED telemetry display.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user6"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">82</mc:hasScore>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing28">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>AquaCraft ARTR Deep Vee Carbon Fibre Hull 600mm</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">140.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user8"/>
+    <rdfs:comment>Pre-painted red/white deep vee hull. Accepts standard 3650 motor. Ready to fit electronics.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing32">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>2m Radian Pro Glider — Complete Setup with Radio</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">280.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <rdfs:comment>E-flite Radian Pro 2m + Spektrum DX6e + AR8020T + 3S 2200mAh. Ready for thermals.</rdfs:comment>
+    <rdfs:seeAlso rdf:resource="http://modellingclub.local/instances#build5"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing8">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Tattu R-Line 6S 1300mAh 130C LiPo (pair)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">55.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <rdfs:comment>Premium racing LiPo. 60 cycles each, both cells balanced, capacity tested above 1250mAh.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Kakute H7 V2 Flight Controller</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">49.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+    <rdfs:comment>BetaFlight 4.4 ready. All UARTs working, gyro perfect. Selling because upgrading to H7 Slim.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Agent">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Agent</rdfs:label>
+    <rdfs:comment>An entity (person or system) that can act on the platform.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#telemetry3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+    <mc:topSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">85.0</mc:topSpeed>
+    <mc:maxRange rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">3200.0</mc:maxRange>
+    <mc:crashCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</mc:crashCount>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user6">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Collaborator"/>
+    <mc:username>robo_hacker_jan</mc:username>
+    <mc:email>jan@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2023-06-20T11:00:00</mc:registeredAt>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build8">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#RCCarBuild"/>
+    <mc:buildTitle>Kyosho Inferno MP10e 1/8 Buggy</mc:buildTitle>
+    <mc:buildDescription>Kyosho Inferno MP10e electric buggy. Orion Vortex R10 ESC, Reedy 2050Kv motor, upgraded oil-filled shocks, full ball-bearing kit.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user10"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">85</mc:hasScore>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasScore">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>has score</rdfs:label>
+    <rdfs:comment>Numeric quality score assigned to an approved build.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing26">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Dynamite Marine 3900Kv Brushless Motor (Boat)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">55.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#MotorPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user8"/>
+    <rdfs:comment>Waterproofed, corrosion-resistant. Fits Pro Boat hulls directly. One season use.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#reliabilityScore">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>reliability score</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing18">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Raspberry Pi 5 (8GB) + Official Active Cooler</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">95.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user6"/>
+    <rdfs:comment>Latest Rpi 5 board, never overclocked. Active cooler keeps temps below 50°C under load.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing4">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>ImpulseRC Apex 5" HD Frame Kit</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">72.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <rdfs:comment>3K carbon fibre, 5mm arms. DJI O3 compatible. Used one season, no cracks.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing21">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Dynamixel AX-12A Servo (set of 6)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">110.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user6"/>
+    <rdfs:comment>Smart servos with position/temp/load feedback. Used in hexapod project, all functional.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Vote">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#CommunityContent"/>
+    <rdfs:label>Vote</rdfs:label>
+    <rdfs:comment>An upvote or downvote cast on a build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing30">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Traxxas Rustler 4×4 VXL Ready-to-Run Stadium Truck</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">210.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+    <rdfs:comment>Complete 4WD 1/10 stadium truck. VXL-3s brushless, Traxxas 2.4GHz radio, never raced.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing22">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>E-flite Power 15 950Kv BL Motor + 40A ESC</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">48.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#MotorPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <rdfs:comment>Matched combo for 1.2–1.5m aircraft. Pulled from retired Apprentice. Low flight hours.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#testRunDate">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>test run date</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TestRun"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasTelemetry">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>has telemetry</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#involvesAgent">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>involves agent</rdfs:label>
+    <rdfs:comment>Relates any resource to a participating agent.</rdfs:comment>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#Agent"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#partCategory">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>part category</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#PartCategory"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#partName">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>part name</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#ReputationRecord">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Reputation Record</rdfs:label>
+    <rdfs:comment>Aggregated reputation scores (builder, helper, organiser, reliability) for a user.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#RobotBuild">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:label>Robot Build</rdfs:label>
+    <rdfs:comment>A robot or autonomous machine build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#AircraftBuild">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:label>Aircraft Build</rdfs:label>
+    <rdfs:comment>A fixed-wing or glider aircraft build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#BoatBuild">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:label>Boat Build</rdfs:label>
+    <rdfs:comment>A remote-controlled boat or watercraft build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#AdminUser"/>
+    <mc:username>admin_marek</mc:username>
+    <mc:email>admin@modellingclub.local</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2020-01-01T00:00:00</mc:registeredAt>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#TelemetryRecord">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Telemetry Record</rdfs:label>
+    <rdfs:comment>Performance telemetry data (speed, range, crashes) for a build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#registeredAt">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>registered at</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#CommunityContent">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Community Content</rdfs:label>
+    <rdfs:comment>Any user-generated content that relates to a build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#vote1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#UpVote"/>
+    <mc:castedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#RCCarBuild">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:label>RC Car Build</rdfs:label>
+    <rdfs:comment>A remote-controlled car build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#createdBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>created by</rdfs:label>
+    <rdfs:comment>The primary owner/author of a build.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#MotorPart">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#PartCategory"/>
+    <rdfs:label>Motor Part</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <dc:title>ModellingClub Ontology</dc:title>
+    <dc:description>Vocabulary for the ModellingClub platform covering users, builds, community, test runs, marketplace and reputation. RDFS++ reasoning only.</dc:description>
+    <dc:creator>ModellingClub Lab 4</dc:creator>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#telemetry1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+    <mc:topSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">127.5</mc:topSpeed>
+    <mc:maxRange rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1800.0</mc:maxRange>
+    <mc:crashCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</mc:crashCount>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#flightLog3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#FlightLog"/>
+    <mc:flightAltitude rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">45.0</mc:flightAltitude>
+    <mc:pilotLicenseId>PL-ABC123456</mc:pilotLicenseId>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#DraftStatus">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#BuildStatus"/>
+    <rdfs:label>Draft</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing5">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>DJI O3 Air Unit (with antennas + cables)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">145.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+    <rdfs:comment>Original DJI O3 full combo. 60fps 1080p low-latency video. Upgraded to O3 Pro.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasVote">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#hasContent"/>
+    <rdfs:label>has vote</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#Vote"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#builderScore">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>builder score</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#ApprovedStatus">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#BuildStatus"/>
+    <rdfs:label>Approved</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasStatus">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>has status</rdfs:label>
+    <rdfs:comment>Current lifecycle status of a build.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#BuildStatus"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#buildDescription">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>build description</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#telemetry2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+    <mc:topSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">198.7</mc:topSpeed>
+    <mc:maxRange rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">500.0</mc:maxRange>
+    <mc:crashCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</mc:crashCount>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#postedBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>posted by</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#CommunityContent"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#crashCount">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>crash count</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing27">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Hobbywing Seaking 180A V3 Boat ESC</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">85.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user8"/>
+    <rdfs:comment>180A continuous, water-cooled, BEC 6V/5A. Perfect for catamaran up to 65 km/h.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user7">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>glider_pro_katarzyna</mc:username>
+    <mc:email>katarzyna@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-11-30T16:00:00</mc:registeredAt>
+    <mc:isMemberOf rdf:resource="http://modellingclub.local/instances#communityMain"/>
+    <mc:knows rdf:resource="http://modellingclub.local/instances#user8"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing17">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Pro-Line Trencher SC 2.2/3.0 Short Course Tires (pair)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">24.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+    <rdfs:comment>Molded foam inserts included. Pinned for loose dirt. One season use, lots of tread left.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#attendedBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>attended by</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TestRun"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#flightAltitude">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>flight altitude</rdfs:label>
+    <rdfs:comment>Maximum altitude reached (metres). EU limit 120 m.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#FlightLog"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#FramePart">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#PartCategory"/>
+    <rdfs:label>Frame Part</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#ElectronicsPart">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#PartCategory"/>
+    <rdfs:label>Electronics Part</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#isSubCommunityOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdfs:label>is sub-community of</rdfs:label>
+    <rdfs:comment>Hierarchical containment of communities. Transitive.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Community"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#Community"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#communityDrone">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Community"/>
+    <rdfs:label>FPV &amp; Drone Builders</rdfs:label>
+    <mc:isSubCommunityOf rdf:resource="http://modellingclub.local/instances#communityMain"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing29">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Complete 5" FPV Freestyle Quad — Bind-and-Fly</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">320.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+    <rdfs:comment>Full ready-to-fly 5-inch quad. Apex HD + O3 + T-Motor F40 IV + Kakute H7. Just add ELRS receiver.</rdfs:comment>
+    <rdfs:seeAlso rdf:resource="http://modellingclub.local/instances#build1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Message">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Message</rdfs:label>
+    <rdfs:comment>A direct message sent between two users.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#user8">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Builder"/>
+    <mc:username>boat_captain_michal</mc:username>
+    <mc:email>michal@example.com</mc:email>
+    <mc:registeredAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2022-05-18T12:00:00</mc:registeredAt>
+    <mc:isMemberOf rdf:resource="http://modellingclub.local/instances#communityRC"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#PartCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Part Category</rdfs:label>
+    <rdfs:comment>A category of parts sold in the marketplace.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Community">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Community</rdfs:label>
+    <rdfs:comment>A named group or club within ModellingClub (e.g. Drone Racers, Scale Builders).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#listedBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>listed by</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#commentText">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>comment text</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Comment"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#pilotLicenseId">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>pilot license ID</rdfs:label>
+    <rdfs:comment>Drone operator ID matching pattern [A-Z]{2}-[A-Z0-9]{6,12}.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#FlightLog"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#User">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Person"/>
+    <rdfs:label>User</rdfs:label>
+    <rdfs:comment>A registered member of ModellingClub.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#DroneBuild">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:label>Drone Build</rdfs:label>
+    <rdfs:comment>A build of type drone/UAV.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#Builder">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:label>Builder</rdfs:label>
+    <rdfs:comment>A user who has created at least one build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing11">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Traxxas Velineon 3500 BL Motor + VXL-6s ESC Combo</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">130.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#MotorPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+    <rdfs:comment>Original Traxxas combo from XO-1. Runs perfectly on 6S. Selling for Hobbywing upgrade.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#RejectedStatus">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#BuildStatus"/>
+    <rdfs:label>Rejected</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing15">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Spektrum DX5 Pro DSMR 5-Ch Transmitter + Receiver</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">88.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user5"/>
+    <rdfs:comment>Telemetry-capable radio, pinpoint steering wheel design. Great for surface runners.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing9">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>HQProp 5.1×4.6×3 Bi-Blade Props (10 pairs)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">18.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user10"/>
+    <rdfs:comment>Best efficiency props for 5-inch freestyle. Mixed new and very lightly used.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing25">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Robbe Funtana 125 ARF Wing Set (replacement)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">35.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#FramePart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user7"/>
+    <rdfs:comment>Balsa + fibreglass wing set. Minor hangar rash, structurally perfect. Rare to find.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#helperScore">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>helper score</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#isMemberOf">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>is member of</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#Community"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#askingPrice">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>asking price</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasFlightLog">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>has flight log</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#DroneBuild"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#FlightLog"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing12">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>Orion Vortex R10 1/8 ESC 200A</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">95.00</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#ElectronicsPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user10"/>
+    <rdfs:comment>Latest firmware, data logging capable. Used one race season. Perfect for Kyosho Inferno.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#organisedBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>organised by</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TestRun"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#email">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>email</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#listing1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#MarketplaceListing"/>
+    <mc:partName>T-Motor F40 Pro IV 2306 2450KV Motor (set of 4)</mc:partName>
+    <mc:askingPrice rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">89.99</mc:askingPrice>
+    <mc:partCategory rdf:resource="http://modellingclub.local/ontology#MotorPart"/>
+    <mc:listedBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <rdfs:comment>Barely used, 3 flights. Best freestyle motor available. Includes original packaging and spare screws.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#username">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>username</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#communityRC">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Community"/>
+    <rdfs:label>RC Car &amp; Boat Racers</rdfs:label>
+    <mc:isSubCommunityOf rdf:resource="http://modellingclub.local/instances#communityMain"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#MediaFile">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Media File</rdfs:label>
+    <rdfs:comment>An image or video file attached to a build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#ImageFile">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#MediaFile"/>
+    <rdfs:label>Image File</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#testRun1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#TestRun"/>
+    <mc:testRunLocation>Wrocław, Błonia Odrzańskie, 51.1079° N 17.0385° E</mc:testRunLocation>
+    <mc:testRunDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2024-05-10T10:00:00</mc:testRunDate>
+    <mc:organisedBy rdf:resource="http://modellingclub.local/instances#user3"/>
+    <mc:attendedBy rdf:resource="http://modellingclub.local/instances#user1"/>
+    <mc:attendedBy rdf:resource="http://modellingclub.local/instances#user4"/>
+    <mc:attendedBy rdf:resource="http://modellingclub.local/instances#user2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#build2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#DroneBuild"/>
+    <mc:buildTitle>DJI Avata 2 Long-Range Cinema Setup</mc:buildTitle>
+    <mc:buildDescription>DJI Avata 2 with ND filter kit and custom foam case. Extended battery mod for 23 min flight time. Used for real-estate aerial photography.</mc:buildDescription>
+    <mc:createdBy rdf:resource="http://modellingclub.local/instances#user4"/>
+    <mc:hasStatus rdf:resource="http://modellingclub.local/ontology#ApprovedStatus"/>
+    <mc:hasScore rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">88</mc:hasScore>
+    <mc:hasFlightLog rdf:resource="http://modellingclub.local/instances#flightLog2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#vote2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#UpVote"/>
+    <mc:castedBy rdf:resource="http://modellingclub.local/instances#user9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#fileUrl">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>file URL</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#MediaFile"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#comment3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Comment"/>
+    <mc:commentText>200 km/h verified! Insane XO-1 build.</mc:commentText>
+    <mc:postedBy rdf:resource="http://modellingclub.local/instances#user10"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasComment">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#hasContent"/>
+    <rdfs:label>has comment</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Build"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#Comment"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#comment2">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Comment"/>
+    <mc:commentText>What props are you running on the 5-inch?</mc:commentText>
+    <mc:postedBy rdf:resource="http://modellingclub.local/instances#user9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#hasReputation">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>has reputation</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#topSpeed">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>top speed</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#TelemetryRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#vote3">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#DownVote"/>
+    <mc:castedBy rdf:resource="http://modellingclub.local/instances#user6"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#AdminUser">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#User"/>
+    <rdfs:label>Admin User</rdfs:label>
+    <rdfs:comment>A user with administrative privileges (review, user management).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#flightLog1">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#FlightLog"/>
+    <mc:flightAltitude rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">85.0</mc:flightAltitude>
+    <mc:pilotLicenseId>PL-ABC123456</mc:pilotLicenseId>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#UpVote">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#Vote"/>
+    <rdfs:label>Up Vote</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/instances#communityMain">
+    <rdf:type rdf:resource="http://modellingclub.local/ontology#Community"/>
+    <rdfs:label>ModellingClub Main</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#sentBy">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:subPropertyOf rdf:resource="http://modellingclub.local/ontology#involvesAgent"/>
+    <rdfs:label>sent by</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#Message"/>
+    <rdfs:range rdf:resource="http://modellingclub.local/ontology#User"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#FlightLog">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Flight Log</rdfs:label>
+    <rdfs:comment>A recorded flight session for a drone build.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#organiserScore">
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label>organiser score</rdfs:label>
+    <rdfs:domain rdf:resource="http://modellingclub.local/ontology#ReputationRecord"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#SubmittedStatus">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://modellingclub.local/ontology#BuildStatus"/>
+    <rdfs:label>Submitted</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://modellingclub.local/ontology#TestRun">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:label>Test Run</rdfs:label>
+    <rdfs:comment>An organised outdoor test session at a geo-located venue.</rdfs:comment>
+  </rdf:Description>
+</rdf:RDF>

@@ -1,0 +1,72 @@
+<div class="page-wrapper">
+
+  <!-- Hero -->
+  <div class="hero">
+    @if (isLoggedIn()) {
+      <h1>Welcome back, {{ username() }} &#9992;</h1>
+      <p>Pick up where you left off, or browse the community's latest builds and flight logs.</p>
+    } @else {
+      <h1>The hobbyist club for drone and scale-model pilots.</h1>
+      <p>Document your builds, share photos and flight logs, vote on community work, and collaborate with co-authors. Self-hosted and self-moderated.</p>
+    }
+    <div class="hero-actions">
+      <a routerLink="/explore" class="btn btn-primary">Explore Builds</a>
+      @if (isLoggedIn()) {
+        <a routerLink="/builds/create" class="btn btn-ghost">+ New Build</a>
+        <a routerLink="/my-builds" class="btn btn-ghost">My Builds</a>
+      } @else {
+        <a routerLink="/register" class="btn btn-ghost">Create Account</a>
+      }
+    </div>
+  </div>
+
+  <!-- KPI tiles -->
+  <div class="kpi-grid">
+    <div class="kpi-tile kpi-accent-primary">
+      <span class="kpi-label">Total Builds</span>
+      <span class="kpi-value">{{ totalBuilds }}</span>
+    </div>
+    <div class="kpi-tile kpi-accent-success">
+      <span class="kpi-label">Published</span>
+      <span class="kpi-value">{{ publishedCount }}</span>
+    </div>
+    <div class="kpi-tile kpi-accent-secondary">
+      <span class="kpi-label">Drone Builds</span>
+      <span class="kpi-value">{{ droneCount }}</span>
+    </div>
+    <div class="kpi-tile kpi-accent-warning">
+      <span class="kpi-label">Fixed-Wing</span>
+      <span class="kpi-value">{{ fixedWingCount }}</span>
+    </div>
+    @if (stats) {
+      <div class="kpi-tile">
+        <span class="kpi-label">API Calls Today</span>
+        <span class="kpi-value">{{ stats.total_calls }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Recently Published -->
+  <div class="section-heading">
+    <h2 style="margin:0">Recently Published</h2>
+    <a routerLink="/explore">Browse all &rarr;</a>
+  </div>
+
+  @if (recent.length > 0) {
+    <div class="build-grid">
+      @for (b of recent; track b.id) {
+        <app-build-card [build]="b"></app-build-card>
+      }
+    </div>
+  } @else {
+    <div class="glass-card" style="text-align:center; padding:3rem">
+      <p style="color:var(--text-muted)">
+        No published builds yet. @if (isLoggedIn()) {
+          <a routerLink="/builds/create" style="color:var(--primary)">Be the first to share one.</a>
+        } @else {
+          <a routerLink="/register" style="color:var(--primary)">Sign up to share yours.</a>
+        }
+      </p>
+    </div>
+  }
+</div>

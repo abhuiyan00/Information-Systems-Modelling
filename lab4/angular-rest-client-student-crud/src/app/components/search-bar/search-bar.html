@@ -1,0 +1,14 @@
+<div class="search-bar">
+  <div class="search-input-wrap">
+    <span class="search-icon">&#128270;</span>
+    <input type="text"
+           [(ngModel)]="filters.query"
+           (input)="emit()"
+           placeholder="Search builds by title or description…" />
+  </div>
+  <select [(ngModel)]="filters.type" (change)="emit()">
+    @for (t of types; track t.value) {
+      <option [ngValue]="t.value">{{ t.label }}</option>
+    }
+  </select>
+</div>

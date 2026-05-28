@@ -1,0 +1,87 @@
+<div class="page-wrapper">
+  <div style="max-width: 640px; margin: 0 auto">
+    <h1 style="margin-bottom:1.5rem">{{ buildId ? 'Edit Build' : 'New Build' }}</h1>
+
+    @if (error) {
+      <div class="glass-card" style="margin-bottom:1rem; border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05)">
+        <p style="color: var(--danger)">{{ error }}</p>
+      </div>
+    }
+
+    <div class="glass-card">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div class="form-group">
+          <label>Title *</label>
+          <input formControlName="title" type="text" maxlength="120" placeholder="e.g. 5-inch FPV Racing Quad" />
+          @if (form.controls.title.invalid && form.controls.title.touched) {
+            <span class="error-msg">Title is required (max 120 chars).</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Type *</label>
+          <select formControlName="type">
+            <option value="fixed_wing">Fixed Wing</option>
+            <option value="drone">Drone</option>
+            <option value="helicopter">Helicopter</option>
+            <option value="boat">Boat</option>
+            <option value="car">Car</option>
+            <option value="scale_model">Scale Model</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea formControlName="description" rows="3" placeholder="Describe your build..."></textarea>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem">
+          <div class="form-group">
+            <label>Scale (e.g. 1:72)</label>
+            <input formControlName="scale" type="text" placeholder="1:72" />
+          </div>
+          <div class="form-group">
+            <label>Wingspan (mm)</label>
+            <input formControlName="wingspan_mm" type="number" placeholder="800" />
+          </div>
+          <div class="form-group">
+            <label>Frame Size (mm)</label>
+            <input formControlName="frame_size_mm" type="number" placeholder="225" />
+          </div>
+          <div class="form-group">
+            <label>Number of Motors</label>
+            <input formControlName="num_motors" type="number" placeholder="4" />
+          </div>
+          <div class="form-group">
+            <label>Flight Controller</label>
+            <input formControlName="flight_controller" type="text" placeholder="SpeedyBee F405" />
+          </div>
+          <div class="form-group">
+            <label>Max Takeoff Weight (g)</label>
+            <input formControlName="max_takeoff_weight_g" type="number" placeholder="685" />
+          </div>
+          <div class="form-group">
+            <label>Rotor Diameter (mm)</label>
+            <input formControlName="rotor_diameter_mm" type="number" />
+          </div>
+          <div class="form-group">
+            <label>Hull Length (mm)</label>
+            <input formControlName="hull_length_mm" type="number" />
+          </div>
+          <div class="form-group" style="grid-column: span 2">
+            <label>Wheelbase (mm)</label>
+            <input formControlName="wheelbase_mm" type="number" />
+          </div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; margin-top:1rem">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save Build</button>
+          <a routerLink="/builds" class="btn btn-ghost">Cancel</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

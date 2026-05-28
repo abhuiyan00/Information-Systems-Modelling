@@ -1,0 +1,140 @@
+============================================================
+ModellingClub Ontology Demo - IntelliJ IDEA Run Guide
+============================================================
+
+Project ............ modellingClub
+Group .............. pl.edu.pwr.modellingclub
+Main class ......... pl.edu.pwr.modellingclub.App
+Java ............... 11
+RDF4J .............. 3.6.3
+Build tool ......... Apache Maven
+
+------------------------------------------------------------
+1. Prerequisites
+------------------------------------------------------------
+- JDK 11 (or newer) installed and visible to IntelliJ.
+- IntelliJ IDEA (Community Edition is fine).
+- Apache Maven is bundled with IntelliJ, no separate install required.
+- Internet access on first launch so Maven can download the
+  RDF4J / SLF4J / Log4j2 artifacts into the local ~/.m2 cache.
+
+------------------------------------------------------------
+2. Open the project in IntelliJ
+------------------------------------------------------------
+1. File  >  Open...
+2. Select the folder that contains "pom.xml"
+       (D:\PWR II\ISM\test_area\lab5\sesameExample\sesameExample)
+3. When prompted, click "Open as Project" / "Trust Project".
+4. IntelliJ detects the Maven project and starts indexing.
+   Wait for the bottom status bar to finish "Resolving dependencies".
+
+If dependencies do not resolve automatically:
+   - Open the Maven tool window (right-side panel)
+   - Click the circular "Reload All Maven Projects" icon.
+
+------------------------------------------------------------
+3. Verify the project SDK
+------------------------------------------------------------
+1. File  >  Project Structure...  (Ctrl+Alt+Shift+S)
+2. Project Settings  >  Project
+       Project SDK ............ 11 (or newer)
+       Project language level . 11
+3. Modules  >  modellingClub  >  Sources
+       Make sure these are marked correctly:
+         src/main/java       -> Sources (blue)
+         src/main/resources  -> Resources (yellow)
+         src/test/java       -> Tests   (green)
+         src/test/resources  -> Test Resources
+
+------------------------------------------------------------
+4. Run the demo
+------------------------------------------------------------
+Option A - From the editor:
+   1. Open  src/main/java/pl/edu/pwr/modellingclub/App.java
+   2. Click the green "Run" arrow next to "public static void main".
+   3. Select "Run 'App.main()'".
+
+Option B - From the Maven tool window:
+   1. Maven panel  >  modellingClub  >  Plugins  >  exec
+   2. Double-click "exec:java".
+       The "exec.mainClass" property is preset in pom.xml.
+
+Option C - From a terminal inside IntelliJ (Alt+F12):
+       mvn compile exec:java
+
+Expected console output:
+   - "Loaded ontology.ttl into repository."
+   - "Loaded sample-data.ttl into repository."
+   - "Repository size after load: 465 statements"
+   - Followed by eight SPARQL query result tables.
+
+------------------------------------------------------------
+5. Project layout
+------------------------------------------------------------
+pom.xml
+guide.txt                              <- this file
+src/
+  main/
+    java/pl/edu/pwr/modellingclub/
+        App.java                       <- entry point
+        RepositoryFactory.java         <- builds RDF4J repositories
+        OntologyLoader.java            <- loads Turtle from classpath
+        SampleDataWriter.java          <- adds triples programmatically
+        QueryRunner.java               <- SPARQL helpers + demo queries
+        Vocabulary.java                <- IRI / prefix constants
+    resources/
+        ontology.ttl                   <- TBox (classes, properties)
+        sample-data.ttl                <- ABox (sample instances)
+        cardinalityTest.owl            <- OWL cardinality restrictions
+        log4j2.xml                     <- logging configuration
+  test/
+    java/                              <- (empty, ready for JUnit tests)
+    resources/
+
+------------------------------------------------------------
+6. Switching to a remote RDF4J server (optional)
+------------------------------------------------------------
+RepositoryFactory exposes a "remote(serverUrl, repositoryId)" helper.
+To use it instead of the in-memory store:
+
+   1. Download Apache Tomcat and the RDF4J SDK 3.6.3 (eclipse-rdf4j-3.6.3-sdk.zip).
+   2. Copy "rdf4j-server.war" and "rdf4j-workbench.war" into
+        apache-tomcat-X.Y.Z\webapps\
+   3. Start Tomcat:  apache-tomcat-X.Y.Z\bin\startup.bat
+   4. Open  http://localhost:8080/rdf4j-workbench/
+      Create a Native Java Store repository, ID = "modellingclub".
+   5. In App.java replace:
+           Repository repo = RepositoryFactory.inMemoryWithRdfs();
+      with:
+           Repository repo = RepositoryFactory.remote(
+                   "http://localhost:8080/rdf4j-server/", "modellingclub");
+
+Repositories created via the workbench are stored under:
+   C:\Users\<you>\AppData\Roaming\RDF4J\Server\repositories\
+
+------------------------------------------------------------
+7. What the demo demonstrates
+------------------------------------------------------------
+- TBox + ABox loading from classpath Turtle files.
+- Programmatic triple creation through ValueFactory.
+- Querying with SPARQL SELECT, FILTER, GROUP BY, OPTIONAL.
+- RDFS subclass / subproperty inference via SchemaCachingRDFSInferencer.
+- OWL-style symmetric (mc:knows) and transitive (mc:isSubCommunityOf)
+  semantics emulated through SPARQL UNION and property paths
+  (the RDFS inferencer does not materialise OWL axioms).
+
+------------------------------------------------------------
+8. Troubleshooting
+------------------------------------------------------------
+- "Cannot resolve symbol org.eclipse.rdf4j..."
+      Maven dependencies not downloaded yet. Reload the Maven project
+      or run  "mvn -U dependency:resolve"  in the IntelliJ terminal.
+
+- "InvocationTargetException: Classpath resource not found: ontology.ttl"
+      Resources folder is not marked as a Resources root.
+      Fix in Project Structure (see step 3) or run "mvn clean compile".
+
+- Garbled box-drawing characters in the run console:
+      The Windows console codepage is cp1252. Either run from the
+      IntelliJ console (handles UTF-8) or set  -Dfile.encoding=UTF-8
+      in the run configuration's VM options.

@@ -1,0 +1,39 @@
+<div class="page-wrapper" style="max-width: 720px">
+  <h1 style="margin-bottom:1.5rem">Account</h1>
+
+  @if (message) { <div class="alert alert-success">{{ message }}</div> }
+  @if (error) { <div class="alert alert-error">{{ error }}</div> }
+
+  @if (user) {
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h3>Profile</h3>
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:0.75rem">
+        <div class="spec-item"><span class="spec-label">Username</span><span class="spec-value">{{ user.username }}</span></div>
+        <div class="spec-item"><span class="spec-label">Email</span><span class="spec-value">{{ user.email }}</span></div>
+        <div class="spec-item"><span class="spec-label">Role</span><span class="spec-value">{{ user.role }}</span></div>
+        <div class="spec-item"><span class="spec-label">Joined</span><span class="spec-value">{{ user.created_at | date:'mediumDate' }}</span></div>
+      </div>
+    </div>
+
+    <div class="glass-card" style="margin-bottom:1.25rem">
+      <h3>Export My Data (GDPR)</h3>
+      <p style="margin-bottom:1rem">
+        Download a ZIP containing your profile, builds, and comments as JSON files.
+      </p>
+      <button (click)="exportData()" class="btn btn-primary" [disabled]="busy">
+        {{ busy ? 'Working…' : 'Download ZIP' }}
+      </button>
+    </div>
+
+    <div class="glass-card" style="border-color: rgba(239,68,68,0.3)">
+      <h3 style="color: var(--danger)">Danger Zone</h3>
+      <p style="margin-bottom:1rem">
+        Permanently delete your account. Your builds will be reassigned to a placeholder
+        "system_user" so other members' comments and votes are preserved. This action cannot be undone.
+      </p>
+      <button (click)="deleteAccount()" class="btn btn-danger" [disabled]="busy">
+        Delete My Account
+      </button>
+    </div>
+  }
+</div>

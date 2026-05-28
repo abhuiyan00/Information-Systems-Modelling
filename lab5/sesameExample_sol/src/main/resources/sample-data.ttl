@@ -1,0 +1,209 @@
+@prefix mc:   <http://modellingclub.local/ontology#> .
+@prefix mcr:  <http://modellingclub.local/resource/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ─────────────────────────────────────────────
+#  Users
+# ─────────────────────────────────────────────
+
+mcr:user-alice  a mc:User ;
+    mc:username     "alice" ;
+    mc:email        "alice@modellingclub.local" ;
+    mc:registeredAt "2024-03-12T10:15:00Z"^^xsd:dateTime .
+
+mcr:user-bob    a mc:User ;
+    mc:username     "bob" ;
+    mc:email        "bob@modellingclub.local" ;
+    mc:registeredAt "2024-04-02T09:00:00Z"^^xsd:dateTime .
+
+mcr:user-carol  a mc:AdminUser ;
+    mc:username     "carol" ;
+    mc:email        "carol@modellingclub.local" ;
+    mc:registeredAt "2023-11-20T08:30:00Z"^^xsd:dateTime .
+
+mcr:user-dave   a mc:User ;
+    mc:username     "dave" ;
+    mc:email        "dave@modellingclub.local" ;
+    mc:registeredAt "2025-01-08T12:00:00Z"^^xsd:dateTime .
+
+# Symmetric "knows" — reasoner infers reverse direction
+mcr:user-alice mc:knows mcr:user-bob .
+mcr:user-bob   mc:knows mcr:user-dave .
+
+# ─────────────────────────────────────────────
+#  Builds
+# ─────────────────────────────────────────────
+
+mcr:build-falcon  a mc:DroneBuild ;
+    mc:buildTitle       "Falcon FPV Racer" ;
+    mc:buildDescription "5-inch FPV racing drone, custom carbon frame." ;
+    mc:createdBy        mcr:user-alice ;
+    mc:hasStatus        mcr:status-approved ;
+    mc:hasScore         87 .
+
+mcr:build-rover   a mc:RCCarBuild ;
+    mc:buildTitle       "Desert Rover" ;
+    mc:buildDescription "1:10 scale off-road RC car." ;
+    mc:createdBy        mcr:user-bob ;
+    mc:hasStatus        mcr:status-submitted ;
+    mc:hasScore         72 .
+
+mcr:build-glider  a mc:AircraftBuild ;
+    mc:buildTitle       "Silent Glider" ;
+    mc:buildDescription "2m wingspan thermal glider." ;
+    mc:createdBy        mcr:user-dave ;
+    mc:hasStatus        mcr:status-draft .
+
+mcr:build-arm     a mc:RobotBuild ;
+    mc:buildTitle       "6-DOF Arm" ;
+    mc:buildDescription "Servo-driven robotic arm." ;
+    mc:createdBy        mcr:user-alice ;
+    mc:hasStatus        mcr:status-approved ;
+    mc:hasScore         91 .
+
+# Collaboration
+mcr:user-bob mc:collaboratesOn mcr:build-arm .
+
+# Build status instances
+mcr:status-draft     a mc:DraftStatus .
+mcr:status-submitted a mc:SubmittedStatus .
+mcr:status-approved  a mc:ApprovedStatus .
+mcr:status-rejected  a mc:RejectedStatus .
+
+# ─────────────────────────────────────────────
+#  Media
+# ─────────────────────────────────────────────
+
+mcr:media-falcon-hero  a mc:ImageFile ;
+    mc:fileUrl "https://media.modellingclub.local/falcon/hero.jpg"^^xsd:anyURI .
+
+mcr:media-rover-clip   a mc:VideoFile ;
+    mc:fileUrl "https://media.modellingclub.local/rover/run.mp4"^^xsd:anyURI .
+
+mcr:build-falcon mc:hasMedia mcr:media-falcon-hero .
+mcr:build-rover  mc:hasMedia mcr:media-rover-clip .
+
+# ─────────────────────────────────────────────
+#  Comments and votes
+# ─────────────────────────────────────────────
+
+mcr:comment-001  a mc:Comment ;
+    mc:commentText "Clean wiring, great work!" ;
+    mc:postedBy    mcr:user-bob .
+
+mcr:comment-002  a mc:Comment ;
+    mc:commentText "Try a stiffer prop set." ;
+    mc:postedBy    mcr:user-carol .
+
+mcr:build-falcon mc:hasComment mcr:comment-001 , mcr:comment-002 .
+
+mcr:vote-001  a mc:UpVote ;
+    mc:castedBy mcr:user-bob .
+
+mcr:vote-002  a mc:UpVote ;
+    mc:castedBy mcr:user-dave .
+
+mcr:vote-003  a mc:DownVote ;
+    mc:castedBy mcr:user-carol .
+
+mcr:build-falcon mc:hasVote mcr:vote-001 , mcr:vote-002 .
+mcr:build-rover  mc:hasVote mcr:vote-003 .
+
+# ─────────────────────────────────────────────
+#  Flight log + telemetry
+# ─────────────────────────────────────────────
+
+mcr:flightlog-001  a mc:FlightLog ;
+    mc:flightAltitude "118.5"^^xsd:decimal ;
+    mc:pilotLicenseId "PL-AB123456" .
+
+mcr:build-falcon mc:hasFlightLog mcr:flightlog-001 .
+
+mcr:telemetry-falcon  a mc:TelemetryRecord ;
+    mc:topSpeed   "142.0"^^xsd:decimal ;
+    mc:maxRange   "1500.0"^^xsd:decimal ;
+    mc:crashCount 1 .
+
+mcr:telemetry-rover   a mc:TelemetryRecord ;
+    mc:topSpeed   "65.0"^^xsd:decimal ;
+    mc:maxRange   "400.0"^^xsd:decimal ;
+    mc:crashCount 3 .
+
+mcr:build-falcon mc:hasTelemetry mcr:telemetry-falcon .
+mcr:build-rover  mc:hasTelemetry mcr:telemetry-rover .
+
+# ─────────────────────────────────────────────
+#  Test runs
+# ─────────────────────────────────────────────
+
+mcr:testrun-spring2025  a mc:TestRun ;
+    mc:testRunLocation "Wrocław airstrip, PL" ;
+    mc:testRunDate     "2025-05-18T09:00:00Z"^^xsd:dateTime ;
+    mc:organisedBy     mcr:user-carol ;
+    mc:attendedBy      mcr:user-alice , mcr:user-bob , mcr:user-dave .
+
+# ─────────────────────────────────────────────
+#  Marketplace
+# ─────────────────────────────────────────────
+
+mcr:listing-esc      a mc:MarketplaceListing ;
+    mc:partName     "BLHeli32 45A ESC" ;
+    mc:askingPrice  "29.90"^^xsd:decimal ;
+    mc:partCategory mcr:cat-electronics ;
+    mc:listedBy     mcr:user-alice .
+
+mcr:listing-frame    a mc:MarketplaceListing ;
+    mc:partName     "5-inch Carbon Frame" ;
+    mc:askingPrice  "49.00"^^xsd:decimal ;
+    mc:partCategory mcr:cat-frame ;
+    mc:listedBy     mcr:user-dave .
+
+mcr:cat-electronics  a mc:ElectronicsPart .
+mcr:cat-frame        a mc:FramePart .
+mcr:cat-motor        a mc:MotorPart .
+
+# ─────────────────────────────────────────────
+#  Messages
+# ─────────────────────────────────────────────
+
+mcr:msg-001  a mc:Message ;
+    mc:sentBy      mcr:user-alice ;
+    mc:sentTo      mcr:user-bob ;
+    mc:messageText "Want to swap props this weekend?" ;
+    mc:sentAt      "2025-05-15T18:42:00Z"^^xsd:dateTime .
+
+# ─────────────────────────────────────────────
+#  Reputation
+# ─────────────────────────────────────────────
+
+mcr:rep-alice  a mc:ReputationRecord ;
+    mc:builderScore     95 ;
+    mc:helperScore      40 ;
+    mc:organiserScore   10 ;
+    mc:reliabilityScore 88 .
+
+mcr:user-alice mc:hasReputation mcr:rep-alice .
+
+# ─────────────────────────────────────────────
+#  Communities (transitive isSubCommunityOf)
+# ─────────────────────────────────────────────
+
+mcr:comm-modellingclub  a mc:Community ;
+    rdfs:label "ModellingClub" .
+
+mcr:comm-aerial         a mc:Community ;
+    rdfs:label "Aerial Builders" ;
+    mc:isSubCommunityOf mcr:comm-modellingclub .
+
+mcr:comm-fpv            a mc:Community ;
+    rdfs:label "FPV Racers" ;
+    mc:isSubCommunityOf mcr:comm-aerial .
+
+mcr:comm-microfpv       a mc:Community ;
+    rdfs:label "Micro FPV" ;
+    mc:isSubCommunityOf mcr:comm-fpv .
+
+mcr:user-alice mc:isMemberOf mcr:comm-microfpv .
+mcr:user-dave  mc:isMemberOf mcr:comm-aerial .

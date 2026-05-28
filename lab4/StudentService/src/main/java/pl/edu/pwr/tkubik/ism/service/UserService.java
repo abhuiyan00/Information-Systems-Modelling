@@ -1,0 +1,22 @@
+package pl.edu.pwr.tkubik.ism.service;
+
+import pl.edu.pwr.tkubik.ism.model.UserProfile;
+import pl.edu.pwr.tkubik.ism.model.RegisterRequest;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface UserService {
+    UserProfile register(RegisterRequest request);
+    UserProfile findByEmail(String email);
+    UserProfile findById(UUID id);
+    List<UserProfile> findAll();
+    boolean existsByEmail(String email);
+    void deleteById(UUID id);
+
+    /**
+     * Verifies the supplied plaintext password against the stored bcrypt hash.
+     * Returns the user profile on success, null on failure (unknown email or wrong password).
+     */
+    UserProfile verifyCredentials(String email, String rawPassword);
+}

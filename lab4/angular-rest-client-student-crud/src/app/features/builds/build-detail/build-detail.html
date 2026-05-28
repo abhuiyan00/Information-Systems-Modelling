@@ -1,0 +1,288 @@
+<div class="page-wrapper">
+
+  <a routerLink="/builds" class="btn btn-ghost" style="margin-bottom:1.5rem; display:inline-flex">&larr; Back to Builds</a>
+
+  @if (build) {
+    <!-- ── Build header card ─────────────────────────────────────────── -->
+    <div class="glass-card" style="margin-bottom: 1.5rem">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem">
+        <div>
+          <h1 style="margin-bottom:0.5rem">{{ build.title }}</h1>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap">
+            <span class="badge badge-{{ build.type }}">{{ build.type }}</span>
+            <span class="badge badge-{{ build.status }}">{{ build.status }}</span>
+            @if (build.score != null) {
+              <span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b">&#11088; {{ build.score }}</span>
+            }
+          </div>
+        </div>
+        @if (canEdit()) {
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap">
+            <a [routerLink]="['/builds/edit', build.id]" class="btn btn-ghost">Edit Build</a>
+            @if (build.status === 'draft') {
+              <button (click)="submitForReview()" class="btn btn-primary">Submit for Review</button>
+            }
+          </div>
+        }
+      </div>
+
+      @if (submitMessage) {
+        <div class="alert alert-success">{{ submitMessage }}</div>
+      }
+
+      @if (build.description) {
+        <p style="margin-bottom:1rem; color:var(--text-primary)">{{ build.description }}</p>
+      }
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:0.75rem">
+        @if (build.frame_size_mm) {
+          <div class="spec-item"><span class="spec-label">Frame Size</span><span class="spec-value">{{ build.frame_size_mm }} mm</span></div>
+        }
+        @if (build.num_motors) {
+          <div class="spec-item"><span class="spec-label">Motors</span><span class="spec-value">{{ build.num_motors }}</span></div>
+        }
+        @if (build.flight_controller) {
+          <div class="spec-item"><span class="spec-label">Flight Controller</span><span class="spec-value">{{ build.flight_controller }}</span></div>
+        }
+        @if (build.max_takeoff_weight_g) {
+          <div class="spec-item"><span class="spec-label">Max Takeoff Weight</span><span class="spec-value">{{ build.max_takeoff_weight_g }} g</span></div>
+        }
+        @if (build.wingspan_mm) {
+          <div class="spec-item"><span class="spec-label">Wingspan</span><span class="spec-value">{{ build.wingspan_mm }} mm</span></div>
+        }
+        @if (build.scale) {
+          <div class="spec-item"><span class="spec-label">Scale</span><span class="spec-value">{{ build.scale }}</span></div>
+        }
+        @if (build.rotor_diameter_mm) {
+          <div class="spec-item"><span class="spec-label">Rotor Diameter</span><span class="spec-value">{{ build.rotor_diameter_mm }} mm</span></div>
+        }
+        @if (build.hull_length_mm) {
+          <div class="spec-item"><span class="spec-label">Hull Length</span><span class="spec-value">{{ build.hull_length_mm }} mm</span></div>
+        }
+        @if (build.wheelbase_mm) {
+          <div class="spec-item"><span class="spec-label">Wheelbase</span><span class="spec-value">{{ build.wheelbase_mm }} mm</span></div>
+        }
+      </div>
+    </div>
+
+    <!-- ── Media gallery ─────────────────────────────────────────────── -->
+    <div class="glass-card" style="margin-bottom: 1.5rem">
+      <h3>Media &amp; Documentation</h3>
+
+      @if (media.length > 0) {
+        <div class="media-gallery">
+          @for (m of media; track m.id) {
+            <div class="media-tile">
+              @if (isImage(m)) {
+                <img [src]="m.url" [alt]="m.filename" loading="lazy" />
+              } @else {
+                <div class="file-fallback">
+                  <span style="font-size:1.6rem">&#128196;</span>
+                  <span>{{ m.filename }}</span>
+                  <a [href]="m.url" target="_blank" rel="noopener" style="color:var(--primary); font-size:0.75rem">Open</a>
+                </div>
+              }
+              @if (canEdit()) {
+                <button class="delete-btn" (click)="deleteMedia(m.id)">Delete</button>
+              }
+            </div>
+          }
+        </div>
+      } @else {
+        <p style="color:var(--text-muted); font-style:italic; margin-bottom:1rem">No media uploaded yet.</p>
+      }
+
+      @if (canEdit()) {
+        @if (uploadError) { <div class="alert alert-error">{{ uploadError }}</div> }
+
+        <label class="upload-zone"
+               [class.is-dragover]="isDragOver"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave()"
+               (drop)="onDrop($event)">
+          <input type="file"
+                 multiple
+                 accept="image/jpeg,image/png,image/gif,application/pdf,model/stl,application/sla"
+                 (change)="onFileInput($event)" />
+          @if (uploadBusy) {
+            <span>Uploading…</span>
+          } @else {
+            <span>
+              <strong>Drop files here</strong> or click to browse<br />
+              <small>JPEG, PNG, GIF, PDF, STL — up to 20 MB each, 50 per build</small>
+            </span>
+          }
+        </label>
+      }
+    </div>
+
+    <!-- ── Votes ─────────────────────────────────────────────────────── -->
+    <div class="glass-card" style="margin-bottom:1.5rem">
+      <h3>Community Votes</h3>
+      @if (votes) {
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap">
+          <span style="font-size:1.5rem; font-weight:700; color: #10b981">&#128077; {{ votes.upvotes }}</span>
+          <span style="font-size:1.5rem; font-weight:700; color: #ef4444">&#128078; {{ votes.downvotes }}</span>
+          @if (isLoggedIn() && !isOwner()) {
+            <button (click)="castVote('up')" class="btn btn-primary"
+                    [class.active-vote]="votes.user_vote === 'up'">Upvote</button>
+            <button (click)="castVote('down')" class="btn btn-danger"
+                    [class.active-vote]="votes.user_vote === 'down'">Downvote</button>
+          }
+          @if (isOwner()) {
+            <span style="color:var(--text-muted); font-size:0.85rem">You can't vote on your own build.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- ── Flight logs (drone-only) ──────────────────────────────────── -->
+    @if (build.type === 'drone' && isLoggedIn()) {
+      <div class="glass-card" style="margin-bottom:1.5rem">
+        <h3>Flight Logs</h3>
+
+        @if (flightLogs.length > 0) {
+          <table style="margin-bottom:1.25rem">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Duration</th>
+                <th>Max Altitude</th>
+                <th>Drone ID</th>
+                <th>Conditions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (log of flightLogs; track log.id) {
+                <tr>
+                  <td>{{ log.flight_date }}</td>
+                  <td>{{ log.location_name }}</td>
+                  <td>{{ log.duration_min }} min</td>
+                  <td>{{ log.max_altitude_m }} m</td>
+                  <td style="font-family:monospace">{{ log.drone_identifier }}</td>
+                  <td>{{ log.conditions }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <p style="color:var(--text-muted); font-style:italic; margin-bottom:1.25rem">No flights logged yet.</p>
+        }
+
+        @if (canEdit()) {
+          @if (flightLogError) { <div class="alert alert-error">{{ flightLogError }}</div> }
+          @if (flightLogSuccess) { <div class="alert alert-success">{{ flightLogSuccess }}</div> }
+
+          <form [formGroup]="flightLogForm" (ngSubmit)="submitFlightLog()">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>Flight Date *</label>
+                <input formControlName="flight_date" type="date" />
+              </div>
+              <div class="form-group">
+                <label>Location *</label>
+                <input formControlName="location_name" type="text" placeholder="Wrocław, Pole Marsowe" />
+              </div>
+              <div class="form-group">
+                <label>Duration (min) *</label>
+                <input formControlName="duration_min" type="number" min="1" max="600" />
+              </div>
+              <div class="form-group">
+                <label>Max Altitude (m) — EU cap 120 *</label>
+                <input formControlName="max_altitude_m" type="number" min="0" max="120" step="0.1" />
+              </div>
+              <div class="form-group">
+                <label>Drone ID — XX-XXXXXX *</label>
+                <input formControlName="drone_identifier" type="text" placeholder="PL-ABC123" />
+              </div>
+              <div class="form-group">
+                <label>Conditions *</label>
+                <select formControlName="conditions">
+                  <option value="SUNNY">Sunny</option>
+                  <option value="CLOUDY">Cloudy</option>
+                  <option value="WINDY">Windy</option>
+                  <option value="RAIN">Rain</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Notes</label>
+              <textarea formControlName="notebook" rows="2" maxlength="1000" placeholder="Pre/post-flight observations…"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="flightLogForm.invalid">Add Flight Log</button>
+          </form>
+        }
+      </div>
+    }
+
+    <!-- ── Collaborators ─────────────────────────────────────────────── -->
+    @if (isLoggedIn()) {
+      <div class="glass-card" style="margin-bottom:1.5rem">
+        <h3>Collaborators</h3>
+
+        @if (collaborators.length > 0) {
+          <ul style="list-style:none; padding:0; margin:0 0 1.25rem 0">
+            @for (c of collaborators; track c.user_id) {
+              <li style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; gap:0.75rem; align-items:center">
+                <strong style="color:var(--text-primary)">{{ c.username }}</strong>
+                <span class="badge" style="background:rgba(139,92,246,0.15); color:#8b5cf6">{{ c.role }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p style="color:var(--text-muted); font-style:italic; margin-bottom:1.25rem">No collaborators yet.</p>
+        }
+
+        @if (canEdit()) {
+          @if (inviteError) { <div class="alert alert-error">{{ inviteError }}</div> }
+          @if (inviteSuccess) { <div class="alert alert-success">{{ inviteSuccess }}</div> }
+
+          <form [formGroup]="inviteForm" (ngSubmit)="inviteCollaborator()" style="display:flex; gap:0.5rem; align-items:flex-end; flex-wrap:wrap">
+            <div class="form-group" style="flex:1; min-width:240px; margin-bottom:0">
+              <label>Invite by email</label>
+              <input formControlName="email" type="email" placeholder="alice@example.com" />
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="inviteForm.invalid">Send Invite</button>
+          </form>
+        }
+      </div>
+    }
+
+    <!-- ── Comments ──────────────────────────────────────────────────── -->
+    <div class="glass-card">
+      <h3>Comments</h3>
+
+      @for (comment of comments; track comment.id) {
+        <div class="comment-item">
+          <div class="comment-meta">
+            <strong>{{ comment.author_username }}</strong>
+            <span class="comment-date">{{ comment.created_at | date:'mediumDate' }}</span>
+          </div>
+          <p class="comment-body">{{ comment.content }}</p>
+        </div>
+      } @empty {
+        <p style="color:var(--text-muted); font-style:italic; padding:1rem 0">No comments yet. Be the first!</p>
+      }
+
+      @if (isLoggedIn()) {
+        <form [formGroup]="commentForm" (ngSubmit)="submitComment()" style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--border)">
+          <div class="form-group">
+            <label>Add a comment</label>
+            <textarea formControlName="content" rows="3" maxlength="1000" placeholder="Share your thoughts..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="commentForm.invalid">Post Comment</button>
+        </form>
+      } @else {
+        <p style="color:var(--text-muted); font-style:italic; margin-top:1rem">
+          <a routerLink="/login" style="color:var(--primary)">Log in</a> to comment or vote.
+        </p>
+      }
+    </div>
+  } @else {
+    <div class="glass-card" style="text-align:center; padding:3rem">
+      <p style="color:var(--text-muted)">Loading build…</p>
+    </div>
+  }
+
+</div>

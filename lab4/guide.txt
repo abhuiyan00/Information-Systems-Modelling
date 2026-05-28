@@ -1,0 +1,315 @@
+================================================================================
+  MODELLINGCLUB — OPS & MAINTENANCE GUIDE
+  PWR / ISM Lab 4   |   Updated 2026-05-13
+================================================================================
+
+This is the operator's runbook: how to spin the stack up, seed data, demo every
+feature, diagnose common failures, and ship a clean build. Read top-to-bottom on
+first install, jump by section thereafter.
+
+
+1. PREREQUISITES
+--------------------------------------------------------------------------------
+
+Required on the host machine:
+
+  - JDK 21 (Temurin or any OpenJDK 21 build) — `java -version` must report 21.
+  - Maven 3.9+   — `mvn -version`.
+  - Node.js 20.x LTS (Node 25 also runs, but Angular warns about odd-major LTS).
+  - npm 10+ (bundled with Node).
+  - PowerShell 5+ on Windows, or bash/zsh on macOS/Linux.
+
+No external database is required — H2 is bundled, file-mode, lives next to the
+backend pom.
+
+
+2. CLONE / INSTALL
+--------------------------------------------------------------------------------
+
+  cd "D:\PWR II\ISM\test_area\lab4"
+  # backend has no install step; Maven pulls deps lazily.
+  cd angular-rest-client-student-crud
+  npm ci                # or `npm install` if no lockfile yet.
+
+
+3. FIRST-BOOT DATA SEED
+--------------------------------------------------------------------------------
+
+On first start the backend's three ApplicationRunner beans seed the DB
+idempotently, in order:
+
+  Order 10  DataInitializer        system user + admin login
+  Order 20  SeedBuildsInitializer  demo_pilot + 6 demo builds (drone, plane,
+                                   helicopter, boat, scale model) + cover images
+                                   copied from src/main/resources/seed-images/
+  Order 30  SeedRichDataInitializer 10 named members across PL cities, 24 test
+                                   runs (past + upcoming), telemetry per build,
+                                   20 marketplace listings, 30 messages,
+                                   reputation rows, 6 car-type builds
+
+To rerun from scratch (e.g. when the data shape changes):
+
+  # backend stopped
+  cd "D:\PWR II\ISM\test_area\lab4"
+  Remove-Item modellingclubdb.mv.db, modellingclubdb.trace.db -ErrorAction SilentlyContinue
+  Remove-Item -Recurse -Force uploads -ErrorAction SilentlyContinue
+  cd StudentService
+  mvn spring-boot:run
+
+After the first reseed run, all seeded credentials are:
+
+  Role        Email                            Password     Username
+  ---------   ------------------------------   ----------   -------------
+  admin       admin@modellingclub.local        admin123     admin
+  member      demo@modellingclub.local         DemoUser1    demo_pilot
+  member      anna@modellingclub.local         Password1    anna_drone
+  member      marek@modellingclub.local        Password1    marek_fpv
+  member      kasia@modellingclub.local        Password1    kasia_glider
+  member      piotr@modellingclub.local        Password1    piotr_rc
+  member      tomek@modellingclub.local        Password1    tomek_heli
+  member      ola@modellingclub.local          Password1    ola_scale
+  member      jan@modellingclub.local          Password1    jan_boat
+  member      ewa@modellingclub.local          Password1    ewa_pilot
+  member      michal@modellingclub.local       Password1    michal_car
+  member      zofia@modellingclub.local        Password1    zofia_aero
+
+  (system_user UUID …001 also exists — login disabled, placeholder owner
+  for orphaned data.)
+
+
+4. RUN THE STACK
+--------------------------------------------------------------------------------
+
+Two terminals, backend first:
+
+  # terminal 1 — backend
+  cd "D:\PWR II\ISM\test_area\lab4\StudentService"
+  mvn spring-boot:run
+
+  # terminal 2 — frontend
+  cd "D:\PWR II\ISM\test_area\lab4\angular-rest-client-student-crud"
+  npm start
+
+  Backend:  http://localhost:8080/StudentsApp/api/v1
+            H2 console: http://localhost:8080/StudentsApp/h2-ui
+            (JDBC URL  jdbc:h2:file:./modellingclubdb   user sa, no password)
+  Frontend: http://localhost:4200
+
+
+5. DEMO / FEATURE WALKTHROUGH
+--------------------------------------------------------------------------------
+
+5.1  Public browsing
+     - Open /                  hero + recently published grid (mixes drone/plane/
+                               boat/car/heli/scale-model)
+     - Open /explore           chip filter row (All / Drones / Helicopters /
+                               Planes / Boats / Cars / Scale models) + free-text
+                               search
+
+5.2  Member flow (use demo@modellingclub.local / DemoUser1)
+     - /login → succeed → /
+     - /builds/create → fill drone form → save → automatic /builds list
+     - /builds/{id}          upload images (multipart, max 20 MB each)
+                             post comments
+                             cast a vote (cannot self-vote on own build)
+                             add a drone-only flight log (altitude ≤ 120 m, drone
+                               id matches `[A-Z]{2}-[A-Z0-9]{6,12}`)
+                             invite collaborator by email
+     - /my-builds            filter by status, edit / delete / submit
+     - /test-runs            chip filter (All / Scheduled / Completed /
+                               Cancelled). "+ Schedule run" form.  "Join" on a
+                               scheduled run.
+     - /marketplace          chip filter (All / Active / Sold). Create listing.
+                               Mark sold / delete (only own).
+     - /messages             send DM, inbox shows both sides of the thread
+     - /account              JSON export → ZIP download (profile + builds +
+                               comments). Account delete is gated by typing the
+                               exact username.
+
+5.3  Admin flow (admin@modellingclub.local / admin123)
+     - /admin/queue          pending_review builds, Approve / Reject (Reject
+                               prompts for reason — 400 if blank).
+     - /admin/users          paged user table.
+
+5.4  Analytics
+     - /statistics           hero KPI tiles + the eight category cards plus the
+                               legacy AOP usage table. All driven by GET
+                               /api/v1/analytics/{...}. Each section auto-
+                               refreshes on page visit.
+
+
+6. ANALYTICS QUICK-REFERENCE
+--------------------------------------------------------------------------------
+
+  /analytics/dashboard      hero tiles (active pilots, scheduled runs, top
+                            category, avg attendance, fastest car, longest
+                            flight)
+  /analytics/community      DAU / MAU, comments/project, retention, peak hours,
+                            top hobby
+  /analytics/test-runs      attendance %, popular locations, weather impact,
+                            avg travel, cancellation rate, repeat attendees
+  /analytics/builds         popular models, completion rate, avg duration,
+                            common FCs, difficulty
+  /analytics/telemetry      avg/top speed, longest flight, battery, range,
+                            altitude, total crashes, best lap, terrain mix
+  /analytics/geography      active cities (lat/lon), countries, regional model
+                            preference, seasonal participation
+  /analytics/marketplace    most-traded parts, avg price, brands, condition mix,
+                            active/sold
+  /analytics/social         top builders / helpers / organizers, reliability,
+                            skill mix
+  /analytics/ai             suggested collaborators (per current user's top
+                            build type), suggested locations, trending
+                            categories (30 d), maintenance alerts (≥3 crashes
+                            cumulative), event outlook
+
+
+7. BACKEND MAINTENANCE
+--------------------------------------------------------------------------------
+
+7.1  Editing the OpenAPI contract
+     1. Edit  StudentService/src/main/resources/openapi/openapi.yaml
+     2. Regenerate stubs:
+            cd StudentService
+            mvn clean generate-sources
+     3. Implement / update the matching controller in
+            src/main/java/pl/edu/pwr/tkubik/ism/api/*Controller.java
+     4. Update the Angular service / model under
+            angular-rest-client-student-crud/src/app/{services,models}/...
+     5. mvn test       npx tsc --noEmit       npx ng build
+
+7.2  Hand-written endpoints (Analytics, TestRun, Marketplace, Message,
+     Telemetry) live outside the OpenAPI spec. To add a new one:
+     - Create a controller in pl.edu.pwr.tkubik.ism.api with
+           @RequestMapping("/your-resource")           // NOT /api/v1/...
+     - WebMvcConfig adds the /api/v1 prefix automatically. Double-prefixing is
+       a real bug we shipped once.
+     - Add an Angular service + new route + SSR render-mode entry in
+       app.routes.server.ts (Server, not Prerender, if data is fetched on init).
+
+7.3  Schema migrations
+     - The dev profile uses `spring.jpa.hibernate.ddl-auto=update`. New
+       @Entity classes appear on next boot; column additions are non-
+       destructive.
+     - Column type changes are NOT migrated — drop the .mv.db file (see §3) or
+       run hand-written SQL via the H2 console.
+     - For a future Postgres swap, switch the JDBC URL + driver, add
+       Flyway/Liquibase, and pin ddl-auto=validate.
+
+7.4  Tests
+     mvn test                         (currently 2 tests pass)
+     mvn -Dtest=BuildsControllerIntegrationTest test
+     npm test                         (currently 4 tests pass)
+     npx tsc --noEmit                 type check only, no build artefacts
+
+
+8. FRONTEND MAINTENANCE
+--------------------------------------------------------------------------------
+
+8.1  Adding a new page
+     1. Create  src/app/features/<name>/<name>.{ts,html}.
+     2. Use standalone component, inject services with `inject()`.
+     3. Always guard data fetches with `isPlatformBrowser(this.platformId)` if
+        the page is server-rendered.
+     4. Register the route in app.routes.ts (order matters — `:id` routes go
+        AFTER any static sibling).
+     5. Add a render-mode entry in app.routes.server.ts.
+     6. Add a nav link in components/site-header/site-header.html.
+     7. npx tsc --noEmit then npx ng build.
+
+8.2  Updating colours / category palette
+     Edit only `:root` in src/styles.scss. All badges, chip filters, and table
+     accents read from the `--c-{type}-{bg,fg}` tokens — no per-page palette.
+
+8.3  SSR data bug — Recently Published only shows after clicking the logo
+     If this re-appears: check app.config.ts retains `withNoHttpTransferCache()`
+     in `provideClientHydration`, and that the affected route is `RenderMode.
+     Server` (not Prerender) in app.routes.server.ts, and that the component's
+     ngOnInit fetch is wrapped in `isPlatformBrowser(this.platformId)`.
+
+8.4  Tests
+     npm test                  unit specs (Vitest)
+     npx ng test --watch=false
+
+
+9. DEPLOYMENT NOTES (lab → server)
+--------------------------------------------------------------------------------
+
+This is a lab project; the canonical run is local. For a self-hosted server
+demo:
+
+  Backend:
+    mvn -DskipTests package
+    java -jar target/StudentService-*.jar    # listens on :8080
+    # serve behind nginx with /StudentsApp/ → 127.0.0.1:8080
+
+  Frontend (SSR):
+    cd angular-rest-client-student-crud
+    npm run build
+    node dist/angular-rest-client-student-crud/server/server.mjs
+    # listens on :4000, set PORT env var to override
+
+  Environment overrides:
+    SERVER_PORT                    backend port (default 8080)
+    app.upload.dir                 absolute upload path (default ./uploads)
+    app.public.base-url            URL used in media_files.url
+    spring.datasource.url          swap to Postgres here
+
+  CORS:
+    WebMvcConfig.addCorsMappings whitelists http://localhost:4200. Update for
+    your real frontend host.
+
+
+10. TROUBLESHOOTING
+--------------------------------------------------------------------------------
+
+Symptom                          Likely cause + fix
+-------------------------------- -----------------------------------------------
+401 on every /api/v1/...         JWT expired (24 h TTL) or backend restarted
+                                 (HS256 key regenerated). Log in again.
+404 /api/v1/<new endpoint>       Controller is in `api` package but
+                                 @RequestMapping had /api/v1 prefix — drop it,
+                                 WebMvcConfig adds it.
+Recently Published empty until   See §8.3.
+clicking logo
+Analytics endpoints all 0        DB is fresh and SeedRichDataInitializer didn't
+                                 run — check for "FIRST_USER already exists"
+                                 short-circuit. Drop modellingclubdb.* and
+                                 restart.
+Multipart upload 413/400         File > 20 MB, or unsupported MIME (only
+                                 jpeg/png/gif/pdf/stl/sla allowed), or too many
+                                 files per build (>50).
+Flight log POST 400/403          Build is not type=drone (403); altitude > 120 m
+                                 or drone id doesn't match `[A-Z]{2}-
+                                 [A-Z0-9]{6,12}` (400).
+Self-vote 400                    Owners cannot upvote/downvote their own build.
+JWT signature invalid            Token was issued by a previous JVM run. Log out
+                                 + log back in.
+Angular build fails with         Generated `Build` types from
+"property X does not exist"      target/generated-sources/openapi don't expose
+                                 X. Update openapi.yaml + regenerate, don't
+                                 hand-edit the generated model.
+
+
+11. PROJECT GLOSSARY (FOR NEW MAINTAINERS)
+--------------------------------------------------------------------------------
+
+  Build         A scale model, drone, plane, helicopter, boat, or car project
+                owned by one user. Has metadata, media, comments, votes, flight
+                logs (drone only), telemetry, collaborators.
+  Test run      A scheduled meet-up at a location, with attendance + weather +
+                rating. Used to drive geography / event analytics.
+  Marketplace   Listings of parts/kits for sale between members. Drives
+                marketplace analytics (price, brand, condition).
+  Reputation    Cached per-user scores for builder / helper / organiser /
+                reliability + skill_level enum.
+  Telemetry     Per-build performance row (speed, duration, range, altitude,
+                crashes, terrain, lap time).
+  Message       Direct member-to-member message; lives in /messages.
+  Vehicle type  Enum drone / fixed_wing / helicopter / boat / car /
+                scale_model / other. Drives every chip filter + category badge.
+
+
+================================================================================
+End of guide.
+================================================================================

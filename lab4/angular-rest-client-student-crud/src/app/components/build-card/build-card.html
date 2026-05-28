@@ -1,0 +1,27 @@
+<a [routerLink]="['/builds', build.id]" class="build-card">
+  <div class="build-card-cover">
+    @if (coverUrl) {
+      <img [src]="coverUrl" [alt]="build.title" loading="lazy" />
+    } @else {
+      <div class="build-card-cover-empty">
+        <span class="emoji">{{ emoji() }}</span>
+      </div>
+    }
+    <span class="badge badge-{{ build.status }} build-card-status">{{ build.status }}</span>
+  </div>
+  <div class="build-card-body">
+    <div class="build-card-title-row">
+      <h3 class="build-card-title">{{ build.title }}</h3>
+      <span class="badge badge-{{ build.type }}">{{ build.type }}</span>
+    </div>
+    @if (build.description) {
+      <p class="build-card-desc">{{ build.description }}</p>
+    }
+    <div class="build-card-meta">
+      @if (build.frame_size_mm) { <span>{{ build.frame_size_mm }} mm frame</span> }
+      @if (build.num_motors) { <span>{{ build.num_motors }} motors</span> }
+      @if (build.scale) { <span>scale {{ build.scale }}</span> }
+      @if (build.wingspan_mm) { <span>{{ build.wingspan_mm }} mm wing</span> }
+    </div>
+  </div>
+</a>

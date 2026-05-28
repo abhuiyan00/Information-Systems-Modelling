@@ -1,0 +1,5 @@
+{
+  "students": [
+    { "id": 1, "name": "John Doe", "birthday": "2007-03-21" }
+  ]
+}

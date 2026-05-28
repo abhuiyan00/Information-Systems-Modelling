@@ -1,0 +1,557 @@
+@prefix mc:    <http://modellingclub.local/ontology#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix inst:  <http://modellingclub.local/instances#> .
+
+# ═════════════════════════════════════════════
+#  USERS  (10)
+# ═════════════════════════════════════════════
+
+inst:user1
+    rdf:type        mc:Builder ;
+    mc:username     "dronemaster_piotr" ;
+    mc:email        "piotr@example.com" ;
+    mc:registeredAt "2022-03-10T08:00:00"^^xsd:dateTime .
+
+inst:user2
+    rdf:type        mc:Builder ;
+    mc:username     "rc_wizard_anna" ;
+    mc:email        "anna@example.com" ;
+    mc:registeredAt "2021-07-22T10:30:00"^^xsd:dateTime .
+
+inst:user3
+    rdf:type        mc:AdminUser ;
+    mc:username     "admin_marek" ;
+    mc:email        "admin@modellingclub.local" ;
+    mc:registeredAt "2020-01-01T00:00:00"^^xsd:dateTime .
+
+inst:user4
+    rdf:type        mc:Builder ;
+    mc:username     "fpv_freak_tomasz" ;
+    mc:email        "tomasz@example.com" ;
+    mc:registeredAt "2023-01-15T09:00:00"^^xsd:dateTime .
+
+inst:user5
+    rdf:type        mc:Builder ;
+    mc:username     "scale_builder_ewa" ;
+    mc:email        "ewa@example.com" ;
+    mc:registeredAt "2022-08-05T14:00:00"^^xsd:dateTime .
+
+inst:user6
+    rdf:type        mc:Collaborator ;
+    mc:username     "robo_hacker_jan" ;
+    mc:email        "jan@example.com" ;
+    mc:registeredAt "2023-06-20T11:00:00"^^xsd:dateTime .
+
+inst:user7
+    rdf:type        mc:Builder ;
+    mc:username     "glider_pro_katarzyna" ;
+    mc:email        "katarzyna@example.com" ;
+    mc:registeredAt "2021-11-30T16:00:00"^^xsd:dateTime .
+
+inst:user8
+    rdf:type        mc:Builder ;
+    mc:username     "boat_captain_michal" ;
+    mc:email        "michal@example.com" ;
+    mc:registeredAt "2022-05-18T12:00:00"^^xsd:dateTime .
+
+inst:user9
+    rdf:type        mc:User ;
+    mc:username     "newcomer_zofia" ;
+    mc:email        "zofia@example.com" ;
+    mc:registeredAt "2024-02-01T08:00:00"^^xsd:dateTime .
+
+inst:user10
+    rdf:type        mc:Builder ;
+    mc:username     "speed_demon_rafal" ;
+    mc:email        "rafal@example.com" ;
+    mc:registeredAt "2020-09-12T07:00:00"^^xsd:dateTime .
+
+# ═════════════════════════════════════════════
+#  COMMUNITIES  (3)
+# ═════════════════════════════════════════════
+
+inst:communityMain
+    rdf:type        mc:Community ;
+    rdfs:label      "ModellingClub Main" .
+
+inst:communityDrone
+    rdf:type        mc:Community ;
+    rdfs:label      "FPV & Drone Builders" ;
+    mc:isSubCommunityOf inst:communityMain .
+
+inst:communityRC
+    rdf:type        mc:Community ;
+    rdfs:label      "RC Car & Boat Racers" ;
+    mc:isSubCommunityOf inst:communityMain .
+
+inst:user1  mc:isMemberOf inst:communityDrone .
+inst:user4  mc:isMemberOf inst:communityDrone .
+inst:user2  mc:isMemberOf inst:communityRC .
+inst:user8  mc:isMemberOf inst:communityRC .
+inst:user5  mc:isMemberOf inst:communityMain .
+inst:user7  mc:isMemberOf inst:communityMain .
+
+# ═════════════════════════════════════════════
+#  BUILDS  (8)
+# ═════════════════════════════════════════════
+
+inst:build1
+    rdf:type            mc:DroneBuild ;
+    mc:buildTitle       "ImpulseRC Apex 5\" FPV Freestyle Drone" ;
+    mc:buildDescription "Full custom 5-inch freestyle build on ImpulseRC Apex frame. T-Motor F40 Pro IV 2306 motors, Hobbywing XRotor 45A ESC stack, Kakute H7 v2 FC. Tuned BetaFlight 4.4." ;
+    mc:createdBy        inst:user1 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "95"^^xsd:integer .
+
+inst:build2
+    rdf:type            mc:DroneBuild ;
+    mc:buildTitle       "DJI Avata 2 Long-Range Cinema Setup" ;
+    mc:buildDescription "DJI Avata 2 with ND filter kit and custom foam case. Extended battery mod for 23 min flight time. Used for real-estate aerial photography." ;
+    mc:createdBy        inst:user4 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "88"^^xsd:integer .
+
+inst:build3
+    rdf:type            mc:RCCarBuild ;
+    mc:buildTitle       "Traxxas XO-1 200km/h Build" ;
+    mc:buildDescription "Traxxas XO-1 fully upgraded: Velineon 3500 motor, LiPo 6S, aluminium chassis braces, RPM rear bumper. Verified 200 km/h on GPS." ;
+    mc:createdBy        inst:user2 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "97"^^xsd:integer .
+
+inst:build4
+    rdf:type            mc:RobotBuild ;
+    mc:buildTitle       "Autonomous Line-Following Robot v3" ;
+    mc:buildDescription "Raspberry Pi 5-based autonomous robot with PID line-following, ultrasonic obstacle avoidance, and OLED telemetry display." ;
+    mc:createdBy        inst:user6 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "82"^^xsd:integer .
+
+inst:build5
+    rdf:type            mc:AircraftBuild ;
+    mc:buildTitle       "Radian Pro 2m Glider Thermal Build" ;
+    mc:buildDescription "E-flite Radian Pro 2m ARF with upgraded Spektrum AR8020T receiver, SAFE Select technology. Perfect thermal soaring platform." ;
+    mc:createdBy        inst:user7 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "90"^^xsd:integer .
+
+inst:build6
+    rdf:type            mc:BoatBuild ;
+    mc:buildTitle       "Pro Boat Miss Geico 17\" Catamaran" ;
+    mc:buildDescription "Pro Boat Miss Geico with brushless Dynamite 3900Kv motor upgrade. Capable of 65 km/h on flat water. Custom paint scheme." ;
+    mc:createdBy        inst:user8 ;
+    mc:hasStatus        mc:SubmittedStatus ;
+    mc:hasScore         "0"^^xsd:integer .
+
+inst:build7
+    rdf:type            mc:DroneBuild ;
+    mc:buildTitle       "3\" Toothpick Micro Quad Long Range" ;
+    mc:buildDescription "3-inch ultralight toothpick build. ELRS 2.4GHz, 4-in-1 20x20 stack, GoPro Session 5 mounted. Sub-250g without battery." ;
+    mc:createdBy        inst:user1 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "78"^^xsd:integer .
+
+inst:build8
+    rdf:type            mc:RCCarBuild ;
+    mc:buildTitle       "Kyosho Inferno MP10e 1/8 Buggy" ;
+    mc:buildDescription "Kyosho Inferno MP10e electric buggy. Orion Vortex R10 ESC, Reedy 2050Kv motor, upgraded oil-filled shocks, full ball-bearing kit." ;
+    mc:createdBy        inst:user10 ;
+    mc:hasStatus        mc:ApprovedStatus ;
+    mc:hasScore         "85"^^xsd:integer .
+
+# ─── Flight logs for drone builds ─────────────
+
+inst:flightLog1
+    rdf:type            mc:FlightLog ;
+    mc:flightAltitude   "85.0"^^xsd:decimal ;
+    mc:pilotLicenseId   "PL-ABC123456" .
+
+inst:flightLog2
+    rdf:type            mc:FlightLog ;
+    mc:flightAltitude   "110.0"^^xsd:decimal ;
+    mc:pilotLicenseId   "PL-XYZ789012" .
+
+inst:flightLog3
+    rdf:type            mc:FlightLog ;
+    mc:flightAltitude   "45.0"^^xsd:decimal ;
+    mc:pilotLicenseId   "PL-ABC123456" .
+
+inst:build1  mc:hasFlightLog  inst:flightLog1 .
+inst:build2  mc:hasFlightLog  inst:flightLog2 .
+inst:build7  mc:hasFlightLog  inst:flightLog3 .
+
+# ─── Telemetry ────────────────────────────────
+
+inst:telemetry1
+    rdf:type        mc:TelemetryRecord ;
+    mc:topSpeed     "127.5"^^xsd:decimal ;
+    mc:maxRange     "1800.0"^^xsd:decimal ;
+    mc:crashCount   "2"^^xsd:integer .
+
+inst:telemetry2
+    rdf:type        mc:TelemetryRecord ;
+    mc:topSpeed     "198.7"^^xsd:decimal ;
+    mc:maxRange     "500.0"^^xsd:decimal ;
+    mc:crashCount   "0"^^xsd:integer .
+
+inst:telemetry3
+    rdf:type        mc:TelemetryRecord ;
+    mc:topSpeed     "85.0"^^xsd:decimal ;
+    mc:maxRange     "3200.0"^^xsd:decimal ;
+    mc:crashCount   "1"^^xsd:integer .
+
+inst:build1  mc:hasTelemetry  inst:telemetry1 .
+inst:build3  mc:hasTelemetry  inst:telemetry2 .
+inst:build7  mc:hasTelemetry  inst:telemetry3 .
+
+# ─── Comments ─────────────────────────────────
+
+inst:comment1
+    rdf:type        mc:Comment ;
+    mc:commentText  "Incredible build! The Apex frame is so rigid." ;
+    mc:postedBy     inst:user4 .
+
+inst:comment2
+    rdf:type        mc:Comment ;
+    mc:commentText  "What props are you running on the 5-inch?" ;
+    mc:postedBy     inst:user9 .
+
+inst:comment3
+    rdf:type        mc:Comment ;
+    mc:commentText  "200 km/h verified! Insane XO-1 build." ;
+    mc:postedBy     inst:user10 .
+
+inst:build1  mc:hasComment  inst:comment1 .
+inst:build1  mc:hasComment  inst:comment2 .
+inst:build3  mc:hasComment  inst:comment3 .
+
+# ─── Votes ────────────────────────────────────
+
+inst:vote1  rdf:type mc:UpVote ;   mc:castedBy inst:user4 .
+inst:vote2  rdf:type mc:UpVote ;   mc:castedBy inst:user9 .
+inst:vote3  rdf:type mc:DownVote ; mc:castedBy inst:user6 .
+inst:vote4  rdf:type mc:UpVote ;   mc:castedBy inst:user2 .
+
+inst:build1  mc:hasVote  inst:vote1 .
+inst:build1  mc:hasVote  inst:vote2 .
+inst:build3  mc:hasVote  inst:vote4 .
+inst:build6  mc:hasVote  inst:vote3 .
+
+# ─── Reputation ───────────────────────────────
+
+inst:rep1
+    rdf:type            mc:ReputationRecord ;
+    mc:builderScore     "95"^^xsd:integer ;
+    mc:helperScore      "40"^^xsd:integer ;
+    mc:organiserScore   "10"^^xsd:integer ;
+    mc:reliabilityScore "88"^^xsd:integer .
+
+inst:rep2
+    rdf:type            mc:ReputationRecord ;
+    mc:builderScore     "72"^^xsd:integer ;
+    mc:helperScore      "65"^^xsd:integer ;
+    mc:organiserScore   "50"^^xsd:integer ;
+    mc:reliabilityScore "90"^^xsd:integer .
+
+inst:user1   mc:hasReputation  inst:rep1 .
+inst:user2   mc:hasReputation  inst:rep2 .
+
+# ─── Test run ─────────────────────────────────
+
+inst:testRun1
+    rdf:type                mc:TestRun ;
+    mc:testRunLocation      "Wrocław, Błonia Odrzańskie, 51.1079° N 17.0385° E" ;
+    mc:testRunDate          "2024-05-10T10:00:00"^^xsd:dateTime ;
+    mc:organisedBy          inst:user3 ;
+    mc:attendedBy           inst:user1 ;
+    mc:attendedBy           inst:user4 ;
+    mc:attendedBy           inst:user2 .
+
+# ═════════════════════════════════════════════
+#  MARKETPLACE LISTINGS — 30 "DREAM OFFERS"
+# ═════════════════════════════════════════════
+
+# ── Drone / FPV parts ─────────────────────────
+
+inst:listing1
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "T-Motor F40 Pro IV 2306 2450KV Motor (set of 4)" ;
+    mc:askingPrice  "89.99"^^xsd:decimal ;
+    mc:partCategory mc:MotorPart ;
+    mc:listedBy     inst:user1 ;
+    rdfs:comment    "Barely used, 3 flights. Best freestyle motor available. Includes original packaging and spare screws." .
+
+inst:listing2
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Hobbywing XRotor 45A 4-in-1 ESC Stack" ;
+    mc:askingPrice  "64.50"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user1 ;
+    rdfs:comment    "Pulled from a crashed quad — ESC itself undamaged. Full BLHeli_32 firmware. Great deal." .
+
+inst:listing3
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Kakute H7 V2 Flight Controller" ;
+    mc:askingPrice  "49.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user4 ;
+    rdfs:comment    "BetaFlight 4.4 ready. All UARTs working, gyro perfect. Selling because upgrading to H7 Slim." .
+
+inst:listing4
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "ImpulseRC Apex 5\" HD Frame Kit" ;
+    mc:askingPrice  "72.00"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user1 ;
+    rdfs:comment    "3K carbon fibre, 5mm arms. DJI O3 compatible. Used one season, no cracks." .
+
+inst:listing5
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "DJI O3 Air Unit (with antennas + cables)" ;
+    mc:askingPrice  "145.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user4 ;
+    rdfs:comment    "Original DJI O3 full combo. 60fps 1080p low-latency video. Upgraded to O3 Pro." .
+
+inst:listing6
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "ExpressLRS 2.4GHz Nano Receiver (5 pcs)" ;
+    mc:askingPrice  "28.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user7 ;
+    rdfs:comment    "ELRS 3.3 firmware. Tiny nano size, perfect for toothpick and 3-inch builds. New in bag." .
+
+inst:listing7
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Foxeer Razer Micro FPV Camera 1200TVL" ;
+    mc:askingPrice  "22.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user4 ;
+    rdfs:comment    "Super WDR, 1.8mm lens, starlight night vision mode. Used 5 flights, mint condition." .
+
+inst:listing8
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Tattu R-Line 6S 1300mAh 130C LiPo (pair)" ;
+    mc:askingPrice  "55.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user1 ;
+    rdfs:comment    "Premium racing LiPo. 60 cycles each, both cells balanced, capacity tested above 1250mAh." .
+
+inst:listing9
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "HQProp 5.1×4.6×3 Bi-Blade Props (10 pairs)" ;
+    mc:askingPrice  "18.00"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user10 ;
+    rdfs:comment    "Best efficiency props for 5-inch freestyle. Mixed new and very lightly used." .
+
+inst:listing10
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "RadioMaster TX16S Mark II ELRS Radio" ;
+    mc:askingPrice  "175.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user10 ;
+    rdfs:comment    "Full-size hall sensor gimbals, EdgeTX 2.9, internal ELRS. Practically new, 2 months old." .
+
+# ── RC Car parts ──────────────────────────────
+
+inst:listing11
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Traxxas Velineon 3500 BL Motor + VXL-6s ESC Combo" ;
+    mc:askingPrice  "130.00"^^xsd:decimal ;
+    mc:partCategory mc:MotorPart ;
+    mc:listedBy     inst:user2 ;
+    rdfs:comment    "Original Traxxas combo from XO-1. Runs perfectly on 6S. Selling for Hobbywing upgrade." .
+
+inst:listing12
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Orion Vortex R10 1/8 ESC 200A" ;
+    mc:askingPrice  "95.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user10 ;
+    rdfs:comment    "Latest firmware, data logging capable. Used one race season. Perfect for Kyosho Inferno." .
+
+inst:listing13
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Reedy Sonic 540-M3 Brushless Motor 13.5T" ;
+    mc:askingPrice  "42.00"^^xsd:decimal ;
+    mc:partCategory mc:MotorPart ;
+    mc:listedBy     inst:user2 ;
+    rdfs:comment    "Competition-grade 540 motor. 13.5T spec for carpet/asphalt track. 3 races, rebearinged." .
+
+inst:listing14
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "RPM Rear Bumper & Skid Plate Set Traxxas Slash 4×4" ;
+    mc:askingPrice  "19.99"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user2 ;
+    rdfs:comment    "Unbreakable RPM plastic. Saved my Slash many times. Selling after retiring the car." .
+
+inst:listing15
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Spektrum DX5 Pro DSMR 5-Ch Transmitter + Receiver" ;
+    mc:askingPrice  "88.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user5 ;
+    rdfs:comment    "Telemetry-capable radio, pinpoint steering wheel design. Great for surface runners." .
+
+inst:listing16
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Castle Creations Mamba Monster X 8S ESC" ;
+    mc:askingPrice  "120.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user10 ;
+    rdfs:comment    "Handles 8S LiPo. Link data logging, Castle Link USB programmer included. Mint." .
+
+inst:listing17
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Pro-Line Trencher SC 2.2/3.0 Short Course Tires (pair)" ;
+    mc:askingPrice  "24.00"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user2 ;
+    rdfs:comment    "Molded foam inserts included. Pinned for loose dirt. One season use, lots of tread left." .
+
+# ── Robot / electronics ───────────────────────
+
+inst:listing18
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Raspberry Pi 5 (8GB) + Official Active Cooler" ;
+    mc:askingPrice  "95.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user6 ;
+    rdfs:comment    "Latest Rpi 5 board, never overclocked. Active cooler keeps temps below 50°C under load." .
+
+inst:listing19
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Pololu Romi 32U4 Robot Chassis Kit (complete)" ;
+    mc:askingPrice  "55.00"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user6 ;
+    rdfs:comment    "Full chassis + encoders + 32U4 control board. Assembled and tested, then project cancelled." .
+
+inst:listing20
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "RPLIDAR A1M8 360° Laser Scanner" ;
+    mc:askingPrice  "78.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user6 ;
+    rdfs:comment    "12m range, 8000 samples/s. USB interface. Perfect for ROS SLAM robotics projects." .
+
+inst:listing21
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Dynamixel AX-12A Servo (set of 6)" ;
+    mc:askingPrice  "110.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user6 ;
+    rdfs:comment    "Smart servos with position/temp/load feedback. Used in hexapod project, all functional." .
+
+# ── Aircraft / glider parts ───────────────────
+
+inst:listing22
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "E-flite Power 15 950Kv BL Motor + 40A ESC" ;
+    mc:askingPrice  "48.00"^^xsd:decimal ;
+    mc:partCategory mc:MotorPart ;
+    mc:listedBy     inst:user7 ;
+    rdfs:comment    "Matched combo for 1.2–1.5m aircraft. Pulled from retired Apprentice. Low flight hours." .
+
+inst:listing23
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Spektrum AR8020T 8-Ch DSMX Receiver with Telemetry" ;
+    mc:askingPrice  "39.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user7 ;
+    rdfs:comment    "SAFE Select compatible. AS3X gyro stabilisation. Used in Radian, works perfectly." .
+
+inst:listing24
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Hitec HS-5085MG Digital Micro Servo (4 pcs)" ;
+    mc:askingPrice  "52.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user7 ;
+    rdfs:comment    "Metal gear, 3.0 kg·cm at 6V. Ideal for aileron/elevator on 1.5–2m gliders." .
+
+inst:listing25
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Robbe Funtana 125 ARF Wing Set (replacement)" ;
+    mc:askingPrice  "35.00"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user7 ;
+    rdfs:comment    "Balsa + fibreglass wing set. Minor hangar rash, structurally perfect. Rare to find." .
+
+# ── Boat parts ────────────────────────────────
+
+inst:listing26
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Dynamite Marine 3900Kv Brushless Motor (Boat)" ;
+    mc:askingPrice  "55.00"^^xsd:decimal ;
+    mc:partCategory mc:MotorPart ;
+    mc:listedBy     inst:user8 ;
+    rdfs:comment    "Waterproofed, corrosion-resistant. Fits Pro Boat hulls directly. One season use." .
+
+inst:listing27
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Hobbywing Seaking 180A V3 Boat ESC" ;
+    mc:askingPrice  "85.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user8 ;
+    rdfs:comment    "180A continuous, water-cooled, BEC 6V/5A. Perfect for catamaran up to 65 km/h." .
+
+inst:listing28
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "AquaCraft ARTR Deep Vee Carbon Fibre Hull 600mm" ;
+    mc:askingPrice  "140.00"^^xsd:decimal ;
+    mc:partCategory mc:FramePart ;
+    mc:listedBy     inst:user8 ;
+    rdfs:comment    "Pre-painted red/white deep vee hull. Accepts standard 3650 motor. Ready to fit electronics." .
+
+# ── Complete builds for sale ───────────────────
+
+inst:listing29
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Complete 5\" FPV Freestyle Quad — Bind-and-Fly" ;
+    mc:askingPrice  "320.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user4 ;
+    rdfs:comment    "Full ready-to-fly 5-inch quad. Apex HD + O3 + T-Motor F40 IV + Kakute H7. Just add ELRS receiver." .
+
+inst:listing30
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Traxxas Rustler 4×4 VXL Ready-to-Run Stadium Truck" ;
+    mc:askingPrice  "210.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user2 ;
+    rdfs:comment    "Complete 4WD 1/10 stadium truck. VXL-3s brushless, Traxxas 2.4GHz radio, never raced." .
+
+inst:listing31
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "Kyosho Inferno MP10e Electric Buggy — Complete" ;
+    mc:askingPrice  "480.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user10 ;
+    rdfs:comment    "Fully upgraded: Orion R10 + Reedy 2050Kv + upgraded shocks. Race-ready, immaculate." .
+
+inst:listing32
+    rdf:type        mc:MarketplaceListing ;
+    mc:partName     "2m Radian Pro Glider — Complete Setup with Radio" ;
+    mc:askingPrice  "280.00"^^xsd:decimal ;
+    mc:partCategory mc:ElectronicsPart ;
+    mc:listedBy     inst:user7 ;
+    rdfs:comment    "E-flite Radian Pro 2m + Spektrum DX6e + AR8020T + 3S 2200mAh. Ready for thermals." .
+
+# ─── Direct relationships: listing ↔ build ────
+
+inst:listing29  rdfs:seeAlso  inst:build1 .
+inst:listing31  rdfs:seeAlso  inst:build8 .
+inst:listing32  rdfs:seeAlso  inst:build5 .
+
+# ─── knows (symmetric social graph) ─────────
+
+inst:user1  mc:knows  inst:user4 .
+inst:user1  mc:knows  inst:user9 .
+inst:user2  mc:knows  inst:user10 .
+inst:user4  mc:knows  inst:user6 .
+inst:user7  mc:knows  inst:user8 .

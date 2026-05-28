@@ -1,0 +1,37 @@
+<h2>Students</h2>
+
+@if ((students$ | async)?.length === 0) {
+  <p>No students found</p>
+}
+
+<div class="container wrapper">
+  <div class="inner">
+    <h3>Students data</h3>
+
+    <table class="styled-table table-bordered">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Birthday</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+
+      <tbody>
+        @for (student of (students$ | async); track student.id) {
+          <tr>
+            <td>{{ student.id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.birthDay }}</td>
+            <td>
+              <a [routerLink]="['/edit', student.id]">Edit</a>
+              <button (click)="delete(student.id!)">🗑 Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+  </div>
+</div>

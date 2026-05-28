@@ -1,0 +1,43 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1>Users</h1>
+    <span class="badge" style="background:rgba(59,130,246,0.15); color:#3b82f6">{{ total }} total</span>
+  </div>
+
+  @if (forbidden) {
+    <div class="alert alert-error">You must be an administrator to view this page.</div>
+  } @else {
+    <div class="glass-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users; track u.id) {
+            <tr>
+              <td><strong>{{ u.username }}</strong></td>
+              <td style="color:var(--text-muted)">{{ u.email }}</td>
+              <td>
+                <span class="badge"
+                      [style.background]="u.role === 'admin' ? 'rgba(139,92,246,0.15)' : 'rgba(148,163,184,0.15)'"
+                      [style.color]="u.role === 'admin' ? '#8b5cf6' : '#94a3b8'">
+                  {{ u.role }}
+                </span>
+              </td>
+              <td style="color:var(--text-muted); font-size:0.85rem">{{ u.created_at | date:'mediumDate' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" style="text-align:center; padding:3rem; color:var(--text-muted)">No users.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

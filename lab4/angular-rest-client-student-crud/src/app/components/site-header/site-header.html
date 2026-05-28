@@ -1,0 +1,33 @@
+<header class="site-header">
+  <nav>
+    <a routerLink="/" class="nav-brand"
+       style="color: var(--primary); font-weight: 700; font-size: 1.1rem; text-decoration: none; margin-right: auto; padding:0.4rem 0.8rem">
+      &#9992; ModellingClub
+    </a>
+
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/explore" routerLinkActive="active">Explore</a>
+    <a routerLink="/test-runs" routerLinkActive="active">Test runs</a>
+    <a routerLink="/marketplace" routerLinkActive="active">Marketplace</a>
+
+    @if (isLoggedIn()) {
+      <a routerLink="/my-builds" routerLinkActive="active">My builds</a>
+      <a routerLink="/messages" routerLinkActive="active">Inbox</a>
+      <a routerLink="/builds/create" routerLinkActive="active">+ New</a>
+    }
+    <a routerLink="/statistics" routerLinkActive="active">Analytics</a>
+
+    @if (isAdmin()) {
+      <a routerLink="/admin/queue" routerLinkActive="active">Queue</a>
+      <a routerLink="/admin/users" routerLinkActive="active">Users</a>
+    }
+
+    @if (isLoggedIn()) {
+      <a routerLink="/account" routerLinkActive="active">{{ currentUser()?.username }}</a>
+      <button (click)="logout()" class="btn btn-ghost" style="padding:0.35rem 0.8rem; font-size:0.8rem">Logout</button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="active">Login</a>
+      <a routerLink="/register" routerLinkActive="active">Register</a>
+    }
+  </nav>
+</header>
