@@ -1,5 +1,5 @@
-================================================================================
-  MODELLINGCLUB — OPS & MAINTENANCE GUIDE
+﻿================================================================================
+  MODELLINGCLUB â€” OPS & MAINTENANCE GUIDE
   PWR / ISM Lab 4   |   Updated 2026-05-13
 ================================================================================
 
@@ -13,13 +13,13 @@ first install, jump by section thereafter.
 
 Required on the host machine:
 
-  - JDK 21 (Temurin or any OpenJDK 21 build) — `java -version` must report 21.
-  - Maven 3.9+   — `mvn -version`.
+  - JDK 21 (Temurin or any OpenJDK 21 build) â€” `java -version` must report 21.
+  - Maven 3.9+   â€” `mvn -version`.
   - Node.js 20.x LTS (Node 25 also runs, but Angular warns about odd-major LTS).
   - npm 10+ (bundled with Node).
   - PowerShell 5+ on Windows, or bash/zsh on macOS/Linux.
 
-No external database is required — H2 is bundled, file-mode, lives next to the
+No external database is required â€” H2 is bundled, file-mode, lives next to the
 backend pom.
 
 
@@ -73,7 +73,7 @@ After the first reseed run, all seeded credentials are:
   member      michal@modellingclub.local       Password1    michal_car
   member      zofia@modellingclub.local        Password1    zofia_aero
 
-  (system_user UUID …001 also exists — login disabled, placeholder owner
+  (system_user UUID â€¦001 also exists â€” login disabled, placeholder owner
   for orphaned data.)
 
 
@@ -82,11 +82,11 @@ After the first reseed run, all seeded credentials are:
 
 Two terminals, backend first:
 
-  # terminal 1 — backend
+  # terminal 1 â€” backend
   cd "D:\PWR II\ISM\test_area\lab4\StudentService"
   mvn spring-boot:run
 
-  # terminal 2 — frontend
+  # terminal 2 â€” frontend
   cd "D:\PWR II\ISM\test_area\lab4\angular-rest-client-student-crud"
   npm start
 
@@ -107,12 +107,12 @@ Two terminals, backend first:
                                search
 
 5.2  Member flow (use demo@modellingclub.local / DemoUser1)
-     - /login → succeed → /
-     - /builds/create → fill drone form → save → automatic /builds list
+     - /login â†’ succeed â†’ /
+     - /builds/create â†’ fill drone form â†’ save â†’ automatic /builds list
      - /builds/{id}          upload images (multipart, max 20 MB each)
                              post comments
                              cast a vote (cannot self-vote on own build)
-                             add a drone-only flight log (altitude ≤ 120 m, drone
+                             add a drone-only flight log (altitude â‰¤ 120 m, drone
                                id matches `[A-Z]{2}-[A-Z0-9]{6,12}`)
                              invite collaborator by email
      - /my-builds            filter by status, edit / delete / submit
@@ -122,13 +122,13 @@ Two terminals, backend first:
      - /marketplace          chip filter (All / Active / Sold). Create listing.
                                Mark sold / delete (only own).
      - /messages             send DM, inbox shows both sides of the thread
-     - /account              JSON export → ZIP download (profile + builds +
+     - /account              JSON export â†’ ZIP download (profile + builds +
                                comments). Account delete is gated by typing the
                                exact username.
 
 5.3  Admin flow (admin@modellingclub.local / admin123)
      - /admin/queue          pending_review builds, Approve / Reject (Reject
-                               prompts for reason — 400 if blank).
+                               prompts for reason â€” 400 if blank).
      - /admin/users          paged user table.
 
 5.4  Analytics
@@ -160,7 +160,7 @@ Two terminals, backend first:
                             skill mix
   /analytics/ai             suggested collaborators (per current user's top
                             build type), suggested locations, trending
-                            categories (30 d), maintenance alerts (≥3 crashes
+                            categories (30 d), maintenance alerts (â‰¥3 crashes
                             cumulative), event outlook
 
 
@@ -191,7 +191,7 @@ Two terminals, backend first:
      - The dev profile uses `spring.jpa.hibernate.ddl-auto=update`. New
        @Entity classes appear on next boot; column additions are non-
        destructive.
-     - Column type changes are NOT migrated — drop the .mv.db file (see §3) or
+     - Column type changes are NOT migrated â€” drop the .mv.db file (see Â§3) or
        run hand-written SQL via the H2 console.
      - For a future Postgres swap, switch the JDBC URL + driver, add
        Flyway/Liquibase, and pin ddl-auto=validate.
@@ -211,7 +211,7 @@ Two terminals, backend first:
      2. Use standalone component, inject services with `inject()`.
      3. Always guard data fetches with `isPlatformBrowser(this.platformId)` if
         the page is server-rendered.
-     4. Register the route in app.routes.ts (order matters — `:id` routes go
+     4. Register the route in app.routes.ts (order matters â€” `:id` routes go
         AFTER any static sibling).
      5. Add a render-mode entry in app.routes.server.ts.
      6. Add a nav link in components/site-header/site-header.html.
@@ -219,9 +219,9 @@ Two terminals, backend first:
 
 8.2  Updating colours / category palette
      Edit only `:root` in src/styles.scss. All badges, chip filters, and table
-     accents read from the `--c-{type}-{bg,fg}` tokens — no per-page palette.
+     accents read from the `--c-{type}-{bg,fg}` tokens â€” no per-page palette.
 
-8.3  SSR data bug — Recently Published only shows after clicking the logo
+8.3  SSR data bug â€” Recently Published only shows after clicking the logo
      If this re-appears: check app.config.ts retains `withNoHttpTransferCache()`
      in `provideClientHydration`, and that the affected route is `RenderMode.
      Server` (not Prerender) in app.routes.server.ts, and that the component's
@@ -232,7 +232,7 @@ Two terminals, backend first:
      npx ng test --watch=false
 
 
-9. DEPLOYMENT NOTES (lab → server)
+9. DEPLOYMENT NOTES (lab â†’ server)
 --------------------------------------------------------------------------------
 
 This is a lab project; the canonical run is local. For a self-hosted server
@@ -241,7 +241,7 @@ demo:
   Backend:
     mvn -DskipTests package
     java -jar target/StudentService-*.jar    # listens on :8080
-    # serve behind nginx with /StudentsApp/ → 127.0.0.1:8080
+    # serve behind nginx with /StudentsApp/ â†’ 127.0.0.1:8080
 
   Frontend (SSR):
     cd angular-rest-client-student-crud
@@ -268,12 +268,12 @@ Symptom                          Likely cause + fix
 401 on every /api/v1/...         JWT expired (24 h TTL) or backend restarted
                                  (HS256 key regenerated). Log in again.
 404 /api/v1/<new endpoint>       Controller is in `api` package but
-                                 @RequestMapping had /api/v1 prefix — drop it,
+                                 @RequestMapping had /api/v1 prefix â€” drop it,
                                  WebMvcConfig adds it.
-Recently Published empty until   See §8.3.
+Recently Published empty until   See Â§8.3.
 clicking logo
 Analytics endpoints all 0        DB is fresh and SeedRichDataInitializer didn't
-                                 run — check for "FIRST_USER already exists"
+                                 run â€” check for "FIRST_USER already exists"
                                  short-circuit. Drop modellingclubdb.* and
                                  restart.
 Multipart upload 413/400         File > 20 MB, or unsupported MIME (only
@@ -310,6 +310,311 @@ Angular build fails with         Generated `Build` types from
                 scale_model / other. Drives every chip filter + category badge.
 
 
+12. SHORT REPORT NOTES
+--------------------------------------------------------------------------------
+
+For the accompanying PDF (screenshots + short text). Brief, factual.
+
+What was built:
+  Full-stack ModellingClub â€” Spring Boot 3.5 backend (OpenAPI-first, JWT,
+  Spring AOP, JPA + H2 file DB) and Angular 21 SSR frontend. 13 entities,
+  9 analytics endpoints, role-separated UI (member/admin), seeded with
+  10 demo users, 30+ builds across 6 vehicle types, 24 test runs,
+  20 marketplace listings, 30 messages, telemetry + reputation rows.
+
+Build & run (PDF caption text):
+  1. Backend: cd StudentService ; mvn spring-boot:run  (port 8080)
+  2. Frontend: cd angular-rest-client-student-crud ; npm ci ; npm start
+     (port 4200)
+  3. Open http://localhost:4200 . Login demo@modellingclub.local /
+     DemoUser1 , or admin@modellingclub.local / admin123 .
+  Fresh seed: stop backend, delete modellingclubdb.* + uploads/, restart.
+
+Querying statistics (what each PDF screenshot shows):
+  - /statistics page â€” 6 hero KPI tiles + 8 analytics cards + legacy AOP
+    table. All driven by GET /api/v1/analytics/{dashboard, community,
+    test-runs, builds, telemetry, geography, marketplace, social, ai}.
+  - Dashboard tile screenshot: active pilots, scheduled runs, top
+    category, avg attendance %, fastest car km/h, longest flight s.
+  - Community card: DAU/MAU, retention, peak hours, top hobby.
+  - Test-runs card: attendance %, weather impact, popular locations.
+  - Telemetry / Geography / Marketplace / Social / AI cards likewise.
+  - AOP table: per-controller-method call counts via StatisticsAspect.
+
+Verification checklist (one line each, good for PDF bullet list):
+  mvn test â†’ 2 pass . npm test â†’ 4 pass . ng build â†’ 5 prerendered .
+  /api/v1/health â†’ 200 UP . /statistics page populated . Recently
+  Published visible on first load (SSR hydration fix).
+
+
+13. PRODUCTION READINESS
+--------------------------------------------------------------------------------
+
+13.1  Environment variables required in production
+
+  Variable              Description
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  JWT_SECRET            Base64-encoded 256-bit HMAC key. Generate:
+                          openssl rand -base64 32
+                        Must be stable across restarts â€” all tokens invalidate
+                        when it changes. Rotate with a planned re-login window.
+  CORS_ORIGINS          Comma-separated list of allowed frontend origins, e.g.
+                          https://modellingclub.example.com
+  APP_PUBLIC_BASE_URL   Public URL of the backend for media file links, e.g.
+                          https://api.modellingclub.example.com/StudentsApp
+  APP_UPLOAD_DIR        Absolute path for uploaded media files (default
+                          /var/data/modellingclub/uploads)
+  DB_URL / DB_USER /    Required when migrating from H2 to PostgreSQL (see Â§13.4)
+  DB_PASSWORD
+
+13.2  Activating the production profile
+
+  Backend â€” pass spring.profiles.active=prod (application-prod.properties
+  overrides the dev defaults):
+
+    java -jar StudentService-*.jar --spring.profiles.active=prod
+
+  Or set env var:
+
+    $env:SPRING_PROFILES_ACTIVE="prod"
+    java -jar StudentService-*.jar
+
+  What the prod profile enforces vs dev defaults:
+    - spring.h2.console.enabled=false   (H2 console is an RCE vector if exposed)
+    - spring.jpa.hibernate.ddl-auto=validate  (no silent schema mutations)
+    - spring.jpa.show-sql=false
+    - server.shutdown=graceful + 30s drain
+    - Actuator bound to 127.0.0.1:8081, only health+info exposed
+    - Logging: root=WARN, app=INFO (no SQL/hibernate verbose)
+    - Multipart limits: 10 MB/file, 30 MB/request
+
+13.3  Security fixes applied (production-hardening pass)
+
+  Fix                         What changed
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  JWT configurable secret     JwtService now reads jwt.secret from config.
+                              Random key only in dev (warns on startup).
+  BOLA on media upload/delete MediaController now checks build ownership before
+                              allowing upload (POST) or delete (DELETE). Any
+                              authenticated user previously could modify any
+                              build's media.
+  UUID parse â†’ 500 fixed      TestRunController, MarketplaceController,
+                              MessageController: UUID.fromString() wrapped in
+                              try-catch â€” returns 400 instead of 500.
+  Number parse â†’ 500 fixed    TestRunController.toDouble/toInt: NumberFormat-
+                              Exception no longer propagates as a 500.
+  Global exception handler    GlobalExceptionHandler.java (@RestControllerAdvice)
+                              returns RFC 9457 ProblemDetail for all unhandled
+                              exceptions. No stack traces in responses.
+  Error response sanitized    server.error.include-stacktrace/message=never in
+                              application.properties (baseline, not just prod).
+  CORS headers tightened      allowedHeaders restricted to "Content-Type,
+                              Authorization". Origin externalized to
+                              cors.allowed-origins property.
+  AuthInterceptor logging     Swallowed JWT exceptions now logged at DEBUG
+                              (not silently ignored).
+  Audit email hashing         SecurityAuditAspect logs MD5(email) instead of
+                              plaintext email â€” prevents PII in log aggregators.
+  open-in-view disabled       spring.jpa.open-in-view=false prevents DB
+                              connections being held open during response rendering.
+
+13.4  H2 â†’ PostgreSQL migration checklist
+
+  1. Add postgresql driver, move H2 to test scope:
+       pom.xml: add org.postgresql:postgresql runtime
+                change H2 scope to test
+
+  2. Add Flyway:
+       pom.xml: add spring-boot-starter-flyway
+       src/main/resources/db/migration/V1__baseline.sql â€” generate from H2:
+         SCRIPT TO 'baseline.sql' (from H2 console)
+         Then review and adapt PostgreSQL-specific syntax.
+
+  3. In application-prod.properties uncomment the PostgreSQL datasource block
+     and set DB_URL, DB_USER, DB_PASSWORD env vars.
+
+  4. Change spring.jpa.hibernate.ddl-auto=validate (already set in prod profile).
+
+  5. Review all raw JDBC in AnalyticsService.java:
+     - H2 uses EXTRACT(HOUR ...) same as PostgreSQL â€” OK
+     - LIMIT syntax â€” identical â€” OK
+     - UUID columns: Hibernate uses varchar in H2, uuid type in PG by default â€”
+       verify your UUID generation strategy (@GeneratedValue)
+     - Timezone handling: TIMESTAMPTZ in PG vs H2's TIMESTAMP â€” test OffsetDateTime columns
+
+  6. For integration tests, replace H2 with Testcontainers:
+       pom.xml test scope: org.testcontainers:postgresql
+       Add @Testcontainers + @Container static PostgreSQLContainer<?>
+       Set spring.datasource.url via @DynamicPropertySource
+
+13.5  Remaining production TODOs (not yet implemented)
+
+  Priority    Item
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  HIGH        Rate limiting on /auth/login and /auth/register (Bucket4j +
+              bucket4j-spring-boot-starter). Prevents brute-force / stuffing.
+  HIGH        Refresh token mechanism. Current 24h access tokens are
+              unrevocable. Add refresh_tokens table + POST /auth/refresh +
+              POST /auth/logout endpoints with HTTP-only Secure cookie.
+  HIGH        Builds list pagination. buildsGet() loads ALL builds into memory;
+              add Pageable to BuildService.findAll() (Spring Data).
+  HIGH        TestRunController / MarketplaceController list endpoints do
+              full table scan + Java-side filter. Add @Query with WHERE clause.
+  MEDIUM      Security response headers (CSP, HSTS, X-Frame-Options). Add via
+              a Filter or Spring Security (if added later).
+  MEDIUM      Structured JSON logging (logstash-logback-encoder) for log
+              aggregation (ELK/Loki).
+  MEDIUM      Self-vote check is in service layer but not covered by a test.
+              Add integration test covering vote â†’ 400 on own build.
+  LOW         Admin password admin123 must be rotated on first production login.
+              Add a forced-change-on-first-login flag to UserEntity.
+
+
+14. ASPECT-ORIENTED PROGRAMMING (AOP)
+--------------------------------------------------------------------------------
+
+14.1  What AOP is and why
+
+  AOP separates cross-cutting concerns (logging, auditing, performance
+  monitoring) from business logic without modifying existing classes.
+  A concern is "cross-cutting" when it spans many unrelated classes â€”
+  logging every service call is the canonical example.
+
+  Spring AOP uses runtime CGLIB proxies (no bytecode weaving required).
+  Full AspectJ adds compile-time / load-time weaving and supports method
+  calls, field access, and constructors â€” Spring AOP only intercepts
+  method calls on Spring-managed beans.
+
+  Key AOP vocabulary:
+    Join point    A point in execution where advice can be inserted.
+                  In Spring AOP, always a method execution.
+    Pointcut      A predicate that matches one or more join points
+                  (expressed with AspectJ pointcut expressions).
+    Advice        Code that runs at a matched join point.
+    Aspect        A class annotated @Aspect that groups pointcuts + advice.
+    Weaving       Linking aspects into application classes.
+                  Spring: runtime proxy weaving.  AspectJ: compile-time.
+
+14.2  Advice types
+
+  @Before           Runs before the method.  Cannot prevent execution
+                    (throw an exception to abort).
+  @AfterReturning   Runs after normal return.  Can inspect the return value
+                    via the `returning` attribute.
+  @AfterThrowing    Runs when the method throws.  Can inspect the exception
+                    via `throwing`; does NOT suppress it.
+  @After            Runs after either normal return OR exception ("finally").
+  @Around           Wraps the method.  Must call pjp.proceed() to invoke it.
+                    Most powerful â€” can modify args, return value, or skip
+                    the call entirely.
+
+14.3  What we implemented
+
+  Package:  pl.edu.pwr.tkubik.ism.aspect/
+  Files:
+    annotation/Timed.java         Custom marker annotation (no attributes).
+    LoggingAspect.java            @Before + @AfterReturning + @AfterThrowing.
+    PerformanceAspect.java        @Around driven by @Timed annotation.
+    SecurityAuditAspect.java      @AfterReturning + @After for auth/admin.
+
+  Pre-existing aspect (kept in statistics/):
+    StatisticsAspect.java         @AfterReturning on all api.* controllers â€”
+                                  counts calls, tallies build types.
+
+14.4  LoggingAspect  (LoggingAspect.java)
+
+  Pointcut:  execution(public * pl.edu.pwr.tkubik.ism.service.*Impl.*(..))
+  Matches all public methods of every *Impl service class (BuildServiceImpl,
+  UserServiceImpl, etc.).  AnalyticsService has no Impl suffix â€” excluded.
+
+  @Before         â†’ DEBUG "[AOP] â†’ ClassName.method() args=N"
+  @AfterReturning â†’ DEBUG "[AOP] â† ClassName.method() OK"
+  @AfterThrowing  â†’ WARN  "[AOP] âœ— ClassName.method() threw ExType: msg"
+
+  Why:  Eliminates repetitive per-class logger boilerplate.  One aspect
+  covers all 9 service impls uniformly.
+
+14.5  PerformanceAspect  (PerformanceAspect.java + annotation/Timed.java)
+
+  Pointcut:  @annotation(pl.edu.pwr.tkubik.ism.aspect.annotation.Timed)
+  Applied to:  AnalyticsService.dashboard()  and  AnalyticsService.ai()
+  Both run multi-table JDBC aggregations â€” most expensive DB operations
+  in the backend.
+
+  @Around:  records System.currentTimeMillis() before pjp.proceed(), logs
+  the delta.  If >= 500 ms â†’ WARN "[AOP] SLOW ..."; otherwise DEBUG.
+
+  Why @Around:  only advice type that can capture both before/after time in
+  a single method body while still returning the original value.
+
+  Why @Timed not class-level pointcut:  opt-in annotation avoids wrapping
+  lightweight analytics methods that run sub-millisecond queries.
+  (A commented example of the class-level alternative is in the file.)
+
+14.6  SecurityAuditAspect  (SecurityAuditAspect.java)
+
+  Two pointcuts:
+    loginEndpoint()    targets  AuthController.authLoginPost(..)
+    adminEndpoints()   targets  AdminController.*(..)
+
+  @AfterReturning on login:
+    Inspects the ResponseEntity HTTP status.  200 â†’ INFO "[AUDIT] LOGIN
+    success email=..."; anything else â†’ WARN "[AUDIT] LOGIN failed ...".
+    Extracts email from LoginRequest arg without modifying the controller.
+
+  @After on admin:
+    Fires for every AdminController call regardless of outcome (success or
+    exception).  Logs "[AUDIT] ADMIN ClassName.method()" for an immutable
+    audit trail.
+
+  Why AOP instead of code in controllers:
+    Controllers implement generated OpenAPI interfaces; adding audit logic
+    there couples business code to observability concerns and complicates
+    regeneration.  The aspect keeps controllers clean.
+
+14.7  Aspect coverage map
+
+  Layer           Aspect                 Advice used
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€    â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  Controllers     StatisticsAspect       @AfterReturning (call counters)
+                  SecurityAuditAspect    @AfterReturning + @After (audit)
+  Services        LoggingAspect          @Before, @AfterReturning, @After-
+  (*Impl)                                Throwing (entry/exit/error log)
+  Analytics       PerformanceAspect      @Around via @Timed (slow queries)
+
+  No double-firing: each aspect targets a non-overlapping layer/class set.
+
+14.8  Spring AOP vs AspectJ
+
+  Spring AOP                        AspectJ
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  Proxy-based (CGLIB / JDK proxy)   Bytecode weaving (compile or load-time)
+  Method execution only             Field access, constructors, static calls
+  Spring beans only                 Any Java class
+  No extra compiler needed          Requires AspectJ compiler or agent
+  spring-boot-starter-aop enough   needs aspectjweaver + ajc or agent
+
+  This project uses Spring AOP (spring-boot-starter-aop already in pom.xml).
+  AspectJ full weaving would add power but is overkill for a lab backend
+  where all targets are Spring-managed beans.
+
+14.9  Adding a new aspect
+
+  1. Create the file in  src/.../aspect/  with @Aspect + @Component.
+  2. Write a named @Pointcut method (reusable, self-documenting).
+  3. Add advice methods referencing the pointcut.
+  4. No registration needed â€” Spring picks it up via component scan.
+
+  Pointcut expression quick-ref:
+    execution(* pkg.Class.method(..))    exact method
+    execution(* pkg..*.*(..))            all in package tree
+    within(pkg.Class)                    all methods of a class
+    @annotation(ann)                     any method annotated with ann
+    bean(beanName)                       all methods of named bean
+    && / || / !                          combine expressions
+
+
 ================================================================================
 End of guide.
 ================================================================================
+

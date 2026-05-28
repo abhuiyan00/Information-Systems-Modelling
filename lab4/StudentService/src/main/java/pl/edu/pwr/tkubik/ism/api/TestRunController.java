@@ -46,7 +46,11 @@ public class TestRunController {
         r.setOrganizer(userRepo.findById(currentUser.getUserId()).orElse(null));
         String buildIdStr = (String) body.get("build_id");
         if (buildIdStr != null) {
-            r.setBuild(buildRepo.findById(UUID.fromString(buildIdStr)).orElse(null));
+            try {
+                r.setBuild(buildRepo.findById(UUID.fromString(buildIdStr)).orElse(null));
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().build();
+            }
         }
         String when = (String) body.get("scheduled_at");
         r.setScheduledAt(when != null ? OffsetDateTime.parse(when) : OffsetDateTime.now().plusDays(7));
@@ -115,11 +119,12 @@ public class TestRunController {
     private static Double toDouble(Object o) {
         if (o == null) return null;
         if (o instanceof Number n) return n.doubleValue();
-        return Double.parseDouble(o.toString());
+        try { return Double.parseDouble(o.toString()); } catch (NumberFormatException e) { return null; }
     }
+
     private static Integer toInt(Object o) {
         if (o == null) return null;
         if (o instanceof Number n) return n.intValue();
-        return Integer.parseInt(o.toString());
+        try { return Integer.parseInt(o.toString()); } catch (NumberFormatException e) { return null; }
     }
 }

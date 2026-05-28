@@ -109,6 +109,18 @@
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
 
+        <!-- Jakarta Bean Validation — activates @Valid on generated OpenAPI interfaces -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Actuator — /health, /info endpoints for production monitoring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

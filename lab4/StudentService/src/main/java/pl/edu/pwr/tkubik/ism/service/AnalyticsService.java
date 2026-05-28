@@ -3,6 +3,7 @@ package pl.edu.pwr.tkubik.ism.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import pl.edu.pwr.tkubik.ism.aspect.annotation.Timed;
 
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -334,6 +335,7 @@ public class AnalyticsService {
     }
 
     /* ───────────────────── 8. AI / Recommendations ───────────────────── */
+    @Timed
     public Map<String, Object> ai(UUID userId) {
         Map<String, Object> r = new LinkedHashMap<>();
 
@@ -418,6 +420,7 @@ public class AnalyticsService {
     }
 
     /* ───────────────────── Dashboard summary (admin/home) ───────────────────── */
+    @Timed
     public Map<String, Object> dashboard() {
         Map<String, Object> r = new LinkedHashMap<>();
         OffsetDateTime day = OffsetDateTime.now().minusDays(1);

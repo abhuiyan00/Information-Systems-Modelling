@@ -8,6 +8,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pwr.tkubik.ism.model.*;
 import pl.edu.pwr.tkubik.ism.security.CurrentUser;
+import pl.edu.pwr.tkubik.ism.service.BuildService;
 import pl.edu.pwr.tkubik.ism.service.MediaFileService;
 
 import java.util.*;
@@ -17,6 +18,9 @@ public class MediaController implements MediaApi {
 
     @Autowired
     private MediaFileService mediaFileService;
+
+    @Autowired
+    private BuildService buildService;
 
     @Autowired
     private CurrentUser currentUser;
@@ -49,6 +53,13 @@ public class MediaController implements MediaApi {
 
         if (!currentUser.isAuthenticated()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Build build = buildService.findById(buildId);
+        if (build == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!currentUser.getUserId().equals(build.getOwnerId()) && !currentUser.isAdmin()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         if (files == null || files.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -87,6 +98,13 @@ public class MediaController implements MediaApi {
             UUID buildId, UUID mediaId) {
         if (!currentUser.isAuthenticated()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Build build = buildService.findById(buildId);
+        if (build == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!currentUser.getUserId().equals(build.getOwnerId()) && !currentUser.isAdmin()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         boolean removed = mediaFileService.deleteMediaFile(buildId, mediaId);
         if (!removed) {

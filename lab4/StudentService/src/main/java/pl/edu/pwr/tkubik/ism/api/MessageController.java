@@ -38,7 +38,13 @@ public class MessageController {
         if (to == null || content == null || content.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        UserEntity recipient = userRepo.findById(UUID.fromString(to)).orElse(null);
+        UUID recipientId;
+        try {
+            recipientId = UUID.fromString(to);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        UserEntity recipient = userRepo.findById(recipientId).orElse(null);
         if (recipient == null) return ResponseEntity.badRequest().build();
         MessageEntity m = new MessageEntity();
         m.setSender(userRepo.findById(currentUser.getUserId()).orElse(null));

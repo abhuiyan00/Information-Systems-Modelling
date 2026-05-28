@@ -49,7 +49,11 @@ public class MarketplaceController {
         m.setSeller(userRepo.findById(currentUser.getUserId()).orElse(null));
         String buildIdStr = (String) body.get("build_id");
         if (buildIdStr != null) {
-            m.setBuild(buildRepo.findById(UUID.fromString(buildIdStr)).orElse(null));
+            try {
+                m.setBuild(buildRepo.findById(UUID.fromString(buildIdStr)).orElse(null));
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().build();
+            }
         }
         m.setTitle((String) body.get("title"));
         m.setPartCategory((String) body.get("part_category"));
