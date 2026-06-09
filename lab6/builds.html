@@ -1,0 +1,133 @@
+<!doctype html>
+<!--
+  ModellingClub — Explore / build gallery (server-rendered snapshot).
+  RDFa: schema.org CollectionPage holding an ItemList of every build.
+  JSON-LD: the same ItemList.
+-->
+<html lang="en"
+      vocab="https://schema.org/"
+      prefix="mc:   http://modellingclub.local/ontology#
+              mcr:  http://modellingclub.local/resource/
+              schema: https://schema.org/">
+<head>
+  <meta charset="utf-8">
+  <title>Explore builds — ModellingClub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": { "@vocab": "https://schema.org/", "mc": "http://modellingclub.local/ontology#", "mcr": "http://modellingclub.local/resource/" },
+    "@type": "CollectionPage",
+    "name": "Explore builds",
+    "url": "builds.html",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "All community builds",
+      "numberOfItems": 4,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "url": "build-falcon.html",
+          "item": { "@id": "mcr:build-falcon", "@type": ["CreativeWork","mc:DroneBuild"],   "name": "Falcon FPV Racer",
+                    "author": { "@id": "mcr:user-alice", "name": "alice" }, "creativeWorkStatus": "Approved" } },
+        { "@type": "ListItem", "position": 2, "url": "builds.html",
+          "item": { "@id": "mcr:build-arm",    "@type": ["CreativeWork","mc:RobotBuild"],    "name": "6-DOF Arm",
+                    "author": { "@id": "mcr:user-alice", "name": "alice" }, "creativeWorkStatus": "Approved" } },
+        { "@type": "ListItem", "position": 3, "url": "builds.html",
+          "item": { "@id": "mcr:build-rover",  "@type": ["CreativeWork","mc:RCCarBuild"],     "name": "Desert Rover",
+                    "author": { "@id": "mcr:user-bob", "name": "bob" }, "creativeWorkStatus": "Submitted" } },
+        { "@type": "ListItem", "position": 4, "url": "builds.html",
+          "item": { "@id": "mcr:build-glider", "@type": ["CreativeWork","mc:AircraftBuild"],  "name": "Silent Glider",
+                    "author": { "@id": "mcr:user-dave", "name": "dave" }, "creativeWorkStatus": "Draft" } }
+      ]
+    }
+  }
+  </script>
+</head>
+
+<body typeof="schema:CollectionPage" about="builds.html">
+  <!-- ════ VOCAB MAP (this page) ═══════════════════════════════════════
+       schema.org : CollectionPage, ItemList, ListItem, CreativeWork;
+                    name/url/mainEntity/author/creativeWorkStatus/genre
+       custom mc: : build types mc:DroneBuild / mc:RobotBuild /
+                    mc:RCCarBuild / mc:AircraftBuild
+       custom-ONLY sections: none
+       ═══════════════════════════════════════════════════════════════════ -->
+  <nav>
+    <a href="index.html" class="site-footer-brand" style="text-decoration:none">✈ ModellingClub</a>
+    <span class="sep">|</span>
+    <a href="index.html">Home</a>
+    <a href="builds.html" class="active">Explore</a>
+    <a href="marketplace.html">Marketplace</a>
+    <a href="testrun.html">Test Runs</a>
+    <a href="member-alice.html">Members</a>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div>
+        <h1 property="name">Explore</h1>
+        <p style="margin-top:0.25rem; font-size:0.9rem">Browse builds from the community.</p>
+      </div>
+    </div>
+
+    <div class="build-grid" property="mainEntity" typeof="ItemList">
+      <meta property="name" content="All community builds">
+      <meta property="numberOfItems" content="4">
+
+      <!-- Falcon -->
+      <a href="build-falcon.html" class="build-card" property="itemListElement" typeof="ListItem">
+        <meta property="position" content="1">
+        <div class="build-card-cover"><div class="build-card-cover-empty"><span class="emoji">&#128640;</span></div>
+          <span class="badge badge-published build-card-status">approved</span></div>
+        <div class="build-card-body" rel="item" resource="mcr:build-falcon" typeof="schema:CreativeWork mc:DroneBuild">
+          <div class="build-card-title-row"><h3 class="build-card-title" property="name">Falcon FPV Racer</h3>
+            <span class="badge badge-drone" property="genre">drone</span></div>
+          <p class="build-card-desc" property="description">5-inch FPV racing drone, custom carbon frame.</p>
+          <div class="build-card-meta"><span>by <span rel="author" resource="mcr:user-alice"><span property="name">alice</span></span></span></div>
+        </div>
+      </a>
+
+      <!-- 6-DOF Arm -->
+      <a href="builds.html" class="build-card" property="itemListElement" typeof="ListItem">
+        <meta property="position" content="2">
+        <div class="build-card-cover"><div class="build-card-cover-empty"><span class="emoji">&#129302;</span></div>
+          <span class="badge badge-published build-card-status">approved</span></div>
+        <div class="build-card-body" rel="item" resource="mcr:build-arm" typeof="schema:CreativeWork mc:RobotBuild">
+          <div class="build-card-title-row"><h3 class="build-card-title" property="name">6-DOF Arm</h3>
+            <span class="badge badge-other" property="genre">robot</span></div>
+          <p class="build-card-desc" property="description">Servo-driven robotic arm.</p>
+          <div class="build-card-meta"><span>by <span rel="author" resource="mcr:user-alice"><span property="name">alice</span></span></span></div>
+        </div>
+      </a>
+
+      <!-- Desert Rover -->
+      <a href="builds.html" class="build-card" property="itemListElement" typeof="ListItem">
+        <meta property="position" content="3">
+        <div class="build-card-cover"><div class="build-card-cover-empty"><span class="emoji">&#128663;</span></div>
+          <span class="badge badge-pending_review build-card-status">submitted</span></div>
+        <div class="build-card-body" rel="item" resource="mcr:build-rover" typeof="schema:CreativeWork mc:RCCarBuild">
+          <div class="build-card-title-row"><h3 class="build-card-title" property="name">Desert Rover</h3>
+            <span class="badge badge-car" property="genre">car</span></div>
+          <p class="build-card-desc" property="description">1:10 scale off-road RC car.</p>
+          <div class="build-card-meta"><span>by <span rel="author" resource="mcr:user-bob"><span property="name">bob</span></span></span></div>
+        </div>
+      </a>
+
+      <!-- Silent Glider -->
+      <a href="builds.html" class="build-card" property="itemListElement" typeof="ListItem">
+        <meta property="position" content="4">
+        <div class="build-card-cover"><div class="build-card-cover-empty"><span class="emoji">&#129371;</span></div>
+          <span class="badge badge-draft build-card-status">draft</span></div>
+        <div class="build-card-body" rel="item" resource="mcr:build-glider" typeof="schema:CreativeWork mc:AircraftBuild">
+          <div class="build-card-title-row"><h3 class="build-card-title" property="name">Silent Glider</h3>
+            <span class="badge badge-fixed_wing" property="genre">aircraft</span></div>
+          <p class="build-card-desc" property="description">2m wingspan thermal glider.</p>
+          <div class="build-card-meta"><span>by <span rel="author" resource="mcr:user-dave"><span property="name">dave</span></span></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer"><div class="site-footer-copy">ModellingClub — Lab 6 semantic-markup snapshot.</div></footer>
+</body>
+</html>

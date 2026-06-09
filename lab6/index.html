@@ -1,0 +1,170 @@
+<!doctype html>
+<!--
+  ModellingClub — Home / landing (server-rendered snapshot).
+  RDFa: schema.org WebSite + Organization, plus an ItemList of recent builds.
+  JSON-LD: the same WebSite + Organization graph for crawlers.
+-->
+<html lang="en"
+      vocab="https://schema.org/"
+      prefix="mc:   http://modellingclub.local/ontology#
+              mcr:  http://modellingclub.local/resource/
+              schema: https://schema.org/
+              xsd:  http://www.w3.org/2001/XMLSchema#">
+<head>
+  <meta charset="utf-8">
+  <title>ModellingClub — builds, flight logs &amp; community</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": { "@vocab": "https://schema.org/", "mc": "http://modellingclub.local/ontology#", "mcr": "http://modellingclub.local/resource/" },
+    "@graph": [
+      {
+        "@id": "https://modellingclub.local/#website",
+        "@type": "WebSite",
+        "name": "ModellingClub",
+        "url": "https://modellingclub.local/",
+        "description": "The hobbyist club for drone and scale-model pilots. Document builds, share flight logs, vote and collaborate.",
+        "publisher": { "@id": "https://modellingclub.local/#org" }
+      },
+      {
+        "@id": "https://modellingclub.local/#org",
+        "@type": "Organization",
+        "name": "ModellingClub",
+        "url": "https://modellingclub.local/",
+        "description": "A self-hosted, self-moderated community of drone and scale-model builders.",
+        "additionalType": "http://modellingclub.local/ontology#Community"
+      },
+      {
+        "@type": "ItemList",
+        "name": "Recently Published Builds",
+        "numberOfItems": 3,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "url": "build-falcon.html",
+            "item": { "@id": "mcr:build-falcon", "@type": ["CreativeWork","mc:DroneBuild"], "name": "Falcon FPV Racer" } },
+          { "@type": "ListItem", "position": 2, "url": "builds.html",
+            "item": { "@id": "mcr:build-arm", "@type": ["CreativeWork","mc:RobotBuild"], "name": "6-DOF Arm" } },
+          { "@type": "ListItem", "position": 3, "url": "builds.html",
+            "item": { "@id": "mcr:build-rover", "@type": ["CreativeWork","mc:RCCarBuild"], "name": "Desert Rover" } }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body typeof="schema:WebPage" about="index.html">
+  <!-- ════ VOCAB MAP (this page) ═══════════════════════════════════════
+       schema.org : WebPage, WebSite, Organization, ItemList, ListItem,
+                    CreativeWork; name/url/description/publisher/
+                    itemListElement/position/genre/author
+       custom mc: : build types mc:DroneBuild / mc:RobotBuild / mc:RCCarBuild;
+                    Organization additionalType → mc:Community
+       custom-ONLY sections: none (mc: rides alongside schema.org)
+       ═══════════════════════════════════════════════════════════════════ -->
+  <nav>
+    <a href="index.html" class="site-footer-brand" style="text-decoration:none">✈ ModellingClub</a>
+    <span class="sep">|</span>
+    <a href="index.html" class="active">Home</a>
+    <a href="builds.html">Explore</a>
+    <a href="marketplace.html">Marketplace</a>
+    <a href="testrun.html">Test Runs</a>
+    <a href="member-alice.html">Members</a>
+  </nav>
+
+  <div class="page-wrapper">
+    <!-- Hero — describes the WebSite / Organization -->
+    <div class="hero" about="https://modellingclub.local/#website" typeof="schema:WebSite">
+      <meta property="url" content="https://modellingclub.local/">
+      <h1 property="name">The hobbyist club for drone and scale-model pilots.</h1>
+      <p property="description">Document your builds, share photos and flight logs, vote on community work,
+         and collaborate with co-authors. Self-hosted and self-moderated.</p>
+      <span rel="publisher">
+        <span about="https://modellingclub.local/#org" typeof="schema:Organization">
+          <meta property="name" content="ModellingClub">
+          <link property="additionalType" href="http://modellingclub.local/ontology#Community">
+        </span>
+      </span>
+      <div class="hero-actions">
+        <a href="builds.html" class="btn btn-primary">Explore Builds</a>
+        <a href="member-alice.html" class="btn btn-ghost">Members</a>
+      </div>
+    </div>
+
+    <!-- KPI tiles (plain UI, not part of the semantic graph) -->
+    <div class="kpi-grid">
+      <div class="kpi-tile kpi-accent-primary"><span class="kpi-label">Total Builds</span><span class="kpi-value">4</span></div>
+      <div class="kpi-tile kpi-accent-success"><span class="kpi-label">Approved</span><span class="kpi-value">2</span></div>
+      <div class="kpi-tile kpi-accent-secondary"><span class="kpi-label">Drone Builds</span><span class="kpi-value">1</span></div>
+      <div class="kpi-tile kpi-accent-warning"><span class="kpi-label">Members</span><span class="kpi-value">4</span></div>
+    </div>
+
+    <div class="section-heading">
+      <h2 style="margin:0">Recently Published</h2>
+      <a href="builds.html">Browse all &rarr;</a>
+    </div>
+
+    <!-- ItemList of builds (RDFa) -->
+    <div class="build-grid" property="mainEntity" typeof="ItemList">
+      <meta property="name" content="Recently Published Builds">
+      <meta property="numberOfItems" content="3">
+
+      <a href="build-falcon.html" class="build-card"
+         property="itemListElement" typeof="ListItem">
+        <meta property="position" content="1">
+        <div class="build-card-cover">
+          <div class="build-card-cover-empty"><span class="emoji">&#128640;</span></div>
+          <span class="badge badge-published build-card-status">approved</span>
+        </div>
+        <div class="build-card-body" rel="item" resource="mcr:build-falcon" typeof="schema:CreativeWork mc:DroneBuild">
+          <div class="build-card-title-row">
+            <h3 class="build-card-title" property="schema:name">Falcon FPV Racer</h3>
+            <span class="badge badge-drone" property="genre">drone</span>
+          </div>
+          <p class="build-card-desc" property="schema:description">5-inch FPV racing drone, custom carbon frame.</p>
+          <div class="build-card-meta"><span>by <span rel="schema:author" resource="mcr:user-alice"><span property="schema:name">alice</span></span></span></div>
+        </div>
+      </a>
+
+      <a href="builds.html" class="build-card"
+         property="itemListElement" typeof="ListItem">
+        <meta property="position" content="2">
+        <div class="build-card-cover">
+          <div class="build-card-cover-empty"><span class="emoji">&#129302;</span></div>
+          <span class="badge badge-published build-card-status">approved</span>
+        </div>
+        <div class="build-card-body" rel="item" resource="mcr:build-arm" typeof="schema:CreativeWork mc:RobotBuild">
+          <div class="build-card-title-row">
+            <h3 class="build-card-title" property="schema:name">6-DOF Arm</h3>
+            <span class="badge badge-other" property="genre">robot</span>
+          </div>
+          <p class="build-card-desc" property="schema:description">Servo-driven robotic arm.</p>
+          <div class="build-card-meta"><span>by <span rel="schema:author" resource="mcr:user-alice"><span property="schema:name">alice</span></span></span></div>
+        </div>
+      </a>
+
+      <a href="builds.html" class="build-card"
+         property="itemListElement" typeof="ListItem">
+        <meta property="position" content="3">
+        <div class="build-card-cover">
+          <div class="build-card-cover-empty"><span class="emoji">&#128663;</span></div>
+          <span class="badge badge-pending_review build-card-status">submitted</span>
+        </div>
+        <div class="build-card-body" rel="item" resource="mcr:build-rover" typeof="schema:CreativeWork mc:RCCarBuild">
+          <div class="build-card-title-row">
+            <h3 class="build-card-title" property="schema:name">Desert Rover</h3>
+            <span class="badge badge-car" property="genre">car</span>
+          </div>
+          <p class="build-card-desc" property="schema:description">1:10 scale off-road RC car.</p>
+          <div class="build-card-meta"><span>by <span rel="schema:author" resource="mcr:user-bob"><span property="schema:name">bob</span></span></span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer-copy">ModellingClub — Lab 6 semantic-markup snapshot.</div>
+  </footer>
+</body>
+</html>

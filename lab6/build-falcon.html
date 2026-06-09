@@ -1,0 +1,311 @@
+<!doctype html>
+<!--
+  ModellingClub — Build detail (server-rendered snapshot for semantic markup).
+
+  Demonstrates BOTH semantic-embedding techniques required by Lab 6:
+    1. RDFa 1.1 annotations woven into the visible HTML (schema.org + custom mc: vocab).
+    2. A JSON-LD script (head) carrying the same graph for crawlers that prefer it.
+
+  KEY TECHNIQUE — the app's real build-detail view (Angular) renders this entity as
+  SEVERAL sibling .glass-card <div>s that are NOT nested in one hierarchy (header,
+  media, votes, flight log, comments). RDFa solves that with @about: every card
+  repeats  about="mcr:build-falcon"  so all triples attach to the SAME subject IRI
+  even though the elements are scattered. See each card below.
+
+  Subject IRIs reuse the Lab 5 triplestore namespaces (mcr:/mc:), so this page
+  publishes exactly the triples that the RDF4J repository holds for build-falcon.
+-->
+<html lang="en"
+      vocab="https://schema.org/"
+      prefix="mc:   http://modellingclub.local/ontology#
+              mcr:  http://modellingclub.local/resource/
+              schema: https://schema.org/
+              xsd:  http://www.w3.org/2001/XMLSchema#
+              dc:   http://purl.org/dc/elements/1.1/">
+<head>
+  <meta charset="utf-8">
+  <title>Falcon FPV Racer — ModellingClub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ───────────────────────── JSON-LD (technique 2) ─────────────────────────
+       Same entity as the RDFa below. schema.org terms are the default @vocab;
+       properties with no schema.org equivalent use the custom mc: namespace. -->
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "@vocab": "https://schema.org/",
+      "schema": "https://schema.org/",
+      "mc":  "http://modellingclub.local/ontology#",
+      "mcr": "http://modellingclub.local/resource/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@id": "mcr:build-falcon",
+    "@type": ["CreativeWork", "mc:DroneBuild"],
+    "additionalType": "http://modellingclub.local/ontology#DroneBuild",
+    "name": "Falcon FPV Racer",
+    "description": "5-inch FPV racing drone, custom carbon frame.",
+    "genre": "drone",
+    "dateCreated": "2024-03-12",
+    "creativeWorkStatus": "Approved",
+    "mc:hasStatus": { "@id": "mcr:status-approved" },
+    "author": {
+      "@id": "mcr:user-alice",
+      "@type": ["Person", "mc:User", "mc:Builder"],
+      "name": "alice",
+      "url": "member-alice.html"
+    },
+    "image": {
+      "@id": "mcr:media-falcon-hero",
+      "@type": ["ImageObject", "mc:ImageFile"],
+      "contentUrl": "https://media.modellingclub.local/falcon/hero.jpg"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": 87,
+      "bestRating": 100,
+      "worstRating": 0,
+      "ratingCount": 3
+    },
+    "interactionStatistic": [
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/LikeAction",
+        "userInteractionCount": 2
+      },
+      {
+        "@type": "InteractionCounter",
+        "interactionType": "https://schema.org/DislikeAction",
+        "userInteractionCount": 0
+      }
+    ],
+    "additionalProperty": [
+      { "@type": "PropertyValue", "name": "Frame Size",         "value": 220, "unitText": "mm" },
+      { "@type": "PropertyValue", "name": "Motors",             "value": 4 },
+      { "@type": "PropertyValue", "name": "Flight Controller",  "value": "Kakute H7 V2" },
+      { "@type": "PropertyValue", "name": "Max Takeoff Weight", "value": 480, "unitText": "g" }
+    ],
+    "comment": [
+      {
+        "@id": "mcr:comment-001",
+        "@type": ["Comment", "mc:Comment"],
+        "text": "Clean wiring, great work!",
+        "author": { "@id": "mcr:user-bob", "@type": ["Person","mc:User"], "name": "bob" }
+      },
+      {
+        "@id": "mcr:comment-002",
+        "@type": ["Comment", "mc:Comment"],
+        "text": "Try a stiffer prop set.",
+        "author": { "@id": "mcr:user-carol", "@type": ["Person","mc:AdminUser"], "name": "carol" }
+      }
+    ],
+    "mc:hasFlightLog": {
+      "@id": "mcr:flightlog-001",
+      "@type": "mc:FlightLog",
+      "mc:flightAltitude": { "@type": "xsd:decimal", "@value": "118.5" },
+      "mc:pilotLicenseId": "PL-AB123456"
+    },
+    "mc:hasTelemetry": {
+      "@id": "mcr:telemetry-falcon",
+      "@type": "mc:TelemetryRecord",
+      "mc:topSpeed":   { "@type": "xsd:decimal", "@value": "142.0" },
+      "mc:maxRange":   { "@type": "xsd:decimal", "@value": "1500.0" },
+      "mc:crashCount": { "@type": "xsd:integer", "@value": "1" }
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <!-- ════ VOCAB MAP (this page = showcase) ════════════════════════════
+       schema.org : CreativeWork, Person, ImageObject, AggregateRating,
+                    InteractionCounter, PropertyValue, Comment
+       custom mc: : mc:DroneBuild, mc:buildTitle, mc:hasStatus, mc:createdBy,
+                    mc:hasMedia, mc:hasComment, mc:postedBy, mc:username …
+       custom-ONLY sections (no schema.org equivalent — pure mc:):
+            • CARD 4  Flight Logs → mc:FlightLog / mc:flightAltitude / mc:pilotLicenseId
+            • CARD 5  Telemetry   → mc:TelemetryRecord / mc:topSpeed / mc:maxRange / mc:crashCount
+       ═══════════════════════════════════════════════════════════════════ -->
+  <!-- ── Site header (matches the Angular app shell) ─────────────────────── -->
+  <nav>
+    <a href="index.html" class="site-footer-brand" style="text-decoration:none">✈ ModellingClub</a>
+    <span class="sep">|</span>
+    <a href="index.html">Home</a>
+    <a href="builds.html">Explore</a>
+    <a href="marketplace.html">Marketplace</a>
+    <a href="testrun.html">Test Runs</a>
+    <a href="member-alice.html">Members</a>
+  </nav>
+
+  <div class="page-wrapper">
+    <a href="builds.html" class="btn btn-ghost" style="margin-bottom:1.5rem; display:inline-flex">&larr; Back to Builds</a>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         CARD 1 — Build header.  about="mcr:build-falcon" opens the subject;
+         typeof gives it both a schema.org type and the custom mc: type.
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="glass-card" style="margin-bottom:1.5rem"
+         about="mcr:build-falcon" typeof="schema:CreativeWork mc:DroneBuild">
+      <link property="additionalType" href="http://modellingclub.local/ontology#DroneBuild">
+
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem">
+        <div>
+          <h1 style="margin-bottom:0.5rem" property="schema:name mc:buildTitle">Falcon FPV Racer</h1>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap">
+            <span class="badge badge-drone" property="genre">drone</span>
+            <!-- status: human text "approved", machine value links the mc: status individual -->
+            <span class="badge badge-published" property="creativeWorkStatus" content="Approved">approved</span>
+            <span rel="mc:hasStatus" resource="mcr:status-approved"></span>
+
+            <!-- score 0–100 → schema:AggregateRating -->
+            <span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b"
+                  property="aggregateRating" typeof="AggregateRating">
+              &#11088; <span property="ratingValue">87</span>
+              <meta property="bestRating" content="100">
+              <meta property="worstRating" content="0">
+              <meta property="ratingCount" content="3">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-bottom:1rem; color:var(--text-primary)"
+         property="schema:description mc:buildDescription">5-inch FPV racing drone, custom carbon frame.</p>
+
+      <!-- author — a nested Person resource linked via schema:author -->
+      <p style="margin-bottom:1rem">
+        by
+        <a href="member-alice.html" rel="schema:author mc:createdBy" resource="mcr:user-alice"
+           typeof="schema:Person mc:User" style="color:var(--primary)">
+          <span property="schema:name mc:username">alice</span>
+        </a>
+        · created <time property="dateCreated" datetime="2024-03-12" content="2024-03-12">12 Mar 2024</time>
+      </p>
+
+      <!-- Specs → schema:additionalProperty / PropertyValue -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:0.75rem">
+        <div class="spec-item" property="additionalProperty" typeof="PropertyValue">
+          <span class="spec-label" property="name">Frame Size</span>
+          <span class="spec-value"><span property="value" content="220">220</span> mm<meta property="unitText" content="mm"></span>
+        </div>
+        <div class="spec-item" property="additionalProperty" typeof="PropertyValue">
+          <span class="spec-label" property="name">Motors</span>
+          <span class="spec-value" property="value" content="4">4</span>
+        </div>
+        <div class="spec-item" property="additionalProperty" typeof="PropertyValue">
+          <span class="spec-label" property="name">Flight Controller</span>
+          <span class="spec-value" property="value">Kakute H7 V2</span>
+        </div>
+        <div class="spec-item" property="additionalProperty" typeof="PropertyValue">
+          <span class="spec-label" property="name">Max Takeoff Weight</span>
+          <span class="spec-value"><span property="value" content="480">480</span> g<meta property="unitText" content="g"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         CARD 2 — Media gallery.  Separate <div>, NOT nested in card 1, yet
+         about="mcr:build-falcon" re-attaches its triples to the same build.
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="glass-card" style="margin-bottom:1.5rem" about="mcr:build-falcon">
+      <h3>Media &amp; Documentation</h3>
+      <div class="media-gallery">
+        <div class="media-tile"
+             rel="schema:image mc:hasMedia" resource="mcr:media-falcon-hero"
+             typeof="schema:ImageObject mc:ImageFile">
+          <img property="schema:contentUrl mc:fileUrl"
+               src="https://media.modellingclub.local/falcon/hero.jpg"
+               alt="Falcon FPV Racer — hero shot" loading="lazy" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         CARD 3 — Community votes → schema:interactionStatistic counters.
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="glass-card" style="margin-bottom:1.5rem" about="mcr:build-falcon">
+      <h3>Community Votes</h3>
+      <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap">
+        <span style="font-size:1.5rem; font-weight:700; color:#10b981"
+              property="interactionStatistic" typeof="InteractionCounter">
+          <meta property="interactionType" content="https://schema.org/LikeAction">
+          &#128077; <span property="userInteractionCount">2</span>
+        </span>
+        <span style="font-size:1.5rem; font-weight:700; color:#ef4444"
+              property="interactionStatistic" typeof="InteractionCounter">
+          <meta property="interactionType" content="https://schema.org/DislikeAction">
+          &#128078; <span property="userInteractionCount">0</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         CARD 4 — Flight log.  schema.org has NO flight-log class, so this card
+         uses the custom mc: vocabulary end-to-end (mc:FlightLog, mc:flightAltitude,
+         mc:pilotLicenseId).  This is the "missing schema.org terms → custom
+         ontology" case the brief asks for.
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="glass-card" style="margin-bottom:1.5rem" about="mcr:build-falcon">
+      <h3>Flight Logs</h3>
+      <table>
+        <thead><tr><th>Max Altitude</th><th>Pilot License ID</th></tr></thead>
+        <tbody>
+          <tr rel="mc:hasFlightLog" resource="mcr:flightlog-001" typeof="mc:FlightLog">
+            <td><span property="mc:flightAltitude" datatype="xsd:decimal" content="118.5">118.5</span> m</td>
+            <td style="font-family:monospace" property="mc:pilotLicenseId">PL-AB123456</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         CARD 5 — Telemetry.  Also custom-only vocabulary (mc:TelemetryRecord).
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="glass-card" style="margin-bottom:1.5rem" about="mcr:build-falcon">
+      <h3>Telemetry</h3>
+      <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap:0.75rem"
+           rel="mc:hasTelemetry" resource="mcr:telemetry-falcon" typeof="mc:TelemetryRecord">
+        <div class="spec-item"><span class="spec-label">Top Speed</span>
+          <span class="spec-value"><span property="mc:topSpeed" datatype="xsd:decimal" content="142.0">142.0</span> km/h</span></div>
+        <div class="spec-item"><span class="spec-label">Max Range</span>
+          <span class="spec-value"><span property="mc:maxRange" datatype="xsd:decimal" content="1500.0">1500.0</span> m</span></div>
+        <div class="spec-item"><span class="spec-label">Crashes</span>
+          <span class="spec-value" property="mc:crashCount" datatype="xsd:integer" content="1">1</span></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         CARD 6 — Comments → schema:comment / schema:Comment, each with an author.
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="glass-card" about="mcr:build-falcon">
+      <h3>Comments</h3>
+
+      <div class="comment-item" rel="schema:comment mc:hasComment"
+           resource="mcr:comment-001" typeof="schema:Comment mc:Comment">
+        <div class="comment-meta">
+          <strong rel="schema:author mc:postedBy" resource="mcr:user-bob" typeof="schema:Person mc:User">
+            <span property="schema:name mc:username">bob</span>
+          </strong>
+        </div>
+        <p class="comment-body" property="schema:text mc:commentText">Clean wiring, great work!</p>
+      </div>
+
+      <div class="comment-item" rel="schema:comment mc:hasComment"
+           resource="mcr:comment-002" typeof="schema:Comment mc:Comment">
+        <div class="comment-meta">
+          <strong rel="schema:author mc:postedBy" resource="mcr:user-carol" typeof="schema:Person mc:AdminUser">
+            <span property="schema:name mc:username">carol</span>
+          </strong>
+        </div>
+        <p class="comment-body" property="schema:text mc:commentText">Try a stiffer prop set.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer-copy">
+      ModellingClub — Lab 6 semantic-markup snapshot. RDFa 1.1 + JSON-LD, schema.org + mc: custom vocabulary.
+    </div>
+  </footer>
+</body>
+</html>

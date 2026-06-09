@@ -1,6 +1,6 @@
 # Information Systems Modelling - Lab Guide
 
-This repo contains five labs based on the ModellingClub domain. Labs 2 to 4 build a working web app; lab 5 models the same domain as an ontology. Lab 1 is a requirements PDF.
+This repo contains six labs based on the ModellingClub domain. Labs 2 to 4 build a working web app, lab 5 models the domain as an ontology, and lab 6 publishes semantic annotations (RDFa + JSON-LD) in web pages. Lab 1 is a requirements PDF.
 
 ## Quick map
 - Lab 1: PDF requirements (no code)
@@ -8,6 +8,7 @@ This repo contains five labs based on the ModellingClub domain. Labs 2 to 4 buil
 - Lab 3: Full backend with authentication
 - Lab 4: Full stack app (backend + Angular frontend)
 - Lab 5: Ontology demo (RDF4J)
+- Lab 6: Semantic web embedding in HTML pages (RDFa + JSON-LD)
 
 ## What you need (simple list)
 - Git
@@ -179,12 +180,43 @@ Option B - Maven
 - Logs that the ontology and sample data loaded
 - SPARQL query results printed in the console
 
+## Lab 6 - Embedding semantic data in web pages (RDFa + JSON-LD)
+
+### What it contains
+- lab6/index.html, builds.html, build-falcon.html, marketplace.html, member-alice.html, testrun.html
+- lab6/styles.css (theme snapshot aligned with lab4 look)
+- lab6/vocabulary/ontology.ttl (custom ontology delivered with the lab)
+- lab6/vocabulary/mc-context.jsonld (JSON-LD context for custom vocabulary)
+- lab6/verify_jsonld.py (local parsing helper)
+
+### Goal
+- Annotate page content with schema.org terms where possible.
+- Use custom `mc:` terms where schema.org lacks equivalent classes/properties.
+- Publish each snapshot using both RDFa attributes in HTML and a JSON-LD script in `<head>`.
+
+### Why static snapshots are used
+- The live Angular app renders client-side, which can hide semantic data from parsers that only inspect initial HTML.
+- Lab 6 provides server-rendered style snapshots that expose semantic markup directly in source.
+
+### Run it
+1. Open the HTML pages directly in a browser, or serve `lab6` locally.
+2. Optional local server:
+   - cd lab6
+   - python -m http.server 8000
+   - open http://localhost:8000
+
+### Verify
+1. Use RDFa Play (http://rdfa.info/play/) by pasting page source.
+2. Use Schema Markup Validator (https://validator.schema.org/) or Rich Results Test.
+3. Optionally run local JSON-LD parsing checks with `verify_jsonld.py`.
+
 ## How the labs connect
 - Lab 1 defines the requirements and rules for the ModellingClub domain.
 - Lab 2 turns that domain into an OpenAPI contract and a starter backend.
 - Lab 3 implements a working backend with authentication and a real database.
 - Lab 4 adds the frontend and a complete user experience.
 - Lab 5 models the same domain as an ontology for semantic queries.
+- Lab 6 publishes that domain data in HTML snapshots using RDFa and JSON-LD.
 
 ## License
 No license specified.

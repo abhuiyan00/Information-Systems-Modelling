@@ -1,0 +1,577 @@
+@prefix mc:    <http://modellingclub.local/ontology#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+
+# ─────────────────────────────────────────────
+#  Ontology metadata
+# ─────────────────────────────────────────────
+
+<http://modellingclub.local/ontology>
+    rdf:type        owl:Ontology ;
+    dc:title        "ModellingClub Ontology" ;
+    dc:description  "Vocabulary for the ModellingClub platform covering users, builds, community, test runs, marketplace and reputation. RDFS++ reasoning only." ;
+    dc:creator      "ModellingClub Lab 4" .
+
+
+# ═════════════════════════════════════════════
+#  CLASS TAXONOMY
+# ═════════════════════════════════════════════
+
+# ── Top-level agent ───────────────────────────
+
+mc:Agent
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Agent" ;
+    rdfs:comment    "An entity (person or system) that can act on the platform." .
+
+mc:Person
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Agent ;
+    rdfs:label      "Person" ;
+    rdfs:comment    "A human participant on the platform." .
+
+mc:SystemAccount
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Agent ;
+    rdfs:label      "System Account" ;
+    rdfs:comment    "An automated or system-managed account." .
+
+# ── User roles ────────────────────────────────
+
+mc:User
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Person ;
+    rdfs:label      "User" ;
+    rdfs:comment    "A registered member of ModellingClub." .
+
+mc:AdminUser
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:User ;
+    rdfs:label      "Admin User" ;
+    rdfs:comment    "A user with administrative privileges (review, user management)." .
+
+mc:Builder
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:User ;
+    rdfs:label      "Builder" ;
+    rdfs:comment    "A user who has created at least one build." .
+
+mc:Collaborator
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:User ;
+    rdfs:label      "Collaborator" ;
+    rdfs:comment    "A user who is a co-author on someone else's build." .
+
+# ── Build taxonomy ────────────────────────────
+
+mc:Build
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Build" ;
+    rdfs:comment    "A modelling project submitted by a user (drone, RC car, robot, etc.)." .
+
+mc:DroneBuild
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Build ;
+    rdfs:label      "Drone Build" ;
+    rdfs:comment    "A build of type drone/UAV." .
+
+mc:RCCarBuild
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Build ;
+    rdfs:label      "RC Car Build" ;
+    rdfs:comment    "A remote-controlled car build." .
+
+mc:RobotBuild
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Build ;
+    rdfs:label      "Robot Build" ;
+    rdfs:comment    "A robot or autonomous machine build." .
+
+mc:AircraftBuild
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Build ;
+    rdfs:label      "Aircraft Build" ;
+    rdfs:comment    "A fixed-wing or glider aircraft build." .
+
+mc:BoatBuild
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Build ;
+    rdfs:label      "Boat Build" ;
+    rdfs:comment    "A remote-controlled boat or watercraft build." .
+
+# ── Build status ──────────────────────────────
+
+mc:BuildStatus
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Build Status" ;
+    rdfs:comment    "The lifecycle status of a build (draft, submitted, approved, rejected)." .
+
+mc:DraftStatus
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:BuildStatus ;
+    rdfs:label      "Draft" .
+
+mc:SubmittedStatus
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:BuildStatus ;
+    rdfs:label      "Submitted" .
+
+mc:ApprovedStatus
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:BuildStatus ;
+    rdfs:label      "Approved" .
+
+mc:RejectedStatus
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:BuildStatus ;
+    rdfs:label      "Rejected" .
+
+# ── Media ─────────────────────────────────────
+
+mc:MediaFile
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Media File" ;
+    rdfs:comment    "An image or video file attached to a build." .
+
+mc:ImageFile
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:MediaFile ;
+    rdfs:label      "Image File" .
+
+mc:VideoFile
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:MediaFile ;
+    rdfs:label      "Video File" .
+
+# ── Community interactions ────────────────────
+
+mc:CommunityContent
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Community Content" ;
+    rdfs:comment    "Any user-generated content that relates to a build." .
+
+mc:Comment
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:CommunityContent ;
+    rdfs:label      "Comment" ;
+    rdfs:comment    "A textual comment posted on a build." .
+
+mc:Vote
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:CommunityContent ;
+    rdfs:label      "Vote" ;
+    rdfs:comment    "An upvote or downvote cast on a build." .
+
+mc:UpVote
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Vote ;
+    rdfs:label      "Up Vote" .
+
+mc:DownVote
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:Vote ;
+    rdfs:label      "Down Vote" .
+
+# ── Flight log / telemetry ────────────────────
+
+mc:FlightLog
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Flight Log" ;
+    rdfs:comment    "A recorded flight session for a drone build." .
+
+mc:TelemetryRecord
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Telemetry Record" ;
+    rdfs:comment    "Performance telemetry data (speed, range, crashes) for a build." .
+
+# ── Test runs ─────────────────────────────────
+
+mc:TestRun
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Test Run" ;
+    rdfs:comment    "An organised outdoor test session at a geo-located venue." .
+
+mc:TestRunAttendance
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Test Run Attendance" ;
+    rdfs:comment    "A record that links a user to a test run they attended." .
+
+# ── Marketplace ───────────────────────────────
+
+mc:MarketplaceListing
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Marketplace Listing" ;
+    rdfs:comment    "A listing for a part or component for sale on the platform." .
+
+mc:PartCategory
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Part Category" ;
+    rdfs:comment    "A category of parts sold in the marketplace." .
+
+mc:ElectronicsPart
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:PartCategory ;
+    rdfs:label      "Electronics Part" .
+
+mc:FramePart
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:PartCategory ;
+    rdfs:label      "Frame Part" .
+
+mc:MotorPart
+    rdf:type        rdfs:Class ;
+    rdfs:subClassOf mc:PartCategory ;
+    rdfs:label      "Motor Part" .
+
+# ── Messaging ─────────────────────────────────
+
+mc:Message
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Message" ;
+    rdfs:comment    "A direct message sent between two users." .
+
+# ── Reputation ────────────────────────────────
+
+mc:ReputationRecord
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Reputation Record" ;
+    rdfs:comment    "Aggregated reputation scores (builder, helper, organiser, reliability) for a user." .
+
+
+# ═════════════════════════════════════════════
+#  PROPERTY TAXONOMY
+# ═════════════════════════════════════════════
+
+# ── Top-level grouping properties ─────────────
+
+mc:involvesAgent
+    rdf:type        rdf:Property ;
+    rdfs:label      "involves agent" ;
+    rdfs:comment    "Relates any resource to a participating agent." ;
+    rdfs:range      mc:Agent .
+
+mc:hasContent
+    rdf:type        rdf:Property ;
+    rdfs:label      "has content" ;
+    rdfs:comment    "Relates a resource to associated content." .
+
+# ── User ↔ Build ──────────────────────────────
+
+mc:createdBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "created by" ;
+    rdfs:comment    "The primary owner/author of a build." ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      mc:User .
+
+mc:collaboratesOn
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "collaborates on" ;
+    rdfs:comment    "A user who co-authors a build." ;
+    rdfs:domain     mc:User ;
+    rdfs:range      mc:Build .
+
+# ── Build attributes ──────────────────────────
+
+mc:hasStatus
+    rdf:type        rdf:Property ;
+    rdfs:label      "has status" ;
+    rdfs:comment    "Current lifecycle status of a build." ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      mc:BuildStatus .
+
+mc:hasScore
+    rdf:type        rdf:Property ;
+    rdfs:label      "has score" ;
+    rdfs:comment    "Numeric quality score assigned to an approved build." ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      xsd:integer .
+
+mc:buildTitle
+    rdf:type        rdf:Property ;
+    rdfs:label      "build title" ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      xsd:string .
+
+mc:buildDescription
+    rdf:type        rdf:Property ;
+    rdfs:label      "build description" ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      xsd:string .
+
+# ── Media ─────────────────────────────────────
+
+mc:hasMedia
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:hasContent ;
+    rdfs:label      "has media" ;
+    rdfs:comment    "Associates a media file with a build." ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      mc:MediaFile .
+
+mc:fileUrl
+    rdf:type        rdf:Property ;
+    rdfs:label      "file URL" ;
+    rdfs:domain     mc:MediaFile ;
+    rdfs:range      xsd:anyURI .
+
+# ── Community ─────────────────────────────────
+
+mc:hasComment
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:hasContent ;
+    rdfs:label      "has comment" ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      mc:Comment .
+
+mc:commentText
+    rdf:type        rdf:Property ;
+    rdfs:label      "comment text" ;
+    rdfs:domain     mc:Comment ;
+    rdfs:range      xsd:string .
+
+mc:postedBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "posted by" ;
+    rdfs:domain     mc:CommunityContent ;
+    rdfs:range      mc:User .
+
+mc:hasVote
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:hasContent ;
+    rdfs:label      "has vote" ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      mc:Vote .
+
+mc:castedBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "casted by" ;
+    rdfs:domain     mc:Vote ;
+    rdfs:range      mc:User .
+
+# ── Flight log ────────────────────────────────
+
+mc:hasFlightLog
+    rdf:type        rdf:Property ;
+    rdfs:label      "has flight log" ;
+    rdfs:domain     mc:DroneBuild ;
+    rdfs:range      mc:FlightLog .
+
+mc:flightAltitude
+    rdf:type        rdf:Property ;
+    rdfs:label      "flight altitude" ;
+    rdfs:comment    "Maximum altitude reached (metres). EU limit 120 m." ;
+    rdfs:domain     mc:FlightLog ;
+    rdfs:range      xsd:decimal .
+
+mc:pilotLicenseId
+    rdf:type        rdf:Property ;
+    rdfs:label      "pilot license ID" ;
+    rdfs:comment    "Drone operator ID matching pattern [A-Z]{2}-[A-Z0-9]{6,12}." ;
+    rdfs:domain     mc:FlightLog ;
+    rdfs:range      xsd:string .
+
+# ── Telemetry ─────────────────────────────────
+
+mc:hasTelemetry
+    rdf:type        rdf:Property ;
+    rdfs:label      "has telemetry" ;
+    rdfs:domain     mc:Build ;
+    rdfs:range      mc:TelemetryRecord .
+
+mc:topSpeed
+    rdf:type        rdf:Property ;
+    rdfs:label      "top speed" ;
+    rdfs:domain     mc:TelemetryRecord ;
+    rdfs:range      xsd:decimal .
+
+mc:maxRange
+    rdf:type        rdf:Property ;
+    rdfs:label      "max range" ;
+    rdfs:domain     mc:TelemetryRecord ;
+    rdfs:range      xsd:decimal .
+
+mc:crashCount
+    rdf:type        rdf:Property ;
+    rdfs:label      "crash count" ;
+    rdfs:domain     mc:TelemetryRecord ;
+    rdfs:range      xsd:integer .
+
+# ── Test runs ─────────────────────────────────
+
+mc:organisedBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "organised by" ;
+    rdfs:domain     mc:TestRun ;
+    rdfs:range      mc:User .
+
+mc:attendedBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "attended by" ;
+    rdfs:domain     mc:TestRun ;
+    rdfs:range      mc:User .
+
+mc:testRunLocation
+    rdf:type        rdf:Property ;
+    rdfs:label      "test run location" ;
+    rdfs:domain     mc:TestRun ;
+    rdfs:range      xsd:string .
+
+mc:testRunDate
+    rdf:type        rdf:Property ;
+    rdfs:label      "test run date" ;
+    rdfs:domain     mc:TestRun ;
+    rdfs:range      xsd:dateTime .
+
+# ── Marketplace ───────────────────────────────
+
+mc:listedBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "listed by" ;
+    rdfs:domain     mc:MarketplaceListing ;
+    rdfs:range      mc:User .
+
+mc:partName
+    rdf:type        rdf:Property ;
+    rdfs:label      "part name" ;
+    rdfs:domain     mc:MarketplaceListing ;
+    rdfs:range      xsd:string .
+
+mc:askingPrice
+    rdf:type        rdf:Property ;
+    rdfs:label      "asking price" ;
+    rdfs:domain     mc:MarketplaceListing ;
+    rdfs:range      xsd:decimal .
+
+mc:partCategory
+    rdf:type        rdf:Property ;
+    rdfs:label      "part category" ;
+    rdfs:domain     mc:MarketplaceListing ;
+    rdfs:range      mc:PartCategory .
+
+# ── Messaging ─────────────────────────────────
+
+mc:sentBy
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "sent by" ;
+    rdfs:domain     mc:Message ;
+    rdfs:range      mc:User .
+
+mc:sentTo
+    rdf:type        rdf:Property ;
+    rdfs:subPropertyOf mc:involvesAgent ;
+    rdfs:label      "sent to" ;
+    rdfs:domain     mc:Message ;
+    rdfs:range      mc:User .
+
+mc:messageText
+    rdf:type        rdf:Property ;
+    rdfs:label      "message text" ;
+    rdfs:domain     mc:Message ;
+    rdfs:range      xsd:string .
+
+mc:sentAt
+    rdf:type        rdf:Property ;
+    rdfs:label      "sent at" ;
+    rdfs:domain     mc:Message ;
+    rdfs:range      xsd:dateTime .
+
+# ── Reputation ────────────────────────────────
+
+mc:hasReputation
+    rdf:type        rdf:Property ;
+    rdfs:label      "has reputation" ;
+    rdfs:domain     mc:User ;
+    rdfs:range      mc:ReputationRecord .
+
+mc:builderScore
+    rdf:type        rdf:Property ;
+    rdfs:label      "builder score" ;
+    rdfs:domain     mc:ReputationRecord ;
+    rdfs:range      xsd:integer .
+
+mc:helperScore
+    rdf:type        rdf:Property ;
+    rdfs:label      "helper score" ;
+    rdfs:domain     mc:ReputationRecord ;
+    rdfs:range      xsd:integer .
+
+mc:organiserScore
+    rdf:type        rdf:Property ;
+    rdfs:label      "organiser score" ;
+    rdfs:domain     mc:ReputationRecord ;
+    rdfs:range      xsd:integer .
+
+mc:reliabilityScore
+    rdf:type        rdf:Property ;
+    rdfs:label      "reliability score" ;
+    rdfs:domain     mc:ReputationRecord ;
+    rdfs:range      xsd:integer .
+
+# ── User profile ──────────────────────────────
+
+mc:email
+    rdf:type        rdf:Property ;
+    rdfs:label      "email" ;
+    rdfs:domain     mc:User ;
+    rdfs:range      xsd:string .
+
+mc:username
+    rdf:type        rdf:Property ;
+    rdfs:label      "username" ;
+    rdfs:domain     mc:User ;
+    rdfs:range      xsd:string .
+
+mc:registeredAt
+    rdf:type        rdf:Property ;
+    rdfs:label      "registered at" ;
+    rdfs:domain     mc:User ;
+    rdfs:range      xsd:dateTime .
+
+# ── RDFS++ symmetric / transitive extras ──────
+
+# "knows" — symmetric: if A knows B, B knows A (inferred by RDFS++ reasoner)
+mc:knows
+    rdf:type            owl:SymmetricProperty ;
+    rdfs:subPropertyOf  mc:involvesAgent ;
+    rdfs:label          "knows" ;
+    rdfs:comment        "Two users who have interacted (voted, commented, co-authored). Symmetric." ;
+    rdfs:domain         mc:User ;
+    rdfs:range          mc:User .
+
+# "isMemberOf" — a user can belong to a sub-community of a parent community.
+# If community A isSubCommunityOf B, and B isSubCommunityOf C
+# then A isSubCommunityOf C  (transitive — RDFS++ supported via owl:TransitiveProperty)
+mc:Community
+    rdf:type        rdfs:Class ;
+    rdfs:label      "Community" ;
+    rdfs:comment    "A named group or club within ModellingClub (e.g. Drone Racers, Scale Builders)." .
+
+mc:isSubCommunityOf
+    rdf:type            owl:TransitiveProperty ;
+    rdfs:label          "is sub-community of" ;
+    rdfs:comment        "Hierarchical containment of communities. Transitive." ;
+    rdfs:domain         mc:Community ;
+    rdfs:range          mc:Community .
+
+mc:isMemberOf
+    rdf:type        rdf:Property ;
+    rdfs:label      "is member of" ;
+    rdfs:domain     mc:User ;
+    rdfs:range      mc:Community .
+
+# ── Equivalent class mapping (OWL within RDFS++) ──
+
+# A Collaborator IS also a Builder (users with that role have built something)
+mc:Collaborator owl:equivalentClass mc:Builder .

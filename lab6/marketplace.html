@@ -1,0 +1,132 @@
+<!doctype html>
+<!--
+  ModellingClub — Marketplace (server-rendered snapshot).
+  RDFa: each table row is a schema:Product with a nested schema:Offer
+        (price, priceCurrency, itemCondition, seller) + custom mc:MarketplaceListing.
+  JSON-LD: an ItemList of the same Products.
+  Note: a <table> row is the textbook "data split across sibling <td> cells";
+        about/typeof on <tr> binds every cell to one Product subject.
+-->
+<html lang="en"
+      vocab="https://schema.org/"
+      prefix="mc:   http://modellingclub.local/ontology#
+              mcr:  http://modellingclub.local/resource/
+              schema: https://schema.org/">
+<head>
+  <meta charset="utf-8">
+  <title>Marketplace — ModellingClub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": { "@vocab": "https://schema.org/", "mc": "http://modellingclub.local/ontology#", "mcr": "http://modellingclub.local/resource/" },
+    "@type": "ItemList",
+    "name": "Marketplace listings",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1,
+        "item": {
+          "@id": "mcr:listing-esc",
+          "@type": ["Product", "mc:MarketplaceListing"],
+          "name": "BLHeli32 45A ESC",
+          "category": "Electronics",
+          "additionalType": "http://modellingclub.local/ontology#ElectronicsPart",
+          "offers": {
+            "@type": "Offer", "price": "29.90", "priceCurrency": "PLN",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/UsedCondition",
+            "seller": { "@id": "mcr:user-alice", "@type": ["Person","mc:User"], "name": "alice" }
+          }
+        } },
+      { "@type": "ListItem", "position": 2,
+        "item": {
+          "@id": "mcr:listing-frame",
+          "@type": ["Product", "mc:MarketplaceListing"],
+          "name": "5-inch Carbon Frame",
+          "category": "Frame",
+          "additionalType": "http://modellingclub.local/ontology#FramePart",
+          "offers": {
+            "@type": "Offer", "price": "49.00", "priceCurrency": "PLN",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/UsedCondition",
+            "seller": { "@id": "mcr:user-dave", "@type": ["Person","mc:User"], "name": "dave" }
+          }
+        } }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- ════ VOCAB MAP (this page) ═══════════════════════════════════════
+       schema.org : Product, Offer, Person, ItemList, ListItem;
+                    name/category/offers/price/priceCurrency/itemCondition/seller
+       custom mc: : mc:MarketplaceListing, mc:partName, mc:partCategory,
+                    mc:listedBy, mc:User  (dual-annotated on each row)
+       custom-ONLY sections: none
+       ═══════════════════════════════════════════════════════════════════ -->
+  <nav>
+    <a href="index.html" class="site-footer-brand" style="text-decoration:none">✈ ModellingClub</a>
+    <span class="sep">|</span>
+    <a href="index.html">Home</a>
+    <a href="builds.html">Explore</a>
+    <a href="marketplace.html" class="active">Marketplace</a>
+    <a href="testrun.html">Test Runs</a>
+    <a href="member-alice.html">Members</a>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div>
+        <h1>Marketplace</h1>
+        <p style="margin-top:0.25rem; font-size:0.9rem">Trade parts and full kits between members.</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <table>
+        <thead><tr><th>Part</th><th>Category</th><th>Condition</th><th>Price</th><th>Seller</th></tr></thead>
+        <tbody>
+          <!-- Row = one Product. typeof on <tr>; the <td>s carry its properties.
+               The Offer is given a stable IRI (mcr:offer-esc) so the Condition
+               cell and the Price cell BOTH describe the one Offer node, even
+               though they are separate <td> siblings. -->
+          <tr about="mcr:listing-esc" typeof="schema:Product mc:MarketplaceListing">
+            <td><strong property="schema:name mc:partName">BLHeli32 45A ESC</strong></td>
+            <td property="category">Electronics<span rel="mc:partCategory" resource="mcr:cat-electronics"></span></td>
+            <td rel="offers" resource="mcr:offer-esc" typeof="Offer">
+              <span property="itemCondition" resource="https://schema.org/UsedCondition">used</span>
+            </td>
+            <td rel="offers" resource="mcr:offer-esc">
+              <span property="price" content="29.90">29.90</span>
+              <span property="priceCurrency" content="PLN">PLN</span>
+              <link property="availability" href="https://schema.org/InStock">
+            </td>
+            <td rel="schema:seller mc:listedBy" resource="mcr:user-alice" typeof="schema:Person mc:User">
+              <span property="schema:name mc:username">alice</span>
+            </td>
+          </tr>
+
+          <tr about="mcr:listing-frame" typeof="schema:Product mc:MarketplaceListing">
+            <td><strong property="schema:name mc:partName">5-inch Carbon Frame</strong></td>
+            <td property="category">Frame<span rel="mc:partCategory" resource="mcr:cat-frame"></span></td>
+            <td rel="offers" resource="mcr:offer-frame" typeof="Offer">
+              <span property="itemCondition" resource="https://schema.org/UsedCondition">used</span>
+            </td>
+            <td rel="offers" resource="mcr:offer-frame">
+              <span property="price" content="49.00">49.00</span>
+              <span property="priceCurrency" content="PLN">PLN</span>
+              <link property="availability" href="https://schema.org/InStock">
+            </td>
+            <td rel="schema:seller mc:listedBy" resource="mcr:user-dave" typeof="schema:Person mc:User">
+              <span property="schema:name mc:username">dave</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="site-footer"><div class="site-footer-copy">ModellingClub — Lab 6 semantic-markup snapshot.</div></footer>
+</body>
+</html>

@@ -1,0 +1,192 @@
+================================================================================
+ LAB 6 — GUIDE: open in IntelliJ
+================================================================================
+
+This lab is NOT a Java/Maven project like lab4 and lab5. It is a set of static
+HTML pages with embedded semantic data (RDFa attributes + JSON-LD scripts).
+There is no build, no pom.xml, nothing to compile. IntelliJ is used only as an
+editor + built-in web server to render the pages and take screenshots.
+
+The .idea/ project files are already created, so IntelliJ opens lab6 directly.
+
+--------------------------------------------------------------------------------
+ THE 3 DELIVERABLES (what you hand in)
+--------------------------------------------------------------------------------
+ 1. Short REPORT (PDF/DOC) = what was done + screenshots of verification (RDFa)
+    and checking (Google/schema validator) + references to ontologies used.
+ 2. SOURCE of the rendered HTML pages (the *.html files in this folder).
+ 3. CUSTOM ontology  ->  vocabulary/ontology.ttl   (your mc: vocabulary).
+    Do NOT hand in schema.org or any existing ontology — only mention them in
+    the report.
+
+Everything you need already exists in this folder. The work below is: open it,
+render the pages, run the two validators, screenshot the results, and assemble
+the report.
+
+================================================================================
+ STEP 0 — OPEN THE PROJECT IN INTELLIJ
+================================================================================
+ 1. IntelliJ -> File -> Open  ->  select  D:\Stuff\isolated_env\ISM\lab6
+ 2. It opens as a "lab6" module (static web). No Maven import prompt — correct,
+    there is no pom.xml here.
+ 3. If IntelliJ asks about a JDK, ignore / pick any — not needed for static web.
+
+================================================================================
+ STEP 1 — RENDER THE PAGES IN A BROWSER (deliverable 2 = the rendered source)
+================================================================================
+ IntelliJ has a built-in web server. To view a page as the browser sees it:
+
+ 1. In the Project tree, open  build-falcon.html  (the showcase page — use this
+    one for the main screenshots; it exercises every technique).
+ 2. Hover the top-right of the editor -> click a browser icon (Chrome), OR
+    right-click the file -> Open In -> Browser -> Chrome.
+    URL looks like:  http://localhost:63342/lab6/build-falcon.html
+ 3. Repeat for the others to confirm they render with the dark theme:
+       index.html        Home (WebSite + Organization + ItemList of builds)
+       builds.html       Explore (CollectionPage + ItemList -> 4 builds)
+       build-falcon.html Build detail SHOWCASE (CreativeWork + mc:DroneBuild,
+                         AggregateRating, vote counters, FLIGHT LOG + TELEMETRY
+                         custom vocab, comments)
+       marketplace.html  Listings (Product + Offer + mc:MarketplaceListing)
+       member-alice.html Member (Person + mc:Builder + mc:ReputationRecord)
+       testrun.html      Test run (Event + Place + mc:TestRun)
+
+ 4. Take a screenshot of each rendered page (at least the home page and the
+    build-falcon showcase). These prove the pages render as a real app view.
+
+ NOTE on deliverable 2: the "resulting HTML document rendered in the browser" is
+ simply these *.html files. In the browser do Ctrl+U (View Source) to show the
+ RDFa attributes (vocab=, typeof=, property=, about=, resource=, content=) and
+ the <script type="application/ld+json"> block in <head>. Screenshot a chunk of
+ that source for the report so the markers are visible.
+
+ TIP: each page opens (just after <body>) with a "VOCAB MAP" comment that lists
+ that page's schema.org terms, its custom mc: terms, and any CUSTOM-ONLY section
+ (no schema.org equivalent). Use it to point out in the report exactly which
+ markup is schema.org and which is your vocabulary. The custom-ONLY sections are:
+   build-falcon.html -> Flight Logs card + Telemetry card
+   member-alice.html -> Reputation card
+ A full term-by-term table per page is in snapshot.md (section 5b).
+
+================================================================================
+ STEP 2 — VERIFICATION (RDFa)  -> screenshot for the report
+================================================================================
+ Tool: RDFa Play   http://rdfa.info/play/
+
+ 1. Open build-falcon.html in the browser, Ctrl+U to View Source, select all,
+    copy.
+ 2. Go to RDFa Play, paste the markup into the editor (left).
+ 3. Choose the Turtle (or N-Triples) output tab.
+ 4. Confirm the extracted triples show:
+       - mcr:build-falcon  is BOTH  schema:CreativeWork  AND  mc:DroneBuild
+       - schema:name, schema:author -> mcr:user-alice, schema:aggregateRating
+       - the mc:hasFlightLog / mc:hasTelemetry sub-graphs (custom vocab)
+       - both comments
+       - all the scattered cards attach to the ONE subject (no stray blank
+         nodes for the build) — this proves the about="" technique works.
+ 5. SCREENSHOT the triples / graph panel. This is the "verification (2)" image.
+
+ (Optional but strong: also paste marketplace.html and confirm the two table
+  cells — Condition + Price — feed the SAME Offer node, not two.)
+
+================================================================================
+ STEP 3 — CHECKING (Google / schema.org validator) -> screenshot for the report
+================================================================================
+ The brief's old "Structured Data Testing Tool" was split into two. Use either:
+
+   A. Schema Markup Validator   https://validator.schema.org/
+      (best for the general schema.org graph: CreativeWork, Person, etc.)
+   B. Rich Results Test         https://search.google.com/test/rich-results
+      (best for Product, Event, AggregateRating types)
+
+ For each page you screenshot:
+ 1. Paste the page's HTML code (Code tab) into the validator.
+ 2. Confirm it detects the items with 0 ERRORS.
+ 3. The custom mc: properties show up as recognised-but-unknown extra props —
+    THIS IS EXPECTED (they are not schema.org terms). All schema.org types must
+    parse cleanly.
+ 4. SCREENSHOT the result. This is the "checking (3)" image.
+
+ Suggested pages to validate:
+   build-falcon.html  -> CreativeWork + AggregateRating
+   marketplace.html   -> Product + Offer
+   testrun.html       -> Event + Place
+   member-alice.html  -> Person
+
+================================================================================
+ STEP 4 (OPTIONAL) — OFFLINE JSON-LD CHECK (extra proof for the report)
+================================================================================
+ Confirms the embedded JSON-LD yields real RDF triples. Needs Python + rdflib
+ (pip install rdflib). Run from inside the lab6 folder:
+
+   python -c "import re,rdflib; b=re.findall(r'<script type=\"application/ld\+json\">(.*?)</script>',open('build-falcon.html',encoding='utf-8').read(),re.S)[0]; print(len(rdflib.Graph().parse(data=b,format='json-ld')),'triples')"
+
+ Expected counts (from README):
+   build-falcon.html : 76 triples
+   marketplace.html  : 40 triples
+   testrun.html      : 31 triples
+
+ Screenshot the terminal output if you want a third evidence image.
+
+================================================================================
+ STEP 5 — ASSEMBLE THE REPORT (deliverable 1)
+================================================================================
+ Make a short report (PDF or DOC). README.md already contains all the prose —
+ reuse it. The report should contain:
+
+ 1. Aim: embed semantic data in the web app views using RDFa + JSON-LD,
+    preferring schema.org, falling back to a custom vocabulary.
+ 2. Why static snapshot pages: the real app is Angular (client-side rendered),
+    so a crawler sees only <app-root>. Snapshots are what an SSR build would
+    emit for a bot. (See README section 1.)
+ 3. The schema.org <-> custom mc: mapping table (README section 3): list which
+    domain things use schema.org and which needed the custom vocab (FlightLog,
+    TelemetryRecord, ReputationRecord, MarketplaceListing, TestRun, Community).
+ 4. The scattered-<div> @about technique (README section 4).
+ 5. SCREENSHOTS:
+       - rendered pages (Step 1)
+       - RDFa Play triples           = VERIFICATION (2)
+       - schema/Google validator 0 errors = CHECKING (3)
+       - (optional) rdflib triple counts
+ 6. REFERENCES TO ONTOLOGIES USED:
+       - schema.org                       https://schema.org/   (EXISTING — only
+         referenced, NOT delivered)
+       - XSD datatypes  http://www.w3.org/2001/XMLSchema#       (existing)
+       - Custom ModellingClub vocabulary  mc:
+         http://modellingclub.local/ontology#   -> DELIVERED as
+         vocabulary/ontology.ttl (originates from lab5).
+
+ Save the report as e.g.  lab6-report.pdf  in this folder.
+
+================================================================================
+ STEP 6 — PACKAGE FOR SUBMISSION
+================================================================================
+ Hand in:
+   [1] lab6-report.pdf                         (with the screenshots above)
+   [2] *.html  +  styles.css  +  vocabulary/mc-context.jsonld
+         (the rendered source — the HTML carries the RDFa + JSON-LD)
+   [3] vocabulary/ontology.ttl                 (the custom mc: vocabulary ONLY)
+
+ DO NOT submit schema.org or any third-party ontology file — only mention them
+ in the report's references section.
+
+ Files NOT needed in submission (project plumbing): .idea/  and this guide.txt.
+
+================================================================================
+ QUICK FILE MAP
+================================================================================
+   index.html            Home
+   builds.html           Explore / list of builds
+   build-falcon.html     SHOWCASE build detail (use for main demo)
+   marketplace.html      Product + Offer listings
+   member-alice.html     Person / Builder profile
+   testrun.html          Event / test run
+   styles.css            dark theme (presentation only, copied from lab4)
+   vocabulary/
+     mc-context.jsonld   reusable JSON-LD @context for mc: terms
+     ontology.ttl        custom mc: TBox  <-- DELIVERABLE 3
+   README.md             full write-up (source of the report text)
+   snapshot.md           project snapshot + per-page schema.org-vs-mc: tables
+   guide.txt             this file (not submitted)
+   .idea/                IntelliJ project files (not submitted)
+================================================================================

@@ -1,0 +1,144 @@
+<!doctype html>
+<!--
+  ModellingClub — Member profile (server-rendered snapshot).
+  RDFa: schema:Person + custom mc:User/mc:Builder.
+  Reputation has no schema.org class, so it uses custom mc:ReputationRecord
+  with mc:builderScore / mc:helperScore / mc:organiserScore / mc:reliabilityScore.
+  mc:knows (symmetric in the ontology) and mc:isMemberOf are shown too.
+  JSON-LD mirrors the Person graph.
+-->
+<html lang="en"
+      vocab="https://schema.org/"
+      prefix="mc:   http://modellingclub.local/ontology#
+              mcr:  http://modellingclub.local/resource/
+              schema: https://schema.org/
+              xsd:  http://www.w3.org/2001/XMLSchema#">
+<head>
+  <meta charset="utf-8">
+  <title>alice — ModellingClub member</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "@vocab": "https://schema.org/",
+      "mc": "http://modellingclub.local/ontology#",
+      "mcr": "http://modellingclub.local/resource/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@id": "mcr:user-alice",
+    "@type": ["Person", "mc:User", "mc:Builder"],
+    "name": "alice",
+    "email": "alice@modellingclub.local",
+    "url": "member-alice.html",
+    "memberOf": { "@id": "mcr:comm-microfpv", "@type": ["Organization","mc:Community"], "name": "Micro FPV" },
+    "knows": { "@id": "mcr:user-bob", "@type": ["Person","mc:User"], "name": "bob" },
+    "mc:registeredAt": { "@type": "xsd:dateTime", "@value": "2024-03-12T10:15:00Z" },
+    "mc:hasReputation": {
+      "@id": "mcr:rep-alice",
+      "@type": "mc:ReputationRecord",
+      "mc:builderScore":     { "@type": "xsd:integer", "@value": "95" },
+      "mc:helperScore":      { "@type": "xsd:integer", "@value": "40" },
+      "mc:organiserScore":   { "@type": "xsd:integer", "@value": "10" },
+      "mc:reliabilityScore": { "@type": "xsd:integer", "@value": "88" }
+    },
+    "author": [
+      { "@id": "mcr:build-falcon", "@type": ["CreativeWork","mc:DroneBuild"], "name": "Falcon FPV Racer", "url": "build-falcon.html" },
+      { "@id": "mcr:build-arm",    "@type": ["CreativeWork","mc:RobotBuild"],  "name": "6-DOF Arm" }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- ════ VOCAB MAP (this page) ═══════════════════════════════════════
+       schema.org : Person, Organization, CreativeWork;
+                    name/email/url/knows/memberOf/author
+       custom mc: : mc:User, mc:Builder, mc:Community, mc:username,
+                    mc:registeredAt, mc:knows, mc:isMemberOf, mc:createdBy
+       custom-ONLY section (no schema.org equivalent — pure mc:):
+            • Reputation card → mc:ReputationRecord / mc:builderScore /
+              mc:helperScore / mc:organiserScore / mc:reliabilityScore
+       ═══════════════════════════════════════════════════════════════════ -->
+  <nav>
+    <a href="index.html" class="site-footer-brand" style="text-decoration:none">✈ ModellingClub</a>
+    <span class="sep">|</span>
+    <a href="index.html">Home</a>
+    <a href="builds.html">Explore</a>
+    <a href="marketplace.html">Marketplace</a>
+    <a href="testrun.html">Test Runs</a>
+    <a href="member-alice.html" class="active">Members</a>
+  </nav>
+
+  <div class="page-wrapper">
+
+    <!-- Profile header card -->
+    <div class="glass-card" style="margin-bottom:1.5rem"
+         about="mcr:user-alice" typeof="schema:Person mc:User mc:Builder">
+      <div style="display:flex; align-items:center; gap:1rem">
+        <span class="avatar lg">AL</span>
+        <div>
+          <h1 style="margin:0" property="schema:name mc:username">alice</h1>
+          <p style="margin:0">
+            <a property="schema:email" href="mailto:alice@modellingclub.local" style="color:var(--primary)">alice@modellingclub.local</a>
+          </p>
+          <p style="margin:0; font-size:0.85rem">
+            Member since
+            <time property="mc:registeredAt" datatype="xsd:dateTime"
+                  datetime="2024-03-12T10:15:00Z" content="2024-03-12T10:15:00Z">12 Mar 2024</time>
+          </p>
+        </div>
+      </div>
+
+      <!-- knows (symmetric) + community membership, attached to same Person -->
+      <p style="margin-top:1rem; font-size:0.9rem">
+        Knows
+        <a rel="schema:knows mc:knows" resource="mcr:user-bob" href="#" typeof="schema:Person" style="color:var(--primary)">
+          <span property="schema:name">bob</span></a>
+        · Member of
+        <span rel="schema:memberOf mc:isMemberOf" resource="mcr:comm-microfpv"
+              typeof="schema:Organization mc:Community">
+          <span property="schema:name">Micro FPV</span></span>
+      </p>
+    </div>
+
+    <!-- Reputation card — custom vocabulary only (no schema.org equivalent) -->
+    <div class="glass-card" style="margin-bottom:1.5rem" about="mcr:user-alice">
+      <h3>Reputation</h3>
+      <div class="kpi-grid"
+           rel="mc:hasReputation" resource="mcr:rep-alice" typeof="mc:ReputationRecord">
+        <div class="kpi-tile kpi-accent-primary"><span class="kpi-label">Builder</span>
+          <span class="kpi-value" property="mc:builderScore" datatype="xsd:integer" content="95">95</span></div>
+        <div class="kpi-tile kpi-accent-success"><span class="kpi-label">Helper</span>
+          <span class="kpi-value" property="mc:helperScore" datatype="xsd:integer" content="40">40</span></div>
+        <div class="kpi-tile kpi-accent-secondary"><span class="kpi-label">Organiser</span>
+          <span class="kpi-value" property="mc:organiserScore" datatype="xsd:integer" content="10">10</span></div>
+        <div class="kpi-tile kpi-accent-warning"><span class="kpi-label">Reliability</span>
+          <span class="kpi-value" property="mc:reliabilityScore" datatype="xsd:integer" content="88">88</span></div>
+      </div>
+    </div>
+
+    <!-- Builds authored by this member -->
+    <div class="glass-card" about="mcr:user-alice">
+      <h3>Builds by alice</h3>
+      <ul style="list-style:none; padding:0; margin:0">
+        <li style="padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.04)">
+          <a href="build-falcon.html" rel="schema:author mc:createdBy" resource="mcr:build-falcon"
+             typeof="schema:CreativeWork mc:DroneBuild" style="color:var(--text-primary)">
+            <strong property="schema:name">Falcon FPV Racer</strong></a>
+          <span class="badge badge-drone">drone</span>
+        </li>
+        <li style="padding:0.5rem 0">
+          <a href="builds.html" rel="schema:author mc:createdBy" resource="mcr:build-arm"
+             typeof="schema:CreativeWork mc:RobotBuild" style="color:var(--text-primary)">
+            <strong property="schema:name">6-DOF Arm</strong></a>
+          <span class="badge badge-other">robot</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="site-footer"><div class="site-footer-copy">ModellingClub — Lab 6 semantic-markup snapshot.</div></footer>
+</body>
+</html>
