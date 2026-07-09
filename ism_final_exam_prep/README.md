@@ -5,6 +5,8 @@ exam (PWR, Tomasz Kubik lectures). It's a single-page web app written in plain
 HTML/CSS/JavaScript — **no build step, no server, no dependencies, no internet**.
 Open one file and start revising.
 
+![ISM quiz app — Quiz view](screenshots/quiz.png)
+
 If you've never touched this repo before, read this whole page once; it tells
 you what's inside, how to run it, and how to actually use it to pass.
 
