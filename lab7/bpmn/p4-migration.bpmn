@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_p4_migration" targetNamespace="http://modellingclub.local/bpmn" exporter="ModellingClub Lab7 generator" exporterVersion="1.0">
+  <bpmn:dataStore id="STORE_DS_RUNBOOK" name="Migration runbook"/>
+  <bpmn:collaboration id="Collab_p4_migration">
+    <bpmn:participant id="Part_POOL_MIG" name="ModellingClub Migration Team" processRef="Proc_POOL_MIG"/>
+    <bpmn:participant id="Part_POOL_USERS" name="Users"/>
+    <bpmn:participant id="Part_POOL_PRD" name="Production Environment"/>
+    <bpmn:messageFlow id="Msg_p4_migration_0" name="Scheduled maintenance notice" sourceRef="NOTIFY_USERS" targetRef="Part_POOL_USERS"/>
+    <bpmn:messageFlow id="Msg_p4_migration_1" name="Activate maintenance page" sourceRef="MAINT_MODE" targetRef="Part_POOL_PRD"/>
+    <bpmn:messageFlow id="Msg_p4_migration_2" name="Restart with Postgres datasource" sourceRef="SWITCH_DS" targetRef="Part_POOL_PRD"/>
+    <bpmn:messageFlow id="Msg_p4_migration_3" name="Deactivate maintenance mode" sourceRef="DISABLE_MAINT" targetRef="Part_POOL_PRD"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_POOL_MIG" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_POOL_MIG">
+      <bpmn:lane id="Lane_POOL_MIG_0" name="Developer"><bpmn:flowNodeRef>PREP_CODE</bpmn:flowNodeRef><bpmn:flowNodeRef>TEST_CONTAINERS</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_TC_PASS</bpmn:flowNodeRef><bpmn:flowNodeRef>FIX_SQL</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_MIG_1" name="DBA"><bpmn:flowNodeRef>GEN_BASELINE</bpmn:flowNodeRef><bpmn:flowNodeRef>DUMP_H2</bpmn:flowNodeRef><bpmn:flowNodeRef>LOAD_PG</bpmn:flowNodeRef><bpmn:flowNodeRef>VERIFY_Q</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_VERIFY</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_MIG_2" name="Release Manager"><bpmn:flowNodeRef>START_APPROVAL</bpmn:flowNodeRef><bpmn:flowNodeRef>SCHED_WINDOW</bpmn:flowNodeRef><bpmn:flowNodeRef>NOTIFY_USERS</bpmn:flowNodeRef><bpmn:flowNodeRef>SIGNOFF</bpmn:flowNodeRef><bpmn:flowNodeRef>END_SUCCESS</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_MIG_3" name="Ops / DevOps"><bpmn:flowNodeRef>TIMER_WINDOW</bpmn:flowNodeRef><bpmn:flowNodeRef>MAINT_MODE</bpmn:flowNodeRef><bpmn:flowNodeRef>PROVISION_PG</bpmn:flowNodeRef><bpmn:flowNodeRef>SWITCH_DS</bpmn:flowNodeRef><bpmn:flowNodeRef>DISABLE_MAINT</bpmn:flowNodeRef><bpmn:flowNodeRef>ROLLBACK_DS</bpmn:flowNodeRef><bpmn:flowNodeRef>ROLLBACK_NOTIFY</bpmn:flowNodeRef><bpmn:flowNodeRef>DISABLE_MAINT_RB</bpmn:flowNodeRef><bpmn:flowNodeRef>END_ROLLBACK</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_MIG_4" name="QA / Tester"><bpmn:flowNodeRef>SMOKE_TEST</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_SMOKE</bpmn:flowNodeRef></bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="START_APPROVAL" name="Migration approved"></bpmn:startEvent>
+    <bpmn:serviceTask id="PREP_CODE" name="Add Postgres driver + Flyway"/>
+    <bpmn:scriptTask id="GEN_BASELINE" name="Export H2 schema → V1__baseline.sql"/>
+    <bpmn:serviceTask id="TEST_CONTAINERS" name="Integration test (Testcontainers)"/>
+    <bpmn:exclusiveGateway id="GW_TC_PASS" name="Tests passed?"/>
+    <bpmn:userTask id="FIX_SQL" name="Fix SQL dialect issues"/>
+    <bpmn:userTask id="SCHED_WINDOW" name="Schedule maintenance window"/>
+    <bpmn:sendTask id="NOTIFY_USERS" name="Send maintenance notice"/>
+    <bpmn:intermediateCatchEvent id="TIMER_WINDOW" name="Wait for window start"><bpmn:timerEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="MAINT_MODE" name="Enable maintenance / read-only mode"/>
+    <bpmn:scriptTask id="DUMP_H2" name="Dump H2 data (FK-safe order)"/>
+    <bpmn:serviceTask id="PROVISION_PG" name="Provision Postgres; schema + roles"/>
+    <bpmn:scriptTask id="LOAD_PG" name="Load dump; run Flyway migrate"/>
+    <bpmn:serviceTask id="SWITCH_DS" name="Switch datasource; ddl-auto=validate"/>
+    <bpmn:scriptTask id="VERIFY_Q" name="Verification queries (counts, FKs)"/>
+    <bpmn:exclusiveGateway id="GW_VERIFY" name="Verification passed?"/>
+    <bpmn:manualTask id="SMOKE_TEST" name="Post-migration smoke test"/>
+    <bpmn:exclusiveGateway id="GW_SMOKE" name="Smoke passed?"/>
+    <bpmn:serviceTask id="DISABLE_MAINT" name="Disable maintenance; restore traffic"/>
+    <bpmn:userTask id="SIGNOFF" name="Sign off; archive runbook"/>
+    <bpmn:endEvent id="END_SUCCESS" name="Migration complete"></bpmn:endEvent>
+    <bpmn:serviceTask id="ROLLBACK_DS" name="Revert datasource to H2; restart"/>
+    <bpmn:sendTask id="ROLLBACK_NOTIFY" name="Notify team: rolled back to H2"/>
+    <bpmn:serviceTask id="DISABLE_MAINT_RB" name="Disable maintenance (rollback)"/>
+    <bpmn:endEvent id="END_ROLLBACK" name="Rolled back to H2"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p4_migration_0" sourceRef="START_APPROVAL" targetRef="PREP_CODE"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_1" sourceRef="PREP_CODE" targetRef="GEN_BASELINE"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_2" sourceRef="GEN_BASELINE" targetRef="TEST_CONTAINERS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_3" sourceRef="TEST_CONTAINERS" targetRef="GW_TC_PASS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_4" name="passed" sourceRef="GW_TC_PASS" targetRef="SCHED_WINDOW"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_5" name="failed" sourceRef="GW_TC_PASS" targetRef="FIX_SQL"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_6" sourceRef="FIX_SQL" targetRef="GEN_BASELINE"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_7" sourceRef="SCHED_WINDOW" targetRef="NOTIFY_USERS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_8" sourceRef="NOTIFY_USERS" targetRef="TIMER_WINDOW"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_9" sourceRef="TIMER_WINDOW" targetRef="MAINT_MODE"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_10" sourceRef="MAINT_MODE" targetRef="DUMP_H2"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_11" sourceRef="DUMP_H2" targetRef="PROVISION_PG"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_12" sourceRef="PROVISION_PG" targetRef="LOAD_PG"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_13" sourceRef="LOAD_PG" targetRef="SWITCH_DS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_14" sourceRef="SWITCH_DS" targetRef="VERIFY_Q"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_15" sourceRef="VERIFY_Q" targetRef="GW_VERIFY"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_16" name="passed" sourceRef="GW_VERIFY" targetRef="SMOKE_TEST"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_17" name="failed" sourceRef="GW_VERIFY" targetRef="ROLLBACK_DS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_18" sourceRef="SMOKE_TEST" targetRef="GW_SMOKE"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_19" name="passed" sourceRef="GW_SMOKE" targetRef="DISABLE_MAINT"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_20" name="failed" sourceRef="GW_SMOKE" targetRef="ROLLBACK_DS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_21" sourceRef="DISABLE_MAINT" targetRef="SIGNOFF"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_22" sourceRef="SIGNOFF" targetRef="END_SUCCESS"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_23" sourceRef="ROLLBACK_DS" targetRef="ROLLBACK_NOTIFY"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_24" sourceRef="ROLLBACK_NOTIFY" targetRef="DISABLE_MAINT_RB"/>
+    <bpmn:sequenceFlow id="Flow_p4_migration_25" sourceRef="DISABLE_MAINT_RB" targetRef="END_ROLLBACK"/>
+    <bpmn:dataObject id="OBJ_DO_BASELINE"/>
+    <bpmn:dataObjectReference id="DO_BASELINE" name="V1__baseline.sql" dataObjectRef="OBJ_DO_BASELINE"/>
+    <bpmn:association id="Assoc_DO_BASELINE" sourceRef="GEN_BASELINE" targetRef="DO_BASELINE"/>
+    <bpmn:dataObject id="OBJ_DO_DUMP"/>
+    <bpmn:dataObjectReference id="DO_DUMP" name="H2 SQL dump" dataObjectRef="OBJ_DO_DUMP"/>
+    <bpmn:association id="Assoc_DO_DUMP" sourceRef="DUMP_H2" targetRef="DO_DUMP"/>
+    <bpmn:dataStoreReference id="DS_RUNBOOK" name="Migration runbook" dataStoreRef="STORE_DS_RUNBOOK"/>
+    <bpmn:association id="Assoc_DS_RUNBOOK" sourceRef="SIGNOFF" targetRef="DS_RUNBOOK"/>
+    <bpmn:textAnnotation id="Anno_POOL_MIG_0"><bpmn:text>UUID → uuid; TIMESTAMP → TIMESTAMPTZ</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_MIG_0" sourceRef="GEN_BASELINE" targetRef="Anno_POOL_MIG_0"/>
+    <bpmn:textAnnotation id="Anno_POOL_MIG_1"><bpmn:text>H2 file untouched during migration</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_MIG_1" sourceRef="ROLLBACK_DS" targetRef="Anno_POOL_MIG_1"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diag_p4_migration">
+    <bpmndi:BPMNPlane id="Plane_p4_migration" bpmnElement="Collab_p4_migration">
+      <bpmndi:BPMNShape id="DI_Part_POOL_MIG" bpmnElement="Part_POOL_MIG" isHorizontal="true"><dc:Bounds x="10" y="10" width="4016" height="1088"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_USERS" bpmnElement="Part_POOL_USERS" isHorizontal="true"><dc:Bounds x="10" y="1124" width="4016" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_PRD" bpmnElement="Part_POOL_PRD" isHorizontal="true"><dc:Bounds x="10" y="1290" width="4016" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_MIG_0" bpmnElement="Lane_POOL_MIG_0" isHorizontal="true"><dc:Bounds x="40" y="10" width="3986" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_MIG_1" bpmnElement="Lane_POOL_MIG_1" isHorizontal="true"><dc:Bounds x="40" y="150" width="3986" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_MIG_2" bpmnElement="Lane_POOL_MIG_2" isHorizontal="true"><dc:Bounds x="40" y="382" width="3986" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_MIG_3" bpmnElement="Lane_POOL_MIG_3" isHorizontal="true"><dc:Bounds x="40" y="614" width="3986" height="344"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_MIG_4" bpmnElement="Lane_POOL_MIG_4" isHorizontal="true"><dc:Bounds x="40" y="958" width="3986" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_START_APPROVAL" bpmnElement="START_APPROVAL"><dc:Bounds x="147" y="434" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PREP_CODE" bpmnElement="PREP_CODE"><dc:Bounds x="288" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GEN_BASELINE" bpmnElement="GEN_BASELINE"><dc:Bounds x="476" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TEST_CONTAINERS" bpmnElement="TEST_CONTAINERS"><dc:Bounds x="664" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_TC_PASS" bpmnElement="GW_TC_PASS"><dc:Bounds x="891" y="54" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_FIX_SQL" bpmnElement="FIX_SQL"><dc:Bounds x="1040" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_SCHED_WINDOW" bpmnElement="SCHED_WINDOW"><dc:Bounds x="1040" y="415" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_NOTIFY_USERS" bpmnElement="NOTIFY_USERS"><dc:Bounds x="1228" y="415" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TIMER_WINDOW" bpmnElement="TIMER_WINDOW"><dc:Bounds x="1463" y="666" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MAINT_MODE" bpmnElement="MAINT_MODE"><dc:Bounds x="1604" y="647" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DUMP_H2" bpmnElement="DUMP_H2"><dc:Bounds x="1792" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PROVISION_PG" bpmnElement="PROVISION_PG"><dc:Bounds x="1980" y="647" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_LOAD_PG" bpmnElement="LOAD_PG"><dc:Bounds x="2168" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_SWITCH_DS" bpmnElement="SWITCH_DS"><dc:Bounds x="2356" y="647" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_VERIFY_Q" bpmnElement="VERIFY_Q"><dc:Bounds x="2544" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_VERIFY" bpmnElement="GW_VERIFY"><dc:Bounds x="2771" y="194" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_SMOKE_TEST" bpmnElement="SMOKE_TEST"><dc:Bounds x="2920" y="991" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_SMOKE" bpmnElement="GW_SMOKE"><dc:Bounds x="3147" y="1002" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DISABLE_MAINT" bpmnElement="DISABLE_MAINT"><dc:Bounds x="3296" y="647" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_SIGNOFF" bpmnElement="SIGNOFF"><dc:Bounds x="3484" y="415" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_SUCCESS" bpmnElement="END_SUCCESS"><dc:Bounds x="3719" y="434" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ROLLBACK_DS" bpmnElement="ROLLBACK_DS"><dc:Bounds x="3296" y="759" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ROLLBACK_NOTIFY" bpmnElement="ROLLBACK_NOTIFY"><dc:Bounds x="3484" y="647" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DISABLE_MAINT_RB" bpmnElement="DISABLE_MAINT_RB"><dc:Bounds x="3672" y="647" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_ROLLBACK" bpmnElement="END_ROLLBACK"><dc:Bounds x="3907" y="666" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_BASELINE" bpmnElement="DO_BASELINE"><dc:Bounds x="521" y="294" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_DUMP" bpmnElement="DO_DUMP"><dc:Bounds x="1837" y="294" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_RUNBOOK" bpmnElement="DS_RUNBOOK"><dc:Bounds x="3522" y="529" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_MIG_0" bpmnElement="Anno_POOL_MIG_0"><dc:Bounds x="634" y="300" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_MIG_1" bpmnElement="Anno_POOL_MIG_1"><dc:Bounds x="3286" y="876" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_0" bpmnElement="Flow_p4_migration_0"><di:waypoint x="183" y="452"/><di:waypoint x="236" y="452"/><di:waypoint x="236" y="80"/><di:waypoint x="288" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_1" bpmnElement="Flow_p4_migration_1"><di:waypoint x="418" y="80"/><di:waypoint x="447" y="80"/><di:waypoint x="447" y="220"/><di:waypoint x="476" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_2" bpmnElement="Flow_p4_migration_2"><di:waypoint x="606" y="220"/><di:waypoint x="635" y="220"/><di:waypoint x="635" y="80"/><di:waypoint x="664" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_3" bpmnElement="Flow_p4_migration_3"><di:waypoint x="794" y="80"/><di:waypoint x="891" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_4" bpmnElement="Flow_p4_migration_4"><di:waypoint x="943" y="80"/><di:waypoint x="992" y="80"/><di:waypoint x="992" y="452"/><di:waypoint x="1040" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_5" bpmnElement="Flow_p4_migration_5"><di:waypoint x="943" y="80"/><di:waypoint x="1040" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_6" bpmnElement="Flow_p4_migration_6"><di:waypoint x="1105" y="117"/><di:waypoint x="1105" y="281"/><di:waypoint x="541" y="281"/><di:waypoint x="541" y="257"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_7" bpmnElement="Flow_p4_migration_7"><di:waypoint x="1170" y="452"/><di:waypoint x="1228" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_8" bpmnElement="Flow_p4_migration_8"><di:waypoint x="1358" y="452"/><di:waypoint x="1411" y="452"/><di:waypoint x="1411" y="684"/><di:waypoint x="1463" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_9" bpmnElement="Flow_p4_migration_9"><di:waypoint x="1499" y="684"/><di:waypoint x="1604" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_10" bpmnElement="Flow_p4_migration_10"><di:waypoint x="1734" y="684"/><di:waypoint x="1763" y="684"/><di:waypoint x="1763" y="220"/><di:waypoint x="1792" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_11" bpmnElement="Flow_p4_migration_11"><di:waypoint x="1922" y="220"/><di:waypoint x="1951" y="220"/><di:waypoint x="1951" y="684"/><di:waypoint x="1980" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_12" bpmnElement="Flow_p4_migration_12"><di:waypoint x="2110" y="684"/><di:waypoint x="2139" y="684"/><di:waypoint x="2139" y="220"/><di:waypoint x="2168" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_13" bpmnElement="Flow_p4_migration_13"><di:waypoint x="2298" y="220"/><di:waypoint x="2327" y="220"/><di:waypoint x="2327" y="684"/><di:waypoint x="2356" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_14" bpmnElement="Flow_p4_migration_14"><di:waypoint x="2486" y="684"/><di:waypoint x="2515" y="684"/><di:waypoint x="2515" y="220"/><di:waypoint x="2544" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_15" bpmnElement="Flow_p4_migration_15"><di:waypoint x="2674" y="220"/><di:waypoint x="2771" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_16" bpmnElement="Flow_p4_migration_16"><di:waypoint x="2823" y="220"/><di:waypoint x="2872" y="220"/><di:waypoint x="2872" y="1028"/><di:waypoint x="2920" y="1028"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_17" bpmnElement="Flow_p4_migration_17"><di:waypoint x="2823" y="220"/><di:waypoint x="3060" y="220"/><di:waypoint x="3060" y="796"/><di:waypoint x="3296" y="796"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_18" bpmnElement="Flow_p4_migration_18"><di:waypoint x="3050" y="1028"/><di:waypoint x="3147" y="1028"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_19" bpmnElement="Flow_p4_migration_19"><di:waypoint x="3199" y="1028"/><di:waypoint x="3248" y="1028"/><di:waypoint x="3248" y="684"/><di:waypoint x="3296" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_20" bpmnElement="Flow_p4_migration_20"><di:waypoint x="3199" y="1028"/><di:waypoint x="3248" y="1028"/><di:waypoint x="3248" y="796"/><di:waypoint x="3296" y="796"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_21" bpmnElement="Flow_p4_migration_21"><di:waypoint x="3426" y="684"/><di:waypoint x="3455" y="684"/><di:waypoint x="3455" y="452"/><di:waypoint x="3484" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_22" bpmnElement="Flow_p4_migration_22"><di:waypoint x="3614" y="452"/><di:waypoint x="3719" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_23" bpmnElement="Flow_p4_migration_23"><di:waypoint x="3426" y="796"/><di:waypoint x="3455" y="796"/><di:waypoint x="3455" y="684"/><di:waypoint x="3484" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_24" bpmnElement="Flow_p4_migration_24"><di:waypoint x="3614" y="684"/><di:waypoint x="3672" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p4_migration_25" bpmnElement="Flow_p4_migration_25"><di:waypoint x="3802" y="684"/><di:waypoint x="3907" y="684"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p4_migration_0" bpmnElement="Msg_p4_migration_0"><di:waypoint x="1293" y="489"/><di:waypoint x="1293" y="1124"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p4_migration_1" bpmnElement="Msg_p4_migration_1"><di:waypoint x="1669" y="721"/><di:waypoint x="1669" y="1290"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p4_migration_2" bpmnElement="Msg_p4_migration_2"><di:waypoint x="2421" y="721"/><di:waypoint x="2421" y="1290"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p4_migration_3" bpmnElement="Msg_p4_migration_3"><di:waypoint x="3361" y="721"/><di:waypoint x="3361" y="1290"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_BASELINE" bpmnElement="Assoc_DO_BASELINE"><di:waypoint x="541" y="220"/><di:waypoint x="541" y="322"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_DUMP" bpmnElement="Assoc_DO_DUMP"><di:waypoint x="1857" y="220"/><di:waypoint x="1857" y="322"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_RUNBOOK" bpmnElement="Assoc_DS_RUNBOOK"><di:waypoint x="3549" y="452"/><di:waypoint x="3549" y="554"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_MIG_0" bpmnElement="AnnoAssoc_POOL_MIG_0"><di:waypoint x="541" y="220"/><di:waypoint x="709" y="322"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_MIG_1" bpmnElement="AnnoAssoc_POOL_MIG_1"><di:waypoint x="3361" y="796"/><di:waypoint x="3361" y="898"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_p7_onboarding" targetNamespace="http://modellingclub.local/bpmn" exporter="ModellingClub Lab7 generator" exporterVersion="1.0">
+  <bpmn:dataStore id="STORE_DS_PENDING" name="Pending accounts DB"/>
+  <bpmn:collaboration id="Collab_p7_onboarding">
+    <bpmn:participant id="Part_POOL_PM" name="Prospective Member" processRef="Proc_POOL_PM"/>
+    <bpmn:participant id="Part_POOL_OPS" name="ModellingClub Operations" processRef="Proc_POOL_OPS"/>
+    <bpmn:participant id="Part_POOL_CP" name="Cloud Provider" processRef="Proc_POOL_CP"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_0" name="Registration form data" sourceRef="PM_START" targetRef="MA_START"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_1" name="Verification email" sourceRef="MA_SEND_VERIFY" targetRef="PM_AWAIT_EMAIL"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_2" name="Token confirmed" sourceRef="PM_VERIFY_LINK" targetRef="MA_AWAIT_VERIFY"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_3" name="Build approved" sourceRef="MA_NOTIFY_OK" targetRef="PM_FIRST_LOGIN"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_4" name="Quote request" sourceRef="OC_REQ_QUOTE" targetRef="CP_START"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_5" name="Quote &amp; SLA" sourceRef="CP_SEND_QUOTE" targetRef="OC_AWAIT_QUOTE"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_6" name="Signed contract" sourceRef="OC_SEND_SIGNED" targetRef="CP_RECV_CONTRACT"/>
+    <bpmn:messageFlow id="Msg_p7_onboarding_7" name="Environment ready" sourceRef="CP_SEND_READY" targetRef="OC_AWAIT_PROV"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_POOL_PM" isExecutable="false">
+    <bpmn:startEvent id="PM_START" name="Submit registration form"></bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="PM_AWAIT_EMAIL" name="Await verification email"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="PM_VERIFY_LINK" name="Click verification link"/>
+    <bpmn:userTask id="PM_FIRST_LOGIN" name="Complete first login"/>
+    <bpmn:endEvent id="PM_END" name="Member active"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_0" sourceRef="PM_START" targetRef="PM_AWAIT_EMAIL"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_1" sourceRef="PM_AWAIT_EMAIL" targetRef="PM_VERIFY_LINK"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_2" sourceRef="PM_VERIFY_LINK" targetRef="PM_FIRST_LOGIN"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_3" sourceRef="PM_FIRST_LOGIN" targetRef="PM_END"/>
+  </bpmn:process>
+  <bpmn:process id="Proc_POOL_OPS" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_POOL_OPS">
+      <bpmn:lane id="Lane_POOL_OPS_0" name="Membership Admin"><bpmn:flowNodeRef>MA_START</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_CREATE</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_SEND_VERIFY</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_TIMER</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_RESEND</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_AWAIT_VERIFY</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_GW_VERIFIED</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_EXPIRE_END</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_APPROVE_BUILD</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_NOTIFY_OK</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_END</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_1" name="Operations Committee"><bpmn:flowNodeRef>OC_START</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_REQ_QUOTE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_AWAIT_QUOTE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_REVIEW_SLA</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_GW_SLA</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_REJECT_END</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_SIGN</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_SEND_SIGNED</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_AWAIT_PROV</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_GO_LIVE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_END</bpmn:flowNodeRef></bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="MA_START" name="Registration received"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:serviceTask id="MA_CREATE" name="Create pending account"/>
+    <bpmn:sendTask id="MA_SEND_VERIFY" name="Send verification email"/>
+    <bpmn:boundaryEvent id="MA_TIMER" name="24h no verification" attachedToRef="MA_AWAIT_VERIFY" cancelActivity="true"><bpmn:timerEventDefinition/></bpmn:boundaryEvent>
+    <bpmn:sendTask id="MA_RESEND" name="Resend verification email"/>
+    <bpmn:intermediateCatchEvent id="MA_AWAIT_VERIFY" name="Await verification"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:exclusiveGateway id="MA_GW_VERIFIED" name="Email verified?"/>
+    <bpmn:endEvent id="MA_EXPIRE_END" name="Registration expired"></bpmn:endEvent>
+    <bpmn:userTask id="MA_APPROVE_BUILD" name="Approve first build submission"/>
+    <bpmn:sendTask id="MA_NOTIFY_OK" name="Notify member: build approved"/>
+    <bpmn:endEvent id="MA_END" name="Onboarding complete"></bpmn:endEvent>
+    <bpmn:startEvent id="OC_START" name="Capacity review initiated"></bpmn:startEvent>
+    <bpmn:sendTask id="OC_REQ_QUOTE" name="Send hosting quote request"/>
+    <bpmn:intermediateCatchEvent id="OC_AWAIT_QUOTE" name="Await provider quote"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:manualTask id="OC_REVIEW_SLA" name="Review SLA terms &amp; pricing"/>
+    <bpmn:exclusiveGateway id="OC_GW_SLA" name="SLA acceptable?"/>
+    <bpmn:endEvent id="OC_REJECT_END" name="Negotiation abandoned"></bpmn:endEvent>
+    <bpmn:manualTask id="OC_SIGN" name="Sign hosting contract"/>
+    <bpmn:sendTask id="OC_SEND_SIGNED" name="Transmit signed contract"/>
+    <bpmn:intermediateCatchEvent id="OC_AWAIT_PROV" name="Await environment ready"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="OC_GO_LIVE" name="Configure DNS &amp; go live"/>
+    <bpmn:endEvent id="OC_END" name="Hosting active"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_4" sourceRef="MA_START" targetRef="MA_CREATE"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_5" sourceRef="MA_CREATE" targetRef="MA_SEND_VERIFY"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_6" sourceRef="MA_SEND_VERIFY" targetRef="MA_AWAIT_VERIFY"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_7" sourceRef="MA_TIMER" targetRef="MA_RESEND"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_8" sourceRef="MA_RESEND" targetRef="MA_AWAIT_VERIFY"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_9" sourceRef="MA_AWAIT_VERIFY" targetRef="MA_GW_VERIFIED"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_10" name="verified" sourceRef="MA_GW_VERIFIED" targetRef="MA_APPROVE_BUILD"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_11" name="not verified" sourceRef="MA_GW_VERIFIED" targetRef="MA_EXPIRE_END"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_12" sourceRef="MA_APPROVE_BUILD" targetRef="MA_NOTIFY_OK"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_13" sourceRef="MA_NOTIFY_OK" targetRef="MA_END"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_14" sourceRef="OC_START" targetRef="OC_REQ_QUOTE"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_15" sourceRef="OC_REQ_QUOTE" targetRef="OC_AWAIT_QUOTE"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_16" sourceRef="OC_AWAIT_QUOTE" targetRef="OC_REVIEW_SLA"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_17" sourceRef="OC_REVIEW_SLA" targetRef="OC_GW_SLA"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_18" name="accept" sourceRef="OC_GW_SLA" targetRef="OC_SIGN"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_19" name="reject" sourceRef="OC_GW_SLA" targetRef="OC_REJECT_END"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_20" sourceRef="OC_SIGN" targetRef="OC_SEND_SIGNED"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_21" sourceRef="OC_SEND_SIGNED" targetRef="OC_AWAIT_PROV"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_22" sourceRef="OC_AWAIT_PROV" targetRef="OC_GO_LIVE"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_23" sourceRef="OC_GO_LIVE" targetRef="OC_END"/>
+    <bpmn:dataStoreReference id="DS_PENDING" name="Pending accounts DB" dataStoreRef="STORE_DS_PENDING"/>
+    <bpmn:association id="Assoc_DS_PENDING" sourceRef="MA_CREATE" targetRef="DS_PENDING"/>
+    <bpmn:dataObject id="OBJ_DO_CONTRACT"/>
+    <bpmn:dataObjectReference id="DO_CONTRACT" name="Signed contract PDF" dataObjectRef="OBJ_DO_CONTRACT"/>
+    <bpmn:association id="Assoc_DO_CONTRACT" sourceRef="OC_SIGN" targetRef="DO_CONTRACT"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_0"><bpmn:text>No verification in 24h → one resend</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_0" sourceRef="MA_TIMER" targetRef="Anno_POOL_OPS_0"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_1"><bpmn:text>Reject if cost &gt; budget or uptime &lt; 99.5%</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_1" sourceRef="OC_GW_SLA" targetRef="Anno_POOL_OPS_1"/>
+  </bpmn:process>
+  <bpmn:process id="Proc_POOL_CP" isExecutable="false">
+    <bpmn:startEvent id="CP_START" name="Quote request received"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:sendTask id="CP_SEND_QUOTE" name="Issue quote &amp; SLA"/>
+    <bpmn:intermediateCatchEvent id="CP_RECV_CONTRACT" name="Signed contract received"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="CP_PROVISION" name="Provision cloud environment"/>
+    <bpmn:sendTask id="CP_SEND_READY" name="Send environment-ready notice"/>
+    <bpmn:endEvent id="CP_END" name="Contract active"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_24" sourceRef="CP_START" targetRef="CP_SEND_QUOTE"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_25" sourceRef="CP_SEND_QUOTE" targetRef="CP_RECV_CONTRACT"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_26" sourceRef="CP_RECV_CONTRACT" targetRef="CP_PROVISION"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_27" sourceRef="CP_PROVISION" targetRef="CP_SEND_READY"/>
+    <bpmn:sequenceFlow id="Flow_p7_onboarding_28" sourceRef="CP_SEND_READY" targetRef="CP_END"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diag_p7_onboarding">
+    <bpmndi:BPMNPlane id="Plane_p7_onboarding" bpmnElement="Collab_p7_onboarding">
+      <bpmndi:BPMNShape id="DI_Part_POOL_PM" bpmnElement="Part_POOL_PM" isHorizontal="true"><dc:Bounds x="10" y="10" width="1948" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_OPS" bpmnElement="Part_POOL_OPS" isHorizontal="true"><dc:Bounds x="10" y="176" width="1948" height="688"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_CP" bpmnElement="Part_POOL_CP" isHorizontal="true"><dc:Bounds x="10" y="890" width="1948" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_0" bpmnElement="Lane_POOL_OPS_0" isHorizontal="true"><dc:Bounds x="40" y="176" width="1918" height="344"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_1" bpmnElement="Lane_POOL_OPS_1" isHorizontal="true"><dc:Bounds x="40" y="520" width="1918" height="344"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PM_START" bpmnElement="PM_START"><dc:Bounds x="123" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PM_AWAIT_EMAIL" bpmnElement="PM_AWAIT_EMAIL"><dc:Bounds x="311" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PM_VERIFY_LINK" bpmnElement="PM_VERIFY_LINK"><dc:Bounds x="452" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PM_FIRST_LOGIN" bpmnElement="PM_FIRST_LOGIN"><dc:Bounds x="640" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PM_END" bpmnElement="PM_END"><dc:Bounds x="875" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_START" bpmnElement="MA_START"><dc:Bounds x="147" y="228" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_CREATE" bpmnElement="MA_CREATE"><dc:Bounds x="288" y="209" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_SEND_VERIFY" bpmnElement="MA_SEND_VERIFY"><dc:Bounds x="476" y="209" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_TIMER" bpmnElement="MA_TIMER"><dc:Bounds x="1098" y="249" width="30" height="30"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_RESEND" bpmnElement="MA_RESEND"><dc:Bounds x="852" y="209" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_AWAIT_VERIFY" bpmnElement="MA_AWAIT_VERIFY"><dc:Bounds x="1087" y="228" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_GW_VERIFIED" bpmnElement="MA_GW_VERIFIED"><dc:Bounds x="1267" y="220" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_EXPIRE_END" bpmnElement="MA_EXPIRE_END"><dc:Bounds x="1463" y="340" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_APPROVE_BUILD" bpmnElement="MA_APPROVE_BUILD"><dc:Bounds x="1416" y="209" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_NOTIFY_OK" bpmnElement="MA_NOTIFY_OK"><dc:Bounds x="1604" y="209" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_END" bpmnElement="MA_END"><dc:Bounds x="1839" y="228" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_START" bpmnElement="OC_START"><dc:Bounds x="147" y="572" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_REQ_QUOTE" bpmnElement="OC_REQ_QUOTE"><dc:Bounds x="288" y="553" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_AWAIT_QUOTE" bpmnElement="OC_AWAIT_QUOTE"><dc:Bounds x="523" y="572" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_REVIEW_SLA" bpmnElement="OC_REVIEW_SLA"><dc:Bounds x="664" y="553" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_GW_SLA" bpmnElement="OC_GW_SLA"><dc:Bounds x="891" y="564" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_REJECT_END" bpmnElement="OC_REJECT_END"><dc:Bounds x="1087" y="572" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_SIGN" bpmnElement="OC_SIGN"><dc:Bounds x="1040" y="665" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_SEND_SIGNED" bpmnElement="OC_SEND_SIGNED"><dc:Bounds x="1228" y="553" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_AWAIT_PROV" bpmnElement="OC_AWAIT_PROV"><dc:Bounds x="1463" y="572" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_GO_LIVE" bpmnElement="OC_GO_LIVE"><dc:Bounds x="1604" y="553" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_END" bpmnElement="OC_END"><dc:Bounds x="1839" y="572" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_START" bpmnElement="CP_START"><dc:Bounds x="123" y="942" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_SEND_QUOTE" bpmnElement="CP_SEND_QUOTE"><dc:Bounds x="264" y="923" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_RECV_CONTRACT" bpmnElement="CP_RECV_CONTRACT"><dc:Bounds x="499" y="942" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_PROVISION" bpmnElement="CP_PROVISION"><dc:Bounds x="640" y="923" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_SEND_READY" bpmnElement="CP_SEND_READY"><dc:Bounds x="828" y="923" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_END" bpmnElement="CP_END"><dc:Bounds x="1063" y="942" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_PENDING" bpmnElement="DS_PENDING"><dc:Bounds x="326" y="435" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_CONTRACT" bpmnElement="DO_CONTRACT"><dc:Bounds x="1085" y="776" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_0" bpmnElement="Anno_POOL_OPS_0"><dc:Bounds x="1030" y="438" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_1" bpmnElement="Anno_POOL_OPS_1"><dc:Bounds x="842" y="782" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_0" bpmnElement="Flow_p7_onboarding_0"><di:waypoint x="159" y="80"/><di:waypoint x="311" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_1" bpmnElement="Flow_p7_onboarding_1"><di:waypoint x="347" y="80"/><di:waypoint x="452" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_2" bpmnElement="Flow_p7_onboarding_2"><di:waypoint x="582" y="80"/><di:waypoint x="640" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_3" bpmnElement="Flow_p7_onboarding_3"><di:waypoint x="770" y="80"/><di:waypoint x="875" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_4" bpmnElement="Flow_p7_onboarding_4"><di:waypoint x="183" y="246"/><di:waypoint x="288" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_5" bpmnElement="Flow_p7_onboarding_5"><di:waypoint x="418" y="246"/><di:waypoint x="476" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_6" bpmnElement="Flow_p7_onboarding_6"><di:waypoint x="606" y="246"/><di:waypoint x="1087" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_7" bpmnElement="Flow_p7_onboarding_7"><di:waypoint x="1113" y="279"/><di:waypoint x="1113" y="263"/><di:waypoint x="917" y="263"/><di:waypoint x="917" y="209"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_8" bpmnElement="Flow_p7_onboarding_8"><di:waypoint x="982" y="246"/><di:waypoint x="1087" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_9" bpmnElement="Flow_p7_onboarding_9"><di:waypoint x="1123" y="246"/><di:waypoint x="1267" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_10" bpmnElement="Flow_p7_onboarding_10"><di:waypoint x="1319" y="246"/><di:waypoint x="1416" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_11" bpmnElement="Flow_p7_onboarding_11"><di:waypoint x="1319" y="246"/><di:waypoint x="1391" y="246"/><di:waypoint x="1391" y="358"/><di:waypoint x="1463" y="358"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_12" bpmnElement="Flow_p7_onboarding_12"><di:waypoint x="1546" y="246"/><di:waypoint x="1604" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_13" bpmnElement="Flow_p7_onboarding_13"><di:waypoint x="1734" y="246"/><di:waypoint x="1839" y="246"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_14" bpmnElement="Flow_p7_onboarding_14"><di:waypoint x="183" y="590"/><di:waypoint x="288" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_15" bpmnElement="Flow_p7_onboarding_15"><di:waypoint x="418" y="590"/><di:waypoint x="523" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_16" bpmnElement="Flow_p7_onboarding_16"><di:waypoint x="559" y="590"/><di:waypoint x="664" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_17" bpmnElement="Flow_p7_onboarding_17"><di:waypoint x="794" y="590"/><di:waypoint x="891" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_18" bpmnElement="Flow_p7_onboarding_18"><di:waypoint x="943" y="590"/><di:waypoint x="992" y="590"/><di:waypoint x="992" y="702"/><di:waypoint x="1040" y="702"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_19" bpmnElement="Flow_p7_onboarding_19"><di:waypoint x="943" y="590"/><di:waypoint x="1087" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_20" bpmnElement="Flow_p7_onboarding_20"><di:waypoint x="1170" y="702"/><di:waypoint x="1199" y="702"/><di:waypoint x="1199" y="590"/><di:waypoint x="1228" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_21" bpmnElement="Flow_p7_onboarding_21"><di:waypoint x="1358" y="590"/><di:waypoint x="1463" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_22" bpmnElement="Flow_p7_onboarding_22"><di:waypoint x="1499" y="590"/><di:waypoint x="1604" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_23" bpmnElement="Flow_p7_onboarding_23"><di:waypoint x="1734" y="590"/><di:waypoint x="1839" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_24" bpmnElement="Flow_p7_onboarding_24"><di:waypoint x="159" y="960"/><di:waypoint x="264" y="960"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_25" bpmnElement="Flow_p7_onboarding_25"><di:waypoint x="394" y="960"/><di:waypoint x="499" y="960"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_26" bpmnElement="Flow_p7_onboarding_26"><di:waypoint x="535" y="960"/><di:waypoint x="640" y="960"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_27" bpmnElement="Flow_p7_onboarding_27"><di:waypoint x="770" y="960"/><di:waypoint x="828" y="960"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p7_onboarding_28" bpmnElement="Flow_p7_onboarding_28"><di:waypoint x="958" y="960"/><di:waypoint x="1063" y="960"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_0" bpmnElement="Msg_p7_onboarding_0"><di:waypoint x="141" y="98"/><di:waypoint x="141" y="163"/><di:waypoint x="165" y="163"/><di:waypoint x="165" y="228"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_1" bpmnElement="Msg_p7_onboarding_1"><di:waypoint x="541" y="209"/><di:waypoint x="541" y="154"/><di:waypoint x="329" y="154"/><di:waypoint x="329" y="98"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_2" bpmnElement="Msg_p7_onboarding_2"><di:waypoint x="517" y="117"/><di:waypoint x="517" y="173"/><di:waypoint x="1105" y="173"/><di:waypoint x="1105" y="228"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_3" bpmnElement="Msg_p7_onboarding_3"><di:waypoint x="1669" y="209"/><di:waypoint x="1669" y="163"/><di:waypoint x="705" y="163"/><di:waypoint x="705" y="117"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_4" bpmnElement="Msg_p7_onboarding_4"><di:waypoint x="353" y="627"/><di:waypoint x="353" y="785"/><di:waypoint x="141" y="785"/><di:waypoint x="141" y="942"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_5" bpmnElement="Msg_p7_onboarding_5"><di:waypoint x="329" y="923"/><di:waypoint x="329" y="766"/><di:waypoint x="541" y="766"/><di:waypoint x="541" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_6" bpmnElement="Msg_p7_onboarding_6"><di:waypoint x="1293" y="627"/><di:waypoint x="1293" y="785"/><di:waypoint x="517" y="785"/><di:waypoint x="517" y="942"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p7_onboarding_7" bpmnElement="Msg_p7_onboarding_7"><di:waypoint x="893" y="923"/><di:waypoint x="893" y="766"/><di:waypoint x="1481" y="766"/><di:waypoint x="1481" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_PENDING" bpmnElement="Assoc_DS_PENDING"><di:waypoint x="353" y="246"/><di:waypoint x="353" y="460"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_CONTRACT" bpmnElement="Assoc_DO_CONTRACT"><di:waypoint x="1105" y="702"/><di:waypoint x="1105" y="804"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_0" bpmnElement="AnnoAssoc_POOL_OPS_0"><di:waypoint x="1113" y="264"/><di:waypoint x="1105" y="460"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_1" bpmnElement="AnnoAssoc_POOL_OPS_1"><di:waypoint x="917" y="590"/><di:waypoint x="917" y="804"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,13 @@
+{
+  "name": "modellingclub-lab7-bpmn",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PWR/ISM Lab 7 — BPMN 2.0 models of the ModellingClub system life cycle. Zero-dependency Node generator that emits SVG diagrams, Camunda-compatible .bpmn files and the PDF report from one process model.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "report": "node scripts/report.js",
+    "pdf": "node scripts/build.js && node scripts/report.js && node scripts/pdf.js",
+    "all": "npm run pdf"
+  },
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,127 @@
+================================================================================
+ LAB 7 — GUIDE: model the system life cycle in BPMN + produce the deliverable
+================================================================================
+
+This lab models the LIFE CYCLE of the ModellingClub system (built in lab4, with
+the ontology/semantic layers of lab5/lab6) using BPMN 2.0. It is NOT a Java/Maven
+project. A tiny zero-dependency Node app holds the eight processes ONCE as a data
+model and emits three things from it:
+
+  src/specs.js  ->  one generator  ->  diagrams/*.svg   (rendered BPMN)
+                                   ->  bpmn/*.bpmn       (editable, Camunda-ready)
+                                   ->  report/lab7-report.pdf  (THE deliverable)
+
+There is no pom.xml. You only need Node >= 18 to regenerate. A headless Chromium
+(Microsoft Edge or Chrome — already on Windows) is used only for the HTML -> PDF
+step. No `npm install` is required: the generator has ZERO runtime dependencies.
+
+--------------------------------------------------------------------------------
+ THE DELIVERABLE (what you hand in)
+--------------------------------------------------------------------------------
+ 1. report/lab7-report.pdf  = the report: textual description of each process +
+    all eight BPMN diagrams + a notation legend + a process catalogue + refs.
+ 2. bpmn/*.bpmn             = eight editable BPMN 2.0 files (open in Camunda
+    Modeler). They carry full diagram interchange (DI), so they render with the
+    same layout shown in the report.
+ 3. diagrams/*.svg          = the rendered diagrams as standalone vector images
+    (handy for slides / quick viewing).
+
+The PDF already contains everything the assignment asks for (diagrams + text in
+one PDF). The .bpmn and .svg files are supporting artefacts.
+
+--------------------------------------------------------------------------------
+ THE EIGHT PROCESSES (4 themes)
+--------------------------------------------------------------------------------
+ A. Maintenance & operations
+    1. Scheduled Backup & Verification          (bpmn/p1-backup.bpmn)
+    2. Software Upgrade / Dependency Patch       (bpmn/p2-upgrade.bpmn)
+ B. Deployment & migration
+    3. Release & Blue-Green Deployment (CI/CD)   (bpmn/p3-cicd.bpmn)
+    4. H2 -> PostgreSQL Database Migration       (bpmn/p4-migration.bpmn)
+ C. Data governance & security
+    5. Data Archiving, Retention & GDPR Erasure  (bpmn/p5-data-gdpr.bpmn)
+    6. Security Incident Response                (bpmn/p6-incident.bpmn)
+ D. Business life cycle
+    7. Member Onboarding & Hosting Provisioning  (bpmn/p7-onboarding.bpmn)
+    8. System Decommissioning / End-of-Life      (bpmn/p8-eol.bpmn)
+
+Each is a BPMN COLLABORATION (pools + lanes, sequence flows, message flows).
+Together they exercise: timer/message/signal/none start events; intermediate
+catch timer/message events; boundary error & (non-)interrupting timer events;
+error/message/terminate end events; exclusive / parallel / event-based gateways;
+user/service/send/receive/manual/script/business-rule tasks; data objects, data
+stores, text annotations; and message flows to external black-box pools.
+
+================================================================================
+ STEP 0 — REQUIREMENTS
+================================================================================
+ Node >= 18 (check: node --version). No `npm install` needed (zero deps).
+ For the PDF step only: Microsoft Edge or Google Chrome (Windows ships Edge).
+ The Camunda Modeler (optional) to open/edit the .bpmn files:
+   https://camunda.com/products/modeler/
+
+================================================================================
+ STEP 1 — REGENERATE THE DIAGRAMS + BPMN FILES
+================================================================================
+ From this folder:
+
+   npm run build          # writes diagrams/*.svg and bpmn/*.bpmn
+   # equivalently: node scripts/build.js
+
+ Console prints one line per process (node count + canvas size).
+
+================================================================================
+ STEP 2 — REGENERATE THE PDF REPORT
+================================================================================
+   npm run pdf            # build + assemble report.html + print to PDF
+   # equivalently:
+   #   node scripts/report.js          (writes report/report.html)
+   #   node scripts/pdf.js             (report.html -> report/lab7-report.pdf)
+
+ scripts/pdf.js auto-locates Edge/Chrome (including the Windows EdgeCore /
+ EdgeWebView builds). To force a browser:  set BROWSER=<path to msedge/chrome>.
+
+ Output: report/lab7-report.pdf  (A4 landscape).
+
+================================================================================
+ STEP 3 — OPEN / EDIT A DIAGRAM IN CAMUNDA MODELER  (optional)
+================================================================================
+ 1. Launch Camunda Modeler.
+ 2. File > Open File...  ->  bpmn/p3-cicd.bpmn (or any other).
+ 3. The collaboration opens laid out exactly as in the report; edit freely.
+ All eight files were verified to import without warnings using bpmn-moddle
+ (the parser that underpins Camunda Modeler / bpmn.io).
+
+================================================================================
+ PROJECT LAYOUT
+================================================================================
+ src/specs.js        the eight processes as one data model (edit here)
+ src/layout.js       automatic BPMN layout (layered ranking + lane tracks +
+                     orthogonal routing); shared by SVG + BPMN-DI
+ src/svg.js          data + layout -> rendered SVG (+ the notation legend)
+ src/bpmn.js         data + layout -> BPMN 2.0 XML with diagram interchange
+ src/report-text.js  the prose for the report (intro, system, narratives, refs)
+ scripts/build.js    writes diagrams/*.svg and bpmn/*.bpmn
+ scripts/report.js   writes report/report.html (embeds the SVGs + legend)
+ scripts/pdf.js      report.html -> report/lab7-report.pdf (headless browser)
+ scripts/render-png.sh   helper: rasterise one SVG to PNG (debugging)
+ diagrams/           GENERATED rendered diagrams (deliverable 3)
+ bpmn/               GENERATED editable BPMN files (deliverable 2)
+ report/lab7-report.pdf   THE report (deliverable 1)
+
+ To change a process: edit its object in src/specs.js (nodes / flows / messages
+ / data / annotations) and to refine its write-up edit src/report-text.js, then
+ re-run `npm run pdf`. The SVG and the .bpmn DI stay consistent because both are
+ produced from the same computed coordinates.
+
+================================================================================
+ NOTES ON BPMN CORRECTNESS
+================================================================================
+ - Every path reaches an end event; parallel splits are matched by parallel
+   joins; exclusive / event-based gateways carry mutually-exclusive conditions
+   on their outgoing flows.
+ - Message flows ONLY cross pool boundaries (never connect two nodes of the same
+   pool); sequence flows never cross pool boundaries.
+ - Black-box pools (external participants: offsite storage, monitoring, users,
+   cloud provider, regulator, staging/production environments) are drawn empty.
+================================================================================

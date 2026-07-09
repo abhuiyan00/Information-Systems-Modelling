@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_p5_data_gdpr" targetNamespace="http://modellingclub.local/bpmn" exporter="ModellingClub Lab7 generator" exporterVersion="1.0">
+  <bpmn:dataStore id="STORE_DS_LIVE" name="Live DB"/>
+  <bpmn:dataStore id="STORE_DS_AUDIT" name="Audit log"/>
+  <bpmn:collaboration id="Collab_p5_data_gdpr">
+    <bpmn:participant id="Part_POOL_SYS" name="ModellingClub System" processRef="Proc_POOL_SYS"/>
+    <bpmn:participant id="Part_POOL_MEMBER" name="Member"/>
+    <bpmn:participant id="Part_POOL_ARCHIVE" name="Archive Store"/>
+    <bpmn:messageFlow id="Msg_p5_data_gdpr_0" name="GDPR request submission" sourceRef="Part_POOL_MEMBER" targetRef="START_GDPR"/>
+    <bpmn:messageFlow id="Msg_p5_data_gdpr_1" name="Export ZIP download link" sourceRef="ZIP_SEND" targetRef="Part_POOL_MEMBER"/>
+    <bpmn:messageFlow id="Msg_p5_data_gdpr_2" name="Erasure confirmation" sourceRef="CONFIRM_ERASURE" targetRef="Part_POOL_MEMBER"/>
+    <bpmn:messageFlow id="Msg_p5_data_gdpr_3" name="Legal-hold notification" sourceRef="NOTIFY_HOLD" targetRef="Part_POOL_MEMBER"/>
+    <bpmn:messageFlow id="Msg_p5_data_gdpr_4" name="Stale record batch" sourceRef="ARCHIVE_COLD" targetRef="Part_POOL_ARCHIVE"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_POOL_SYS" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_POOL_SYS">
+      <bpmn:lane id="Lane_POOL_SYS_0" name="Retention Job"><bpmn:flowNodeRef>START_TIMER</bpmn:flowNodeRef><bpmn:flowNodeRef>IDENTIFY_STALE</bpmn:flowNodeRef><bpmn:flowNodeRef>ARCHIVE_COLD</bpmn:flowNodeRef><bpmn:flowNodeRef>PURGE_LIVE</bpmn:flowNodeRef><bpmn:flowNodeRef>AUDIT_RETENTION</bpmn:flowNodeRef><bpmn:flowNodeRef>END_RETENTION</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_SYS_1" name="GDPR Handler"><bpmn:flowNodeRef>START_GDPR</bpmn:flowNodeRef><bpmn:flowNodeRef>VERIFY_IDENTITY</bpmn:flowNodeRef><bpmn:flowNodeRef>BND_30D</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_REQ_TYPE</bpmn:flowNodeRef><bpmn:flowNodeRef>BUILD_EXPORT</bpmn:flowNodeRef><bpmn:flowNodeRef>ZIP_SEND</bpmn:flowNodeRef><bpmn:flowNodeRef>END_EXPORT</bpmn:flowNodeRef><bpmn:flowNodeRef>HARD_DELETE</bpmn:flowNodeRef><bpmn:flowNodeRef>CONFIRM_ERASURE</bpmn:flowNodeRef><bpmn:flowNodeRef>AUDIT_GDPR</bpmn:flowNodeRef><bpmn:flowNodeRef>END_ERASURE</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_SYS_2" name="DPO Review"><bpmn:flowNodeRef>DPO_REVIEW</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_LEGAL_HOLD</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_HOLD_HALT</bpmn:flowNodeRef><bpmn:flowNodeRef>NOTIFY_HOLD</bpmn:flowNodeRef><bpmn:flowNodeRef>END_HOLD</bpmn:flowNodeRef><bpmn:flowNodeRef>ANONYMISE</bpmn:flowNodeRef></bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="START_TIMER" name="Nightly retention schedule"><bpmn:timerEventDefinition/></bpmn:startEvent>
+    <bpmn:serviceTask id="IDENTIFY_STALE" name="Identify stale records"/>
+    <bpmn:serviceTask id="ARCHIVE_COLD" name="Archive records to cold storage"/>
+    <bpmn:serviceTask id="PURGE_LIVE" name="Purge stale records from live DB"/>
+    <bpmn:scriptTask id="AUDIT_RETENTION" name="Write retention audit entry"/>
+    <bpmn:endEvent id="END_RETENTION" name="Retention cycle complete"></bpmn:endEvent>
+    <bpmn:startEvent id="START_GDPR" name="GDPR request received"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:serviceTask id="VERIFY_IDENTITY" name="Verify member identity (JWT + username)"/>
+    <bpmn:boundaryEvent id="BND_30D" name="30-day deadline" attachedToRef="VERIFY_IDENTITY" cancelActivity="false"><bpmn:timerEventDefinition/></bpmn:boundaryEvent>
+    <bpmn:exclusiveGateway id="GW_REQ_TYPE" name="Export or deletion?"/>
+    <bpmn:serviceTask id="BUILD_EXPORT" name="Compile profile + builds + comments"/>
+    <bpmn:sendTask id="ZIP_SEND" name="Generate ZIP; notify member"/>
+    <bpmn:endEvent id="END_EXPORT" name="Data export delivered"><bpmn:messageEventDefinition/></bpmn:endEvent>
+    <bpmn:manualTask id="DPO_REVIEW" name="DPO reviews deletion request"/>
+    <bpmn:exclusiveGateway id="GW_LEGAL_HOLD" name="Legal hold required?"/>
+    <bpmn:exclusiveGateway id="GW_HOLD_HALT" name="Partial erasure allowed?"/>
+    <bpmn:sendTask id="NOTIFY_HOLD" name="Notify member of legal hold"/>
+    <bpmn:endEvent id="END_HOLD" name="Parked pending hold"></bpmn:endEvent>
+    <bpmn:scriptTask id="ANONYMISE" name="Anonymise retained tx records"/>
+    <bpmn:serviceTask id="HARD_DELETE" name="Hard-delete member data"/>
+    <bpmn:sendTask id="CONFIRM_ERASURE" name="Send erasure confirmation"/>
+    <bpmn:scriptTask id="AUDIT_GDPR" name="Write GDPR audit entry"/>
+    <bpmn:endEvent id="END_ERASURE" name="Erasure complete"><bpmn:messageEventDefinition/></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_0" sourceRef="START_TIMER" targetRef="IDENTIFY_STALE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_1" sourceRef="IDENTIFY_STALE" targetRef="ARCHIVE_COLD"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_2" sourceRef="ARCHIVE_COLD" targetRef="PURGE_LIVE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_3" sourceRef="PURGE_LIVE" targetRef="AUDIT_RETENTION"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_4" sourceRef="AUDIT_RETENTION" targetRef="END_RETENTION"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_5" sourceRef="START_GDPR" targetRef="VERIFY_IDENTITY"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_6" sourceRef="VERIFY_IDENTITY" targetRef="GW_REQ_TYPE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_7" name="export" sourceRef="GW_REQ_TYPE" targetRef="BUILD_EXPORT"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_8" name="deletion" sourceRef="GW_REQ_TYPE" targetRef="DPO_REVIEW"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_9" sourceRef="BUILD_EXPORT" targetRef="ZIP_SEND"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_10" sourceRef="ZIP_SEND" targetRef="END_EXPORT"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_11" sourceRef="DPO_REVIEW" targetRef="GW_LEGAL_HOLD"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_12" name="no hold" sourceRef="GW_LEGAL_HOLD" targetRef="ANONYMISE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_13" name="hold exists" sourceRef="GW_LEGAL_HOLD" targetRef="GW_HOLD_HALT"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_14" name="partial OK" sourceRef="GW_HOLD_HALT" targetRef="ANONYMISE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_15" name="full hold" sourceRef="GW_HOLD_HALT" targetRef="NOTIFY_HOLD"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_16" sourceRef="NOTIFY_HOLD" targetRef="END_HOLD"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_17" sourceRef="ANONYMISE" targetRef="HARD_DELETE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_18" sourceRef="HARD_DELETE" targetRef="CONFIRM_ERASURE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_19" sourceRef="CONFIRM_ERASURE" targetRef="AUDIT_GDPR"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_20" sourceRef="AUDIT_GDPR" targetRef="END_ERASURE"/>
+    <bpmn:sequenceFlow id="Flow_p5_data_gdpr_21" name="deadline breach" sourceRef="BND_30D" targetRef="CONFIRM_ERASURE"/>
+    <bpmn:dataStoreReference id="DS_LIVE" name="Live DB" dataStoreRef="STORE_DS_LIVE"/>
+    <bpmn:association id="Assoc_DS_LIVE" sourceRef="IDENTIFY_STALE" targetRef="DS_LIVE"/>
+    <bpmn:dataObject id="OBJ_DO_ZIP"/>
+    <bpmn:dataObjectReference id="DO_ZIP" name="member-data.zip" dataObjectRef="OBJ_DO_ZIP"/>
+    <bpmn:association id="Assoc_DO_ZIP" sourceRef="ZIP_SEND" targetRef="DO_ZIP"/>
+    <bpmn:dataStoreReference id="DS_AUDIT" name="Audit log" dataStoreRef="STORE_DS_AUDIT"/>
+    <bpmn:association id="Assoc_DS_AUDIT" sourceRef="AUDIT_GDPR" targetRef="DS_AUDIT"/>
+    <bpmn:textAnnotation id="Anno_POOL_SYS_0"><bpmn:text>GDPR Art. 12 — respond within 30 days</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_SYS_0" sourceRef="BND_30D" targetRef="Anno_POOL_SYS_0"/>
+    <bpmn:textAnnotation id="Anno_POOL_SYS_1"><bpmn:text>Marketplace tx records anonymised, not deleted</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_SYS_1" sourceRef="ANONYMISE" targetRef="Anno_POOL_SYS_1"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diag_p5_data_gdpr">
+    <bpmndi:BPMNPlane id="Plane_p5_data_gdpr" bpmnElement="Collab_p5_data_gdpr">
+      <bpmndi:BPMNShape id="DI_Part_POOL_SYS" bpmnElement="Part_POOL_SYS" isHorizontal="true"><dc:Bounds x="10" y="10" width="2136" height="808"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_MEMBER" bpmnElement="Part_POOL_MEMBER" isHorizontal="true"><dc:Bounds x="10" y="844" width="2136" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_ARCHIVE" bpmnElement="Part_POOL_ARCHIVE" isHorizontal="true"><dc:Bounds x="10" y="1010" width="2136" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_SYS_0" bpmnElement="Lane_POOL_SYS_0" isHorizontal="true"><dc:Bounds x="40" y="10" width="2106" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_SYS_1" bpmnElement="Lane_POOL_SYS_1" isHorizontal="true"><dc:Bounds x="40" y="242" width="2106" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_SYS_2" bpmnElement="Lane_POOL_SYS_2" isHorizontal="true"><dc:Bounds x="40" y="474" width="2106" height="344"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_START_TIMER" bpmnElement="START_TIMER"><dc:Bounds x="147" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_IDENTIFY_STALE" bpmnElement="IDENTIFY_STALE"><dc:Bounds x="288" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ARCHIVE_COLD" bpmnElement="ARCHIVE_COLD"><dc:Bounds x="476" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PURGE_LIVE" bpmnElement="PURGE_LIVE"><dc:Bounds x="664" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_AUDIT_RETENTION" bpmnElement="AUDIT_RETENTION"><dc:Bounds x="852" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_RETENTION" bpmnElement="END_RETENTION"><dc:Bounds x="1087" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_START_GDPR" bpmnElement="START_GDPR"><dc:Bounds x="147" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_VERIFY_IDENTITY" bpmnElement="VERIFY_IDENTITY"><dc:Bounds x="288" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_BND_30D" bpmnElement="BND_30D"><dc:Bounds x="367" y="334" width="30" height="30"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_REQ_TYPE" bpmnElement="GW_REQ_TYPE"><dc:Bounds x="515" y="286" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_BUILD_EXPORT" bpmnElement="BUILD_EXPORT"><dc:Bounds x="664" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ZIP_SEND" bpmnElement="ZIP_SEND"><dc:Bounds x="852" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_EXPORT" bpmnElement="END_EXPORT"><dc:Bounds x="1087" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DPO_REVIEW" bpmnElement="DPO_REVIEW"><dc:Bounds x="664" y="507" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_LEGAL_HOLD" bpmnElement="GW_LEGAL_HOLD"><dc:Bounds x="891" y="518" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_HOLD_HALT" bpmnElement="GW_HOLD_HALT"><dc:Bounds x="1079" y="518" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_NOTIFY_HOLD" bpmnElement="NOTIFY_HOLD"><dc:Bounds x="1228" y="619" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_HOLD" bpmnElement="END_HOLD"><dc:Bounds x="1463" y="526" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ANONYMISE" bpmnElement="ANONYMISE"><dc:Bounds x="1228" y="507" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_HARD_DELETE" bpmnElement="HARD_DELETE"><dc:Bounds x="1416" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CONFIRM_ERASURE" bpmnElement="CONFIRM_ERASURE"><dc:Bounds x="1604" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_AUDIT_GDPR" bpmnElement="AUDIT_GDPR"><dc:Bounds x="1792" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_ERASURE" bpmnElement="END_ERASURE"><dc:Bounds x="2027" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_LIVE" bpmnElement="DS_LIVE"><dc:Bounds x="326" y="157" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_ZIP" bpmnElement="DO_ZIP"><dc:Bounds x="897" y="386" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_AUDIT" bpmnElement="DS_AUDIT"><dc:Bounds x="1830" y="389" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_SYS_0" bpmnElement="Anno_POOL_SYS_0"><dc:Bounds x="278" y="392" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_SYS_1" bpmnElement="Anno_POOL_SYS_1"><dc:Bounds x="1218" y="736" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_0" bpmnElement="Flow_p5_data_gdpr_0"><di:waypoint x="183" y="80"/><di:waypoint x="288" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_1" bpmnElement="Flow_p5_data_gdpr_1"><di:waypoint x="418" y="80"/><di:waypoint x="476" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_2" bpmnElement="Flow_p5_data_gdpr_2"><di:waypoint x="606" y="80"/><di:waypoint x="664" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_3" bpmnElement="Flow_p5_data_gdpr_3"><di:waypoint x="794" y="80"/><di:waypoint x="852" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_4" bpmnElement="Flow_p5_data_gdpr_4"><di:waypoint x="982" y="80"/><di:waypoint x="1087" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_5" bpmnElement="Flow_p5_data_gdpr_5"><di:waypoint x="183" y="312"/><di:waypoint x="288" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_6" bpmnElement="Flow_p5_data_gdpr_6"><di:waypoint x="418" y="312"/><di:waypoint x="515" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_7" bpmnElement="Flow_p5_data_gdpr_7"><di:waypoint x="567" y="312"/><di:waypoint x="664" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_8" bpmnElement="Flow_p5_data_gdpr_8"><di:waypoint x="567" y="312"/><di:waypoint x="616" y="312"/><di:waypoint x="616" y="544"/><di:waypoint x="664" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_9" bpmnElement="Flow_p5_data_gdpr_9"><di:waypoint x="794" y="312"/><di:waypoint x="852" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_10" bpmnElement="Flow_p5_data_gdpr_10"><di:waypoint x="982" y="312"/><di:waypoint x="1087" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_11" bpmnElement="Flow_p5_data_gdpr_11"><di:waypoint x="794" y="544"/><di:waypoint x="891" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_12" bpmnElement="Flow_p5_data_gdpr_12"><di:waypoint x="943" y="544"/><di:waypoint x="1228" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_13" bpmnElement="Flow_p5_data_gdpr_13"><di:waypoint x="943" y="544"/><di:waypoint x="1079" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_14" bpmnElement="Flow_p5_data_gdpr_14"><di:waypoint x="1131" y="544"/><di:waypoint x="1228" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_15" bpmnElement="Flow_p5_data_gdpr_15"><di:waypoint x="1131" y="544"/><di:waypoint x="1180" y="544"/><di:waypoint x="1180" y="656"/><di:waypoint x="1228" y="656"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_16" bpmnElement="Flow_p5_data_gdpr_16"><di:waypoint x="1358" y="656"/><di:waypoint x="1411" y="656"/><di:waypoint x="1411" y="544"/><di:waypoint x="1463" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_17" bpmnElement="Flow_p5_data_gdpr_17"><di:waypoint x="1358" y="544"/><di:waypoint x="1387" y="544"/><di:waypoint x="1387" y="312"/><di:waypoint x="1416" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_18" bpmnElement="Flow_p5_data_gdpr_18"><di:waypoint x="1546" y="312"/><di:waypoint x="1604" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_19" bpmnElement="Flow_p5_data_gdpr_19"><di:waypoint x="1734" y="312"/><di:waypoint x="1792" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_20" bpmnElement="Flow_p5_data_gdpr_20"><di:waypoint x="1922" y="312"/><di:waypoint x="2027" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p5_data_gdpr_21" bpmnElement="Flow_p5_data_gdpr_21"><di:waypoint x="382" y="364"/><di:waypoint x="382" y="338"/><di:waypoint x="1669" y="338"/><di:waypoint x="1669" y="275"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p5_data_gdpr_0" bpmnElement="Msg_p5_data_gdpr_0"><di:waypoint x="165" y="844"/><di:waypoint x="165" y="330"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p5_data_gdpr_1" bpmnElement="Msg_p5_data_gdpr_1"><di:waypoint x="917" y="349"/><di:waypoint x="917" y="844"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p5_data_gdpr_2" bpmnElement="Msg_p5_data_gdpr_2"><di:waypoint x="1669" y="349"/><di:waypoint x="1669" y="844"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p5_data_gdpr_3" bpmnElement="Msg_p5_data_gdpr_3"><di:waypoint x="1293" y="693"/><di:waypoint x="1293" y="844"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p5_data_gdpr_4" bpmnElement="Msg_p5_data_gdpr_4"><di:waypoint x="541" y="117"/><di:waypoint x="541" y="1010"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_LIVE" bpmnElement="Assoc_DS_LIVE"><di:waypoint x="353" y="80"/><di:waypoint x="353" y="182"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_ZIP" bpmnElement="Assoc_DO_ZIP"><di:waypoint x="917" y="312"/><di:waypoint x="917" y="414"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_AUDIT" bpmnElement="Assoc_DS_AUDIT"><di:waypoint x="1857" y="312"/><di:waypoint x="1857" y="414"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_SYS_0" bpmnElement="AnnoAssoc_POOL_SYS_0"><di:waypoint x="382" y="349"/><di:waypoint x="353" y="414"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_SYS_1" bpmnElement="AnnoAssoc_POOL_SYS_1"><di:waypoint x="1293" y="544"/><di:waypoint x="1293" y="758"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_p1_backup" targetNamespace="http://modellingclub.local/bpmn" exporter="ModellingClub Lab7 generator" exporterVersion="1.0">
+  <bpmn:dataStore id="STORE_DS_LOG" name="Backup run log"/>
+  <bpmn:collaboration id="Collab_p1_backup">
+    <bpmn:participant id="Part_POOL_OPS" name="ModellingClub Operations" processRef="Proc_POOL_OPS"/>
+    <bpmn:participant id="Part_POOL_STORE" name="Offsite Backup Storage (AWS S3)"/>
+    <bpmn:messageFlow id="Msg_p1_backup_0" name="Archive bundle (DB + media)" sourceRef="TASK_SEND_OFF" targetRef="Part_POOL_STORE"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_POOL_OPS" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_POOL_OPS">
+      <bpmn:lane id="Lane_POOL_OPS_0" name="Scheduler"><bpmn:flowNodeRef>EVT_START</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_1" name="System"><bpmn:flowNodeRef>TASK_INIT</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_SPLIT</bpmn:flowNodeRef><bpmn:flowNodeRef>TASK_DB_BACKUP</bpmn:flowNodeRef><bpmn:flowNodeRef>TASK_MEDIA_BACK</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_JOIN</bpmn:flowNodeRef><bpmn:flowNodeRef>TASK_VERIFY</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_VERIFY_OK</bpmn:flowNodeRef><bpmn:flowNodeRef>TASK_SEND_OFF</bpmn:flowNodeRef><bpmn:flowNodeRef>BND_ERR_XFER</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_2" name="Administrator"><bpmn:flowNodeRef>TASK_NOTIFY_OK</bpmn:flowNodeRef><bpmn:flowNodeRef>TASK_ALERT_FAIL</bpmn:flowNodeRef><bpmn:flowNodeRef>TASK_RESTORE</bpmn:flowNodeRef><bpmn:flowNodeRef>EVT_END_OK</bpmn:flowNodeRef><bpmn:flowNodeRef>EVT_END_FAIL</bpmn:flowNodeRef></bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="EVT_START" name="02:00 nightly backup timer"><bpmn:timerEventDefinition/></bpmn:startEvent>
+    <bpmn:scriptTask id="TASK_INIT" name="Initialise backup job &amp; set timestamp"/>
+    <bpmn:parallelGateway id="GW_SPLIT" name="Begin parallel backup"/>
+    <bpmn:serviceTask id="TASK_DB_BACKUP" name="Dump DB (H2 file copy / pg_dump)"/>
+    <bpmn:serviceTask id="TASK_MEDIA_BACK" name="Archive uploads/ directory (tar + gzip)"/>
+    <bpmn:parallelGateway id="GW_JOIN" name="Await both streams"/>
+    <bpmn:scriptTask id="TASK_VERIFY" name="Verify archive checksums (SHA-256)"/>
+    <bpmn:exclusiveGateway id="GW_VERIFY_OK" name="Verification passed?"/>
+    <bpmn:sendTask id="TASK_SEND_OFF" name="Transfer archives to offsite storage"/>
+    <bpmn:boundaryEvent id="BND_ERR_XFER" name="Transfer error" attachedToRef="TASK_SEND_OFF" cancelActivity="true"><bpmn:errorEventDefinition/></bpmn:boundaryEvent>
+    <bpmn:sendTask id="TASK_NOTIFY_OK" name="Notify admin: backup successful"/>
+    <bpmn:sendTask id="TASK_ALERT_FAIL" name="Alert admin: backup / verify failed"/>
+    <bpmn:manualTask id="TASK_RESTORE" name="Restore from last known-good backup"/>
+    <bpmn:endEvent id="EVT_END_OK" name="Backup cycle complete"></bpmn:endEvent>
+    <bpmn:endEvent id="EVT_END_FAIL" name="Backup failed — incident logged"><bpmn:errorEventDefinition/></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p1_backup_0" sourceRef="EVT_START" targetRef="TASK_INIT"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_1" sourceRef="TASK_INIT" targetRef="GW_SPLIT"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_2" sourceRef="GW_SPLIT" targetRef="TASK_DB_BACKUP"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_3" sourceRef="GW_SPLIT" targetRef="TASK_MEDIA_BACK"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_4" sourceRef="TASK_DB_BACKUP" targetRef="GW_JOIN"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_5" sourceRef="TASK_MEDIA_BACK" targetRef="GW_JOIN"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_6" sourceRef="GW_JOIN" targetRef="TASK_VERIFY"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_7" sourceRef="TASK_VERIFY" targetRef="GW_VERIFY_OK"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_8" name="checksums valid" sourceRef="GW_VERIFY_OK" targetRef="TASK_SEND_OFF"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_9" name="checksum mismatch" sourceRef="GW_VERIFY_OK" targetRef="TASK_ALERT_FAIL"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_10" sourceRef="TASK_SEND_OFF" targetRef="TASK_NOTIFY_OK"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_11" sourceRef="BND_ERR_XFER" targetRef="TASK_ALERT_FAIL"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_12" sourceRef="TASK_NOTIFY_OK" targetRef="EVT_END_OK"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_13" sourceRef="TASK_ALERT_FAIL" targetRef="TASK_RESTORE"/>
+    <bpmn:sequenceFlow id="Flow_p1_backup_14" sourceRef="TASK_RESTORE" targetRef="EVT_END_FAIL"/>
+    <bpmn:dataStoreReference id="DS_LOG" name="Backup run log" dataStoreRef="STORE_DS_LOG"/>
+    <bpmn:association id="Assoc_DS_LOG" sourceRef="TASK_VERIFY" targetRef="DS_LOG"/>
+    <bpmn:dataObject id="OBJ_DO_LASTGOOD"/>
+    <bpmn:dataObjectReference id="DO_LASTGOOD" name="Last-good backup ref" dataObjectRef="OBJ_DO_LASTGOOD"/>
+    <bpmn:association id="Assoc_DO_LASTGOOD" sourceRef="TASK_RESTORE" targetRef="DO_LASTGOOD"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_0"><bpmn:text>sha256sum of both archives vs manifest</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_0" sourceRef="TASK_VERIFY" targetRef="Anno_POOL_OPS_0"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_1"><bpmn:text>Admin picks last-good bundle, runs restore script</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_1" sourceRef="TASK_RESTORE" targetRef="Anno_POOL_OPS_1"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diag_p1_backup">
+    <bpmndi:BPMNPlane id="Plane_p1_backup" bpmnElement="Collab_p1_backup">
+      <bpmndi:BPMNShape id="DI_Part_POOL_OPS" bpmnElement="Part_POOL_OPS" isHorizontal="true"><dc:Bounds x="10" y="10" width="2136" height="828"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_STORE" bpmnElement="Part_POOL_STORE" isHorizontal="true"><dc:Bounds x="10" y="864" width="2136" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_0" bpmnElement="Lane_POOL_OPS_0" isHorizontal="true"><dc:Bounds x="40" y="10" width="2106" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_1" bpmnElement="Lane_POOL_OPS_1" isHorizontal="true"><dc:Bounds x="40" y="150" width="2106" height="344"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_2" bpmnElement="Lane_POOL_OPS_2" isHorizontal="true"><dc:Bounds x="40" y="494" width="2106" height="344"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_EVT_START" bpmnElement="EVT_START"><dc:Bounds x="147" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_INIT" bpmnElement="TASK_INIT"><dc:Bounds x="288" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_SPLIT" bpmnElement="GW_SPLIT"><dc:Bounds x="515" y="194" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_DB_BACKUP" bpmnElement="TASK_DB_BACKUP"><dc:Bounds x="664" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_MEDIA_BACK" bpmnElement="TASK_MEDIA_BACK"><dc:Bounds x="664" y="295" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_JOIN" bpmnElement="GW_JOIN"><dc:Bounds x="891" y="194" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_VERIFY" bpmnElement="TASK_VERIFY"><dc:Bounds x="1040" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_VERIFY_OK" bpmnElement="GW_VERIFY_OK"><dc:Bounds x="1267" y="194" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_SEND_OFF" bpmnElement="TASK_SEND_OFF"><dc:Bounds x="1416" y="183" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_BND_ERR_XFER" bpmnElement="BND_ERR_XFER"><dc:Bounds x="1495" y="242" width="30" height="30"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_NOTIFY_OK" bpmnElement="TASK_NOTIFY_OK"><dc:Bounds x="1604" y="639" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_ALERT_FAIL" bpmnElement="TASK_ALERT_FAIL"><dc:Bounds x="1604" y="527" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TASK_RESTORE" bpmnElement="TASK_RESTORE"><dc:Bounds x="1792" y="639" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_EVT_END_OK" bpmnElement="EVT_END_OK"><dc:Bounds x="1839" y="546" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_EVT_END_FAIL" bpmnElement="EVT_END_FAIL"><dc:Bounds x="2027" y="546" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_LOG" bpmnElement="DS_LOG"><dc:Bounds x="1078" y="409" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_LASTGOOD" bpmnElement="DO_LASTGOOD"><dc:Bounds x="1837" y="750" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_0" bpmnElement="Anno_POOL_OPS_0"><dc:Bounds x="1198" y="412" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_1" bpmnElement="Anno_POOL_OPS_1"><dc:Bounds x="1950" y="756" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_0" bpmnElement="Flow_p1_backup_0"><di:waypoint x="183" y="80"/><di:waypoint x="236" y="80"/><di:waypoint x="236" y="220"/><di:waypoint x="288" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_1" bpmnElement="Flow_p1_backup_1"><di:waypoint x="418" y="220"/><di:waypoint x="515" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_2" bpmnElement="Flow_p1_backup_2"><di:waypoint x="567" y="220"/><di:waypoint x="664" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_3" bpmnElement="Flow_p1_backup_3"><di:waypoint x="567" y="220"/><di:waypoint x="616" y="220"/><di:waypoint x="616" y="332"/><di:waypoint x="664" y="332"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_4" bpmnElement="Flow_p1_backup_4"><di:waypoint x="794" y="220"/><di:waypoint x="891" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_5" bpmnElement="Flow_p1_backup_5"><di:waypoint x="794" y="332"/><di:waypoint x="843" y="332"/><di:waypoint x="843" y="220"/><di:waypoint x="891" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_6" bpmnElement="Flow_p1_backup_6"><di:waypoint x="943" y="220"/><di:waypoint x="1040" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_7" bpmnElement="Flow_p1_backup_7"><di:waypoint x="1170" y="220"/><di:waypoint x="1267" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_8" bpmnElement="Flow_p1_backup_8"><di:waypoint x="1319" y="220"/><di:waypoint x="1416" y="220"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_9" bpmnElement="Flow_p1_backup_9"><di:waypoint x="1319" y="220"/><di:waypoint x="1462" y="220"/><di:waypoint x="1462" y="564"/><di:waypoint x="1604" y="564"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_10" bpmnElement="Flow_p1_backup_10"><di:waypoint x="1546" y="220"/><di:waypoint x="1575" y="220"/><di:waypoint x="1575" y="676"/><di:waypoint x="1604" y="676"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_11" bpmnElement="Flow_p1_backup_11"><di:waypoint x="1510" y="272"/><di:waypoint x="1510" y="418"/><di:waypoint x="1669" y="418"/><di:waypoint x="1669" y="527"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_12" bpmnElement="Flow_p1_backup_12"><di:waypoint x="1734" y="676"/><di:waypoint x="1787" y="676"/><di:waypoint x="1787" y="564"/><di:waypoint x="1839" y="564"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_13" bpmnElement="Flow_p1_backup_13"><di:waypoint x="1734" y="564"/><di:waypoint x="1763" y="564"/><di:waypoint x="1763" y="676"/><di:waypoint x="1792" y="676"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p1_backup_14" bpmnElement="Flow_p1_backup_14"><di:waypoint x="1922" y="676"/><di:waypoint x="1975" y="676"/><di:waypoint x="1975" y="564"/><di:waypoint x="2027" y="564"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p1_backup_0" bpmnElement="Msg_p1_backup_0"><di:waypoint x="1481" y="257"/><di:waypoint x="1481" y="864"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_LOG" bpmnElement="Assoc_DS_LOG"><di:waypoint x="1105" y="220"/><di:waypoint x="1105" y="434"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_LASTGOOD" bpmnElement="Assoc_DO_LASTGOOD"><di:waypoint x="1857" y="676"/><di:waypoint x="1857" y="778"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_0" bpmnElement="AnnoAssoc_POOL_OPS_0"><di:waypoint x="1105" y="220"/><di:waypoint x="1273" y="434"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_1" bpmnElement="AnnoAssoc_POOL_OPS_1"><di:waypoint x="1857" y="676"/><di:waypoint x="2025" y="778"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

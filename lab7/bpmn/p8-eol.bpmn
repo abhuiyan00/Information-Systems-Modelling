@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_p8_eol" targetNamespace="http://modellingclub.local/bpmn" exporter="ModellingClub Lab7 generator" exporterVersion="1.0">
+  <bpmn:dataStore id="STORE_DS_COLD" name="Cold storage archive"/>
+  <bpmn:dataStore id="STORE_DS_LEGAL" name="Legal retention repository"/>
+  <bpmn:collaboration id="Collab_p8_eol">
+    <bpmn:participant id="Part_POOL_OPS" name="ModellingClub Operations" processRef="Proc_POOL_OPS"/>
+    <bpmn:participant id="Part_POOL_MEM" name="Members" processRef="Proc_POOL_MEM"/>
+    <bpmn:participant id="Part_POOL_CP" name="Cloud Provider" processRef="Proc_POOL_CP"/>
+    <bpmn:messageFlow id="Msg_p8_eol_0" name="Shutdown announcement" sourceRef="OC_ANNOUNCE" targetRef="MEM_ANNOUNCE"/>
+    <bpmn:messageFlow id="Msg_p8_eol_1" name="EOL resolution signal" sourceRef="OC_START" targetRef="DPO_START"/>
+    <bpmn:messageFlow id="Msg_p8_eol_2" name="Export window open" sourceRef="OC_ENABLE_EXPORT" targetRef="MA_EXPORT_WINDOW"/>
+    <bpmn:messageFlow id="Msg_p8_eol_3" name="Export window open" sourceRef="OC_ENABLE_EXPORT" targetRef="MEM_DOWNLOAD"/>
+    <bpmn:messageFlow id="Msg_p8_eol_4" name="Final shutdown notice" sourceRef="OC_FINAL_NOTICE" targetRef="MEM_FINAL"/>
+    <bpmn:messageFlow id="Msg_p8_eol_5" name="Contract termination notice" sourceRef="OC_TERMINATE" targetRef="CP_TERMINATION"/>
+    <bpmn:messageFlow id="Msg_p8_eol_6" name="Teardown confirmation" sourceRef="CP_CONFIRM" targetRef="OC_AWAIT_TEARDOWN"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_POOL_OPS" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_POOL_OPS">
+      <bpmn:lane id="Lane_POOL_OPS_0" name="Operations Committee"><bpmn:flowNodeRef>OC_START</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_ANNOUNCE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_NOTICE_TIMER</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_ENABLE_EXPORT</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_EXPORT_TIMER</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_DISABLE_EXPORT</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_GW_PRESERVE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_MIGRATE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_ARCHIVE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_REVOKE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_TERMINATE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_AWAIT_TEARDOWN</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_FINAL_NOTICE</bpmn:flowNodeRef><bpmn:flowNodeRef>OC_END</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_1" name="Membership Admin"><bpmn:flowNodeRef>MA_EXPORT_WINDOW</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_MONITOR</bpmn:flowNodeRef><bpmn:flowNodeRef>MA_END</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_2" name="Legal &amp; DPO"><bpmn:flowNodeRef>DPO_START</bpmn:flowNodeRef><bpmn:flowNodeRef>DPO_REVIEW</bpmn:flowNodeRef><bpmn:flowNodeRef>DPO_RETENTION</bpmn:flowNodeRef><bpmn:flowNodeRef>DPO_ARCHIVE</bpmn:flowNodeRef><bpmn:flowNodeRef>DPO_END</bpmn:flowNodeRef></bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="OC_START" name="EOL resolution passed"></bpmn:startEvent>
+    <bpmn:sendTask id="OC_ANNOUNCE" name="Send shutdown announcement"/>
+    <bpmn:intermediateCatchEvent id="OC_NOTICE_TIMER" name="Wait 30-day notice period"><bpmn:timerEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="OC_ENABLE_EXPORT" name="Enable final data-export window"/>
+    <bpmn:intermediateCatchEvent id="OC_EXPORT_TIMER" name="Wait 30-day export window"><bpmn:timerEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="OC_DISABLE_EXPORT" name="Disable export &amp; lock platform"/>
+    <bpmn:exclusiveGateway id="OC_GW_PRESERVE" name="Data to preserve?"/>
+    <bpmn:manualTask id="OC_MIGRATE" name="Export / hand over preserved data"/>
+    <bpmn:serviceTask id="OC_ARCHIVE" name="Write full archive to cold storage"/>
+    <bpmn:serviceTask id="OC_REVOKE" name="Revoke keys, tokens &amp; credentials"/>
+    <bpmn:sendTask id="OC_TERMINATE" name="Send contract termination notice"/>
+    <bpmn:intermediateCatchEvent id="OC_AWAIT_TEARDOWN" name="Await teardown confirmation"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:sendTask id="OC_FINAL_NOTICE" name="Publish final shutdown notice"/>
+    <bpmn:endEvent id="OC_END" name="System fully decommissioned"><bpmn:terminateEventDefinition/></bpmn:endEvent>
+    <bpmn:startEvent id="DPO_START" name="EOL signal received"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:manualTask id="DPO_REVIEW" name="Review data-retention obligations"/>
+    <bpmn:manualTask id="DPO_RETENTION" name="Segregate records for legal retention"/>
+    <bpmn:manualTask id="DPO_ARCHIVE" name="Transfer legal records to long-term archive"/>
+    <bpmn:endEvent id="DPO_END" name="Legal records secured"></bpmn:endEvent>
+    <bpmn:startEvent id="MA_EXPORT_WINDOW" name="Export-window open signal"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:userTask id="MA_MONITOR" name="Monitor export requests; support members"/>
+    <bpmn:endEvent id="MA_END" name="Member support closed"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p8_eol_0" sourceRef="OC_START" targetRef="OC_ANNOUNCE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_1" sourceRef="OC_ANNOUNCE" targetRef="OC_NOTICE_TIMER"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_2" sourceRef="OC_NOTICE_TIMER" targetRef="OC_ENABLE_EXPORT"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_3" sourceRef="OC_ENABLE_EXPORT" targetRef="OC_EXPORT_TIMER"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_4" sourceRef="OC_EXPORT_TIMER" targetRef="OC_DISABLE_EXPORT"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_5" sourceRef="OC_DISABLE_EXPORT" targetRef="OC_GW_PRESERVE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_6" name="yes — preserve" sourceRef="OC_GW_PRESERVE" targetRef="OC_MIGRATE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_7" name="no — archive only" sourceRef="OC_GW_PRESERVE" targetRef="OC_ARCHIVE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_8" sourceRef="OC_MIGRATE" targetRef="OC_ARCHIVE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_9" sourceRef="OC_ARCHIVE" targetRef="OC_REVOKE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_10" sourceRef="OC_REVOKE" targetRef="OC_TERMINATE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_11" sourceRef="OC_TERMINATE" targetRef="OC_AWAIT_TEARDOWN"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_12" sourceRef="OC_AWAIT_TEARDOWN" targetRef="OC_FINAL_NOTICE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_13" sourceRef="OC_FINAL_NOTICE" targetRef="OC_END"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_14" sourceRef="DPO_START" targetRef="DPO_REVIEW"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_15" sourceRef="DPO_REVIEW" targetRef="DPO_RETENTION"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_16" sourceRef="DPO_RETENTION" targetRef="DPO_ARCHIVE"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_17" sourceRef="DPO_ARCHIVE" targetRef="DPO_END"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_18" sourceRef="MA_EXPORT_WINDOW" targetRef="MA_MONITOR"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_19" sourceRef="MA_MONITOR" targetRef="MA_END"/>
+    <bpmn:dataStoreReference id="DS_COLD" name="Cold storage archive" dataStoreRef="STORE_DS_COLD"/>
+    <bpmn:association id="Assoc_DS_COLD" sourceRef="OC_ARCHIVE" targetRef="DS_COLD"/>
+    <bpmn:dataStoreReference id="DS_LEGAL" name="Legal retention repository" dataStoreRef="STORE_DS_LEGAL"/>
+    <bpmn:association id="Assoc_DS_LEGAL" sourceRef="DPO_ARCHIVE" targetRef="DS_LEGAL"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_0"><bpmn:text>30-day statutory notice period</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_0" sourceRef="OC_NOTICE_TIMER" targetRef="Anno_POOL_OPS_0"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_1"><bpmn:text>Financial / contest records kept per law (~7y)</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_1" sourceRef="DPO_RETENTION" targetRef="Anno_POOL_OPS_1"/>
+  </bpmn:process>
+  <bpmn:process id="Proc_POOL_MEM" isExecutable="false">
+    <bpmn:startEvent id="MEM_ANNOUNCE" name="Receive shutdown announcement"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:userTask id="MEM_DOWNLOAD" name="Download personal data export"/>
+    <bpmn:intermediateCatchEvent id="MEM_FINAL" name="Receive final shutdown notice"><bpmn:messageEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="MEM_END" name="Data retained locally"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p8_eol_20" sourceRef="MEM_ANNOUNCE" targetRef="MEM_DOWNLOAD"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_21" sourceRef="MEM_DOWNLOAD" targetRef="MEM_FINAL"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_22" sourceRef="MEM_FINAL" targetRef="MEM_END"/>
+    <bpmn:dataObject id="OBJ_DO_EXPORT"/>
+    <bpmn:dataObjectReference id="DO_EXPORT" name="Member data ZIP" dataObjectRef="OBJ_DO_EXPORT"/>
+    <bpmn:association id="Assoc_DO_EXPORT" sourceRef="MEM_DOWNLOAD" targetRef="DO_EXPORT"/>
+  </bpmn:process>
+  <bpmn:process id="Proc_POOL_CP" isExecutable="false">
+    <bpmn:startEvent id="CP_TERMINATION" name="Termination notice received"><bpmn:messageEventDefinition/></bpmn:startEvent>
+    <bpmn:serviceTask id="CP_TEARDOWN" name="Tear down VPS, storage &amp; DNS"/>
+    <bpmn:sendTask id="CP_CONFIRM" name="Send teardown confirmation"/>
+    <bpmn:endEvent id="CP_END" name="Contract closed"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p8_eol_23" sourceRef="CP_TERMINATION" targetRef="CP_TEARDOWN"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_24" sourceRef="CP_TEARDOWN" targetRef="CP_CONFIRM"/>
+    <bpmn:sequenceFlow id="Flow_p8_eol_25" sourceRef="CP_CONFIRM" targetRef="CP_END"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diag_p8_eol">
+    <bpmndi:BPMNPlane id="Plane_p8_eol" bpmnElement="Collab_p8_eol">
+      <bpmndi:BPMNShape id="DI_Part_POOL_OPS" bpmnElement="Part_POOL_OPS" isHorizontal="true"><dc:Bounds x="10" y="10" width="2700" height="604"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_MEM" bpmnElement="Part_POOL_MEM" isHorizontal="true"><dc:Bounds x="10" y="640" width="2700" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_CP" bpmnElement="Part_POOL_CP" isHorizontal="true"><dc:Bounds x="10" y="898" width="2700" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_0" bpmnElement="Lane_POOL_OPS_0" isHorizontal="true"><dc:Bounds x="40" y="10" width="2670" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_1" bpmnElement="Lane_POOL_OPS_1" isHorizontal="true"><dc:Bounds x="40" y="242" width="2670" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_2" bpmnElement="Lane_POOL_OPS_2" isHorizontal="true"><dc:Bounds x="40" y="382" width="2670" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_START" bpmnElement="OC_START"><dc:Bounds x="147" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_ANNOUNCE" bpmnElement="OC_ANNOUNCE"><dc:Bounds x="288" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_NOTICE_TIMER" bpmnElement="OC_NOTICE_TIMER"><dc:Bounds x="523" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_ENABLE_EXPORT" bpmnElement="OC_ENABLE_EXPORT"><dc:Bounds x="664" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_EXPORT_TIMER" bpmnElement="OC_EXPORT_TIMER"><dc:Bounds x="899" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_DISABLE_EXPORT" bpmnElement="OC_DISABLE_EXPORT"><dc:Bounds x="1040" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_GW_PRESERVE" bpmnElement="OC_GW_PRESERVE"><dc:Bounds x="1267" y="54" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_MIGRATE" bpmnElement="OC_MIGRATE"><dc:Bounds x="1416" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_ARCHIVE" bpmnElement="OC_ARCHIVE"><dc:Bounds x="1604" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_REVOKE" bpmnElement="OC_REVOKE"><dc:Bounds x="1792" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_TERMINATE" bpmnElement="OC_TERMINATE"><dc:Bounds x="1980" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_AWAIT_TEARDOWN" bpmnElement="OC_AWAIT_TEARDOWN"><dc:Bounds x="2215" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_FINAL_NOTICE" bpmnElement="OC_FINAL_NOTICE"><dc:Bounds x="2356" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_OC_END" bpmnElement="OC_END"><dc:Bounds x="2591" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DPO_START" bpmnElement="DPO_START"><dc:Bounds x="147" y="434" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DPO_REVIEW" bpmnElement="DPO_REVIEW"><dc:Bounds x="288" y="415" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DPO_RETENTION" bpmnElement="DPO_RETENTION"><dc:Bounds x="476" y="415" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DPO_ARCHIVE" bpmnElement="DPO_ARCHIVE"><dc:Bounds x="664" y="415" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DPO_END" bpmnElement="DPO_END"><dc:Bounds x="899" y="434" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_EXPORT_WINDOW" bpmnElement="MA_EXPORT_WINDOW"><dc:Bounds x="147" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_MONITOR" bpmnElement="MA_MONITOR"><dc:Bounds x="288" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MA_END" bpmnElement="MA_END"><dc:Bounds x="523" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MEM_ANNOUNCE" bpmnElement="MEM_ANNOUNCE"><dc:Bounds x="123" y="692" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MEM_DOWNLOAD" bpmnElement="MEM_DOWNLOAD"><dc:Bounds x="264" y="673" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MEM_FINAL" bpmnElement="MEM_FINAL"><dc:Bounds x="499" y="692" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MEM_END" bpmnElement="MEM_END"><dc:Bounds x="687" y="692" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_TERMINATION" bpmnElement="CP_TERMINATION"><dc:Bounds x="123" y="950" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_TEARDOWN" bpmnElement="CP_TEARDOWN"><dc:Bounds x="264" y="931" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_CONFIRM" bpmnElement="CP_CONFIRM"><dc:Bounds x="452" y="931" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CP_END" bpmnElement="CP_END"><dc:Bounds x="687" y="950" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_COLD" bpmnElement="DS_COLD"><dc:Bounds x="1642" y="157" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_LEGAL" bpmnElement="DS_LEGAL"><dc:Bounds x="702" y="529" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_EXPORT" bpmnElement="DO_EXPORT"><dc:Bounds x="309" y="784" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_0" bpmnElement="Anno_POOL_OPS_0"><dc:Bounds x="466" y="160" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_1" bpmnElement="Anno_POOL_OPS_1"><dc:Bounds x="466" y="532" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_0" bpmnElement="Flow_p8_eol_0"><di:waypoint x="183" y="80"/><di:waypoint x="288" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_1" bpmnElement="Flow_p8_eol_1"><di:waypoint x="418" y="80"/><di:waypoint x="523" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_2" bpmnElement="Flow_p8_eol_2"><di:waypoint x="559" y="80"/><di:waypoint x="664" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_3" bpmnElement="Flow_p8_eol_3"><di:waypoint x="794" y="80"/><di:waypoint x="899" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_4" bpmnElement="Flow_p8_eol_4"><di:waypoint x="935" y="80"/><di:waypoint x="1040" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_5" bpmnElement="Flow_p8_eol_5"><di:waypoint x="1170" y="80"/><di:waypoint x="1267" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_6" bpmnElement="Flow_p8_eol_6"><di:waypoint x="1319" y="80"/><di:waypoint x="1416" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_7" bpmnElement="Flow_p8_eol_7"><di:waypoint x="1319" y="80"/><di:waypoint x="1604" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_8" bpmnElement="Flow_p8_eol_8"><di:waypoint x="1546" y="80"/><di:waypoint x="1604" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_9" bpmnElement="Flow_p8_eol_9"><di:waypoint x="1734" y="80"/><di:waypoint x="1792" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_10" bpmnElement="Flow_p8_eol_10"><di:waypoint x="1922" y="80"/><di:waypoint x="1980" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_11" bpmnElement="Flow_p8_eol_11"><di:waypoint x="2110" y="80"/><di:waypoint x="2215" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_12" bpmnElement="Flow_p8_eol_12"><di:waypoint x="2251" y="80"/><di:waypoint x="2356" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_13" bpmnElement="Flow_p8_eol_13"><di:waypoint x="2486" y="80"/><di:waypoint x="2591" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_14" bpmnElement="Flow_p8_eol_14"><di:waypoint x="183" y="452"/><di:waypoint x="288" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_15" bpmnElement="Flow_p8_eol_15"><di:waypoint x="418" y="452"/><di:waypoint x="476" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_16" bpmnElement="Flow_p8_eol_16"><di:waypoint x="606" y="452"/><di:waypoint x="664" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_17" bpmnElement="Flow_p8_eol_17"><di:waypoint x="794" y="452"/><di:waypoint x="899" y="452"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_18" bpmnElement="Flow_p8_eol_18"><di:waypoint x="183" y="312"/><di:waypoint x="288" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_19" bpmnElement="Flow_p8_eol_19"><di:waypoint x="418" y="312"/><di:waypoint x="523" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_20" bpmnElement="Flow_p8_eol_20"><di:waypoint x="159" y="710"/><di:waypoint x="264" y="710"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_21" bpmnElement="Flow_p8_eol_21"><di:waypoint x="394" y="710"/><di:waypoint x="499" y="710"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_22" bpmnElement="Flow_p8_eol_22"><di:waypoint x="535" y="710"/><di:waypoint x="687" y="710"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_23" bpmnElement="Flow_p8_eol_23"><di:waypoint x="159" y="968"/><di:waypoint x="264" y="968"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_24" bpmnElement="Flow_p8_eol_24"><di:waypoint x="394" y="968"/><di:waypoint x="452" y="968"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p8_eol_25" bpmnElement="Flow_p8_eol_25"><di:waypoint x="582" y="968"/><di:waypoint x="687" y="968"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_0" bpmnElement="Msg_p8_eol_0"><di:waypoint x="353" y="117"/><di:waypoint x="353" y="405"/><di:waypoint x="141" y="405"/><di:waypoint x="141" y="692"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_1" bpmnElement="Msg_p8_eol_1"><di:waypoint x="165" y="98"/><di:waypoint x="165" y="434"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_2" bpmnElement="Msg_p8_eol_2"><di:waypoint x="729" y="117"/><di:waypoint x="729" y="206"/><di:waypoint x="165" y="206"/><di:waypoint x="165" y="294"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_3" bpmnElement="Msg_p8_eol_3"><di:waypoint x="729" y="117"/><di:waypoint x="729" y="395"/><di:waypoint x="329" y="395"/><di:waypoint x="329" y="673"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_4" bpmnElement="Msg_p8_eol_4"><di:waypoint x="2421" y="117"/><di:waypoint x="2421" y="405"/><di:waypoint x="517" y="405"/><di:waypoint x="517" y="692"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_5" bpmnElement="Msg_p8_eol_5"><di:waypoint x="2045" y="117"/><di:waypoint x="2045" y="534"/><di:waypoint x="141" y="534"/><di:waypoint x="141" y="950"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p8_eol_6" bpmnElement="Msg_p8_eol_6"><di:waypoint x="517" y="931"/><di:waypoint x="517" y="515"/><di:waypoint x="2233" y="515"/><di:waypoint x="2233" y="98"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_COLD" bpmnElement="Assoc_DS_COLD"><di:waypoint x="1669" y="80"/><di:waypoint x="1669" y="182"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_LEGAL" bpmnElement="Assoc_DS_LEGAL"><di:waypoint x="729" y="452"/><di:waypoint x="729" y="554"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_EXPORT" bpmnElement="Assoc_DO_EXPORT"><di:waypoint x="329" y="710"/><di:waypoint x="329" y="812"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_0" bpmnElement="AnnoAssoc_POOL_OPS_0"><di:waypoint x="541" y="80"/><di:waypoint x="541" y="182"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_1" bpmnElement="AnnoAssoc_POOL_OPS_1"><di:waypoint x="541" y="452"/><di:waypoint x="541" y="554"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

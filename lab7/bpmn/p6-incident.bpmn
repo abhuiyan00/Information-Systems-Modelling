@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_p6_incident" targetNamespace="http://modellingclub.local/bpmn" exporter="ModellingClub Lab7 generator" exporterVersion="1.0">
+  <bpmn:dataStore id="STORE_DS_AUDIT" name="Audit log"/>
+  <bpmn:collaboration id="Collab_p6_incident">
+    <bpmn:participant id="Part_POOL_OPS" name="ModellingClub Operations" processRef="Proc_POOL_OPS"/>
+    <bpmn:participant id="Part_POOL_USERS" name="Affected Users"/>
+    <bpmn:participant id="Part_POOL_REG" name="Supervisory Authority / Regulator"/>
+    <bpmn:messageFlow id="Msg_p6_incident_0" name="Incident alert &amp; re-login notice" sourceRef="NOTIFY_USERS" targetRef="Part_POOL_USERS"/>
+    <bpmn:messageFlow id="Msg_p6_incident_1" name="GDPR Art. 33 breach notification" sourceRef="NOTIFY_REG" targetRef="Part_POOL_REG"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_POOL_OPS" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_POOL_OPS">
+      <bpmn:lane id="Lane_POOL_OPS_0" name="Monitoring &amp; SIEM"><bpmn:flowNodeRef>START_SIGNAL</bpmn:flowNodeRef><bpmn:flowNodeRef>ENRICH_TRIAGE</bpmn:flowNodeRef><bpmn:flowNodeRef>LOG_LOW</bpmn:flowNodeRef><bpmn:flowNodeRef>END_LOW</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_1" name="Security On-Call"><bpmn:flowNodeRef>GW_SEVERITY</bpmn:flowNodeRef><bpmn:flowNodeRef>ASSESS_HIGH</bpmn:flowNodeRef><bpmn:flowNodeRef>BND_ESCALATE</bpmn:flowNodeRef><bpmn:flowNodeRef>NOTIFY_TEAM</bpmn:flowNodeRef><bpmn:flowNodeRef>END_HIGH</bpmn:flowNodeRef><bpmn:flowNodeRef>PAR_CONTAIN</bpmn:flowNodeRef><bpmn:flowNodeRef>NOTIFY_USERS</bpmn:flowNodeRef><bpmn:flowNodeRef>VERIFY_RECOVERY</bpmn:flowNodeRef><bpmn:flowNodeRef>POST_MORTEM</bpmn:flowNodeRef><bpmn:flowNodeRef>GW_HARDEN</bpmn:flowNodeRef><bpmn:flowNodeRef>CREATE_TASK</bpmn:flowNodeRef><bpmn:flowNodeRef>END_CRITICAL</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_2" name="System"><bpmn:flowNodeRef>APPLY_MIT</bpmn:flowNodeRef><bpmn:flowNodeRef>ROTATE_JWT</bpmn:flowNodeRef><bpmn:flowNodeRef>BLOCK_IPS</bpmn:flowNodeRef><bpmn:flowNodeRef>MAINT_MODE</bpmn:flowNodeRef><bpmn:flowNodeRef>PAR_CONTAIN_JOIN</bpmn:flowNodeRef><bpmn:flowNodeRef>ERADICATE</bpmn:flowNodeRef></bpmn:lane>
+      <bpmn:lane id="Lane_POOL_OPS_3" name="DPO &amp; Legal"><bpmn:flowNodeRef>GW_BREACH</bpmn:flowNodeRef><bpmn:flowNodeRef>NOTIFY_DPO</bpmn:flowNodeRef><bpmn:flowNodeRef>TIMER_72H</bpmn:flowNodeRef><bpmn:flowNodeRef>NOTIFY_REG</bpmn:flowNodeRef></bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="START_SIGNAL" name="SIEM alert received"><bpmn:signalEventDefinition/></bpmn:startEvent>
+    <bpmn:serviceTask id="ENRICH_TRIAGE" name="Enrich alert: correlate logs, IPs, accounts"/>
+    <bpmn:exclusiveGateway id="GW_SEVERITY" name="Severity level?"/>
+    <bpmn:scriptTask id="LOG_LOW" name="Log event; raise threshold"/>
+    <bpmn:endEvent id="END_LOW" name="Closed — low severity"></bpmn:endEvent>
+    <bpmn:manualTask id="ASSESS_HIGH" name="Assess scope &amp; data-exposure risk"/>
+    <bpmn:boundaryEvent id="BND_ESCALATE" name="1h escalation" attachedToRef="ASSESS_HIGH" cancelActivity="false"><bpmn:timerEventDefinition/></bpmn:boundaryEvent>
+    <bpmn:serviceTask id="APPLY_MIT" name="Apply mitigations (block IPs, revoke sessions)"/>
+    <bpmn:sendTask id="NOTIFY_TEAM" name="Notify team &amp; management"/>
+    <bpmn:endEvent id="END_HIGH" name="High incident closed"></bpmn:endEvent>
+    <bpmn:parallelGateway id="PAR_CONTAIN" name="Begin containment"/>
+    <bpmn:serviceTask id="ROTATE_JWT" name="Rotate JWT secret (forces re-login)"/>
+    <bpmn:serviceTask id="BLOCK_IPS" name="Block IPs / rate-limit /auth/login"/>
+    <bpmn:serviceTask id="MAINT_MODE" name="Optionally engage maintenance mode"/>
+    <bpmn:parallelGateway id="PAR_CONTAIN_JOIN" name="Containment complete"/>
+    <bpmn:exclusiveGateway id="GW_BREACH" name="Personal data exposed?"/>
+    <bpmn:sendTask id="NOTIFY_DPO" name="Notify DPO; start breach assessment"/>
+    <bpmn:sendTask id="NOTIFY_USERS" name="Notify affected users (re-login)"/>
+    <bpmn:intermediateCatchEvent id="TIMER_72H" name="72h GDPR deadline"><bpmn:timerEventDefinition/></bpmn:intermediateCatchEvent>
+    <bpmn:sendTask id="NOTIFY_REG" name="Submit breach notification"/>
+    <bpmn:serviceTask id="ERADICATE" name="Eradicate threat; harden config"/>
+    <bpmn:manualTask id="VERIFY_RECOVERY" name="Verify recovery; monitor recurrence"/>
+    <bpmn:manualTask id="POST_MORTEM" name="Post-incident review"/>
+    <bpmn:exclusiveGateway id="GW_HARDEN" name="Hardening task needed?"/>
+    <bpmn:manualTask id="CREATE_TASK" name="Create follow-up hardening task"/>
+    <bpmn:endEvent id="END_CRITICAL" name="Incident closed"></bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_p6_incident_0" sourceRef="START_SIGNAL" targetRef="ENRICH_TRIAGE"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_1" sourceRef="ENRICH_TRIAGE" targetRef="GW_SEVERITY"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_2" name="low" sourceRef="GW_SEVERITY" targetRef="LOG_LOW"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_3" name="high" sourceRef="GW_SEVERITY" targetRef="ASSESS_HIGH"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_4" name="critical" sourceRef="GW_SEVERITY" targetRef="PAR_CONTAIN"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_5" sourceRef="LOG_LOW" targetRef="END_LOW"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_6" sourceRef="ASSESS_HIGH" targetRef="APPLY_MIT"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_7" sourceRef="APPLY_MIT" targetRef="NOTIFY_TEAM"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_8" sourceRef="NOTIFY_TEAM" targetRef="END_HIGH"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_9" name="escalate" sourceRef="BND_ESCALATE" targetRef="PAR_CONTAIN"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_10" sourceRef="PAR_CONTAIN" targetRef="ROTATE_JWT"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_11" sourceRef="PAR_CONTAIN" targetRef="BLOCK_IPS"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_12" sourceRef="PAR_CONTAIN" targetRef="MAINT_MODE"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_13" sourceRef="ROTATE_JWT" targetRef="PAR_CONTAIN_JOIN"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_14" sourceRef="BLOCK_IPS" targetRef="PAR_CONTAIN_JOIN"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_15" sourceRef="MAINT_MODE" targetRef="PAR_CONTAIN_JOIN"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_16" sourceRef="PAR_CONTAIN_JOIN" targetRef="GW_BREACH"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_17" name="yes" sourceRef="GW_BREACH" targetRef="NOTIFY_DPO"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_18" name="no" sourceRef="GW_BREACH" targetRef="ERADICATE"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_19" sourceRef="NOTIFY_DPO" targetRef="NOTIFY_USERS"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_20" sourceRef="NOTIFY_USERS" targetRef="TIMER_72H"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_21" sourceRef="TIMER_72H" targetRef="NOTIFY_REG"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_22" sourceRef="NOTIFY_REG" targetRef="ERADICATE"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_23" sourceRef="ERADICATE" targetRef="VERIFY_RECOVERY"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_24" sourceRef="VERIFY_RECOVERY" targetRef="POST_MORTEM"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_25" sourceRef="POST_MORTEM" targetRef="GW_HARDEN"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_26" name="yes" sourceRef="GW_HARDEN" targetRef="CREATE_TASK"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_27" name="no" sourceRef="GW_HARDEN" targetRef="END_CRITICAL"/>
+    <bpmn:sequenceFlow id="Flow_p6_incident_28" sourceRef="CREATE_TASK" targetRef="END_CRITICAL"/>
+    <bpmn:dataStoreReference id="DS_AUDIT" name="Audit log" dataStoreRef="STORE_DS_AUDIT"/>
+    <bpmn:association id="Assoc_DS_AUDIT" sourceRef="ENRICH_TRIAGE" targetRef="DS_AUDIT"/>
+    <bpmn:dataObject id="OBJ_DO_BREACH"/>
+    <bpmn:dataObjectReference id="DO_BREACH" name="Breach assessment" dataObjectRef="OBJ_DO_BREACH"/>
+    <bpmn:association id="Assoc_DO_BREACH" sourceRef="NOTIFY_DPO" targetRef="DO_BREACH"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_0"><bpmn:text>HS256 rotation invalidates all 24h tokens</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_0" sourceRef="ROTATE_JWT" targetRef="Anno_POOL_OPS_0"/>
+    <bpmn:textAnnotation id="Anno_POOL_OPS_1"><bpmn:text>No on-call response in 1h → escalate to critical</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="AnnoAssoc_POOL_OPS_1" sourceRef="BND_ESCALATE" targetRef="Anno_POOL_OPS_1"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diag_p6_incident">
+    <bpmndi:BPMNPlane id="Plane_p6_incident" bpmnElement="Collab_p6_incident">
+      <bpmndi:BPMNShape id="DI_Part_POOL_OPS" bpmnElement="Part_POOL_OPS" isHorizontal="true"><dc:Bounds x="10" y="10" width="3452" height="1152"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_USERS" bpmnElement="Part_POOL_USERS" isHorizontal="true"><dc:Bounds x="10" y="1188" width="3452" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Part_POOL_REG" bpmnElement="Part_POOL_REG" isHorizontal="true"><dc:Bounds x="10" y="1354" width="3452" height="140"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_0" bpmnElement="Lane_POOL_OPS_0" isHorizontal="true"><dc:Bounds x="40" y="10" width="3422" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_1" bpmnElement="Lane_POOL_OPS_1" isHorizontal="true"><dc:Bounds x="40" y="242" width="3422" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_2" bpmnElement="Lane_POOL_OPS_2" isHorizontal="true"><dc:Bounds x="40" y="474" width="3422" height="456"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Lane_POOL_OPS_3" bpmnElement="Lane_POOL_OPS_3" isHorizontal="true"><dc:Bounds x="40" y="930" width="3422" height="232"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_START_SIGNAL" bpmnElement="START_SIGNAL"><dc:Bounds x="147" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ENRICH_TRIAGE" bpmnElement="ENRICH_TRIAGE"><dc:Bounds x="288" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_SEVERITY" bpmnElement="GW_SEVERITY"><dc:Bounds x="515" y="286" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_LOG_LOW" bpmnElement="LOG_LOW"><dc:Bounds x="664" y="43" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_LOW" bpmnElement="END_LOW"><dc:Bounds x="899" y="62" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ASSESS_HIGH" bpmnElement="ASSESS_HIGH"><dc:Bounds x="664" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_BND_ESCALATE" bpmnElement="BND_ESCALATE"><dc:Bounds x="743" y="334" width="30" height="30"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_APPLY_MIT" bpmnElement="APPLY_MIT"><dc:Bounds x="852" y="507" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_NOTIFY_TEAM" bpmnElement="NOTIFY_TEAM"><dc:Bounds x="1040" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_HIGH" bpmnElement="END_HIGH"><dc:Bounds x="1275" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PAR_CONTAIN" bpmnElement="PAR_CONTAIN"><dc:Bounds x="891" y="286" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ROTATE_JWT" bpmnElement="ROTATE_JWT"><dc:Bounds x="1040" y="731" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_BLOCK_IPS" bpmnElement="BLOCK_IPS"><dc:Bounds x="1040" y="507" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_MAINT_MODE" bpmnElement="MAINT_MODE"><dc:Bounds x="1040" y="619" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_PAR_CONTAIN_JOIN" bpmnElement="PAR_CONTAIN_JOIN"><dc:Bounds x="1267" y="518" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_BREACH" bpmnElement="GW_BREACH"><dc:Bounds x="1455" y="974" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_NOTIFY_DPO" bpmnElement="NOTIFY_DPO"><dc:Bounds x="1604" y="963" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_NOTIFY_USERS" bpmnElement="NOTIFY_USERS"><dc:Bounds x="1792" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_TIMER_72H" bpmnElement="TIMER_72H"><dc:Bounds x="2027" y="982" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_NOTIFY_REG" bpmnElement="NOTIFY_REG"><dc:Bounds x="2168" y="963" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_ERADICATE" bpmnElement="ERADICATE"><dc:Bounds x="2356" y="507" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_VERIFY_RECOVERY" bpmnElement="VERIFY_RECOVERY"><dc:Bounds x="2544" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_POST_MORTEM" bpmnElement="POST_MORTEM"><dc:Bounds x="2732" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_GW_HARDEN" bpmnElement="GW_HARDEN"><dc:Bounds x="2959" y="286" width="52" height="52"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_CREATE_TASK" bpmnElement="CREATE_TASK"><dc:Bounds x="3108" y="275" width="130" height="74"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_END_CRITICAL" bpmnElement="END_CRITICAL"><dc:Bounds x="3343" y="294" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DS_AUDIT" bpmnElement="DS_AUDIT"><dc:Bounds x="326" y="157" width="54" height="50"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_DO_BREACH" bpmnElement="DO_BREACH"><dc:Bounds x="1649" y="1074" width="40" height="56"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_0" bpmnElement="Anno_POOL_OPS_0"><dc:Bounds x="1030" y="848" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DI_Anno_POOL_OPS_1" bpmnElement="Anno_POOL_OPS_1"><dc:Bounds x="654" y="392" width="150" height="44"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_0" bpmnElement="Flow_p6_incident_0"><di:waypoint x="183" y="80"/><di:waypoint x="288" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_1" bpmnElement="Flow_p6_incident_1"><di:waypoint x="418" y="80"/><di:waypoint x="467" y="80"/><di:waypoint x="467" y="312"/><di:waypoint x="515" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_2" bpmnElement="Flow_p6_incident_2"><di:waypoint x="567" y="312"/><di:waypoint x="616" y="312"/><di:waypoint x="616" y="80"/><di:waypoint x="664" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_3" bpmnElement="Flow_p6_incident_3"><di:waypoint x="567" y="312"/><di:waypoint x="664" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_4" bpmnElement="Flow_p6_incident_4"><di:waypoint x="567" y="312"/><di:waypoint x="891" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_5" bpmnElement="Flow_p6_incident_5"><di:waypoint x="794" y="80"/><di:waypoint x="899" y="80"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_6" bpmnElement="Flow_p6_incident_6"><di:waypoint x="794" y="312"/><di:waypoint x="823" y="312"/><di:waypoint x="823" y="544"/><di:waypoint x="852" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_7" bpmnElement="Flow_p6_incident_7"><di:waypoint x="982" y="544"/><di:waypoint x="1011" y="544"/><di:waypoint x="1011" y="312"/><di:waypoint x="1040" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_8" bpmnElement="Flow_p6_incident_8"><di:waypoint x="1170" y="312"/><di:waypoint x="1275" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_9" bpmnElement="Flow_p6_incident_9"><di:waypoint x="758" y="364"/><di:waypoint x="758" y="338"/><di:waypoint x="917" y="338"/><di:waypoint x="917" y="286"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_10" bpmnElement="Flow_p6_incident_10"><di:waypoint x="943" y="312"/><di:waypoint x="992" y="312"/><di:waypoint x="992" y="768"/><di:waypoint x="1040" y="768"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_11" bpmnElement="Flow_p6_incident_11"><di:waypoint x="943" y="312"/><di:waypoint x="992" y="312"/><di:waypoint x="992" y="544"/><di:waypoint x="1040" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_12" bpmnElement="Flow_p6_incident_12"><di:waypoint x="943" y="312"/><di:waypoint x="992" y="312"/><di:waypoint x="992" y="656"/><di:waypoint x="1040" y="656"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_13" bpmnElement="Flow_p6_incident_13"><di:waypoint x="1170" y="768"/><di:waypoint x="1219" y="768"/><di:waypoint x="1219" y="544"/><di:waypoint x="1267" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_14" bpmnElement="Flow_p6_incident_14"><di:waypoint x="1170" y="544"/><di:waypoint x="1267" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_15" bpmnElement="Flow_p6_incident_15"><di:waypoint x="1170" y="656"/><di:waypoint x="1219" y="656"/><di:waypoint x="1219" y="544"/><di:waypoint x="1267" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_16" bpmnElement="Flow_p6_incident_16"><di:waypoint x="1319" y="544"/><di:waypoint x="1387" y="544"/><di:waypoint x="1387" y="1000"/><di:waypoint x="1455" y="1000"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_17" bpmnElement="Flow_p6_incident_17"><di:waypoint x="1507" y="1000"/><di:waypoint x="1604" y="1000"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_18" bpmnElement="Flow_p6_incident_18"><di:waypoint x="1507" y="1000"/><di:waypoint x="1932" y="1000"/><di:waypoint x="1932" y="544"/><di:waypoint x="2356" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_19" bpmnElement="Flow_p6_incident_19"><di:waypoint x="1734" y="1000"/><di:waypoint x="1763" y="1000"/><di:waypoint x="1763" y="312"/><di:waypoint x="1792" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_20" bpmnElement="Flow_p6_incident_20"><di:waypoint x="1922" y="312"/><di:waypoint x="1975" y="312"/><di:waypoint x="1975" y="1000"/><di:waypoint x="2027" y="1000"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_21" bpmnElement="Flow_p6_incident_21"><di:waypoint x="2063" y="1000"/><di:waypoint x="2168" y="1000"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_22" bpmnElement="Flow_p6_incident_22"><di:waypoint x="2298" y="1000"/><di:waypoint x="2327" y="1000"/><di:waypoint x="2327" y="544"/><di:waypoint x="2356" y="544"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_23" bpmnElement="Flow_p6_incident_23"><di:waypoint x="2486" y="544"/><di:waypoint x="2515" y="544"/><di:waypoint x="2515" y="312"/><di:waypoint x="2544" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_24" bpmnElement="Flow_p6_incident_24"><di:waypoint x="2674" y="312"/><di:waypoint x="2732" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_25" bpmnElement="Flow_p6_incident_25"><di:waypoint x="2862" y="312"/><di:waypoint x="2959" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_26" bpmnElement="Flow_p6_incident_26"><di:waypoint x="3011" y="312"/><di:waypoint x="3108" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_27" bpmnElement="Flow_p6_incident_27"><di:waypoint x="3011" y="312"/><di:waypoint x="3343" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Flow_p6_incident_28" bpmnElement="Flow_p6_incident_28"><di:waypoint x="3238" y="312"/><di:waypoint x="3343" y="312"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p6_incident_0" bpmnElement="Msg_p6_incident_0"><di:waypoint x="1857" y="349"/><di:waypoint x="1857" y="1188"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Msg_p6_incident_1" bpmnElement="Msg_p6_incident_1"><di:waypoint x="2233" y="1037"/><di:waypoint x="2233" y="1354"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DS_AUDIT" bpmnElement="Assoc_DS_AUDIT"><di:waypoint x="353" y="80"/><di:waypoint x="353" y="182"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_Assoc_DO_BREACH" bpmnElement="Assoc_DO_BREACH"><di:waypoint x="1669" y="1000"/><di:waypoint x="1669" y="1102"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_0" bpmnElement="AnnoAssoc_POOL_OPS_0"><di:waypoint x="1105" y="768"/><di:waypoint x="1105" y="870"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_AnnoAssoc_POOL_OPS_1" bpmnElement="AnnoAssoc_POOL_OPS_1"><di:waypoint x="758" y="349"/><di:waypoint x="729" y="414"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
