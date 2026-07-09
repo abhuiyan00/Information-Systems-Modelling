@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISM Quiz — Information Systems Modeling</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div class="brand">
+        <h1>ISM Quiz</h1>
+        <p class="brand-sub">Information Systems Modeling</p>
+      </div>
+      <nav id="set-list" aria-label="Question sets"></nav>
+      <div class="overall" id="overall-stats"></div>
+    </aside>
+
+    <main id="main-wrap">
+      <header id="topbar">
+        <div class="view-tabs" id="view-tabs">
+          <button class="tab" data-view="quiz">Quiz</button>
+          <button class="tab" data-view="learn">Learn</button>
+          <button class="tab" data-view="review">Review</button>
+          <button class="tab" data-view="search">Search</button>
+        </div>
+        <div class="topbar-right">
+          <label class="shuffle-toggle">
+            <input type="checkbox" id="shuffle-toggle" />
+            <span>Shuffle</span>
+          </label>
+          <div class="timer-wrap" id="timer-wrap">
+            <button class="timer-pause" id="timer-pause" type="button" title="Pause / resume (P)" aria-label="Pause or resume the section timer">⏸</button>
+            <div class="timer" id="timer" title="Section countdown — 30:00 per section (press P to pause)">30:00</div>
+          </div>
+        </div>
+      </header>
+      <section id="main"></section>
+    </main>
+  </div>
+
+  <script src="chapters.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
