@@ -23,6 +23,19 @@ both are emitted to demonstrate both techniques and to make validation easy.
 
 Engineering detail (file-by-file) lives in [`app/README.md`](app/README.md).
 
+### Rendered pages
+
+A generated build-detail snapshot (`app/dist/build-falcon.html`) — the header,
+media, votes, flight log and telemetry cards each carry the same subject IRI so a
+crawler reads them as one entity:
+
+![Build detail — drone snapshot with RDFa](screenshots/build-detail.png)
+
+The home page (`schema:WebSite` + `Organization` + an `ItemList` of builds) and
+marketplace (`Product` + `Offer`) render from the same JSON source:
+
+![Home page](screenshots/home.png)
+
 ---
 
 ## 1. Run it
