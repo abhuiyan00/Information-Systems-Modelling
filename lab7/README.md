@@ -44,6 +44,21 @@ Participants reach beyond admins/users: DevOps, Release Manager, DBA, Data
 Protection Officer, Security on-call, Operations Committee, Cloud Provider, the
 GDPR supervisory authority and offsite storage.
 
+### Rendered diagrams
+
+Process 3 — **Release & Blue-Green Deployment (CI/CD)**: parallel build+test, an
+approval gate, blue-green cut-over and rollback across five lanes:
+
+![CI/CD blue-green deployment](screenshots/p3-cicd.png)
+
+Process 5 — **Data Archiving, Retention & GDPR Erasure**: two start events,
+export vs erasure, a legal-hold gateway and a 30-day boundary timer:
+
+![GDPR retention and erasure](screenshots/p5-data-gdpr.png)
+
+All eight PNG previews are in [`screenshots/`](screenshots/); the crisp,
+zoomable vector originals are in [`diagrams/`](diagrams/).
+
 ---
 
 ## How it is built
