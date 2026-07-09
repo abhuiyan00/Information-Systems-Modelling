@@ -1,222 +1,336 @@
-# Information Systems Modelling - Lab Guide
+# Information Systems Modelling — One Domain, Seven Labs
 
-This repo contains six labs based on the ModellingClub domain. Labs 2 to 4 build a working web app, lab 5 models the domain as an ontology, and lab 6 publishes semantic annotations (RDFa + JSON-LD) in web pages. Lab 1 is a requirements PDF.
+This repository tells a single story. Across **seven labs** we take **one**
+domain — *ModellingClub*, a community platform where hobbyists share RC-car,
+drone, robot and scale-model builds — and carry it through the **entire software
+development life cycle (SDLC)**: from a requirements document, to a working
+full-stack product, to a formal ontology, to search-engine-ready semantic
+publishing, and finally to the operational processes that keep the system alive.
 
-## Quick map
-- Lab 1: PDF requirements (no code)
-- Lab 2: API contract + backend skeleton (Java + Spring Boot)
-- Lab 3: Full backend with authentication
-- Lab 4: Full stack app (backend + Angular frontend)
-- Lab 5: Ontology demo (RDF4J)
-- Lab 6: Semantic web embedding in HTML pages (RDFa + JSON-LD)
+Read top to bottom and it reads like a build diary: each lab picks up exactly
+where the last one left off.
 
-## What you need (simple list)
-- Git
-- Java 21 for labs 2 to 4
-- Java 11 or newer for lab 5
-- Maven 3.9+ (or use the Maven wrapper: mvnw)
-- Node.js 20 and npm 10+ for lab 4 frontend
-- A terminal (PowerShell on Windows is fine)
+> **The domain:** *ModellingClub* — accounts and roles (Guest, Member, Admin),
+> a build lifecycle (draft → review → published), media uploads, collaboration
+> invites, flight logs for UAV builds, public browsing, comments and voting —
+> all under GDPR and EU drone-compliance rules.
 
-## If you are new, do this first
-1. Open a terminal.
-2. Check your tools:
-   - java -version
-   - mvn -version (optional if you will use mvnw)
-   - node -v (lab 4 only)
-   - npm -v (lab 4 only)
-3. If a command is missing, install that tool and reopen the terminal.
+---
 
-## Ports used
-- Backend (labs 2 to 4): http://localhost:8080
-- Frontend (lab 4): http://localhost:4200
+## The arc at a glance
 
-## Common fixes (beginner friendly)
-- If mvn is not found, use the Maven wrapper:
-  - Windows: mvnw.cmd
-  - macOS/Linux: ./mvnw
-- If port 8080 is busy, stop the other app or change server.port.
-- If npm install fails, delete node_modules and package-lock.json, then run npm ci.
-- If Java version is wrong, set JAVA_HOME and open a new terminal.
+| Lab | Chapter of the story | Discipline | Stack / notation |
+|-----|----------------------|------------|------------------|
+| **1** | *Know the problem* — capture requirements | Requirements engineering | PDF specification |
+| **2** | *Agree the interface* — an API-first contract | Contract-first design | OpenAPI + Spring Boot skeleton |
+| **3** | *Make it real & secure* — a working backend | Backend + security | Spring Boot, H2, JWT |
+| **4** | *Ship the product* — end-to-end app | Full-stack engineering | Spring Boot + Angular |
+| **5** | *Give it meaning* — model the domain formally | Knowledge modelling | RDF4J ontology (RDF/OWL) |
+| **6** | *Make it findable* — publish machine-readable data | Semantic Web / SEO | RDFa + JSON-LD, Linked Data |
+| **7** | *Keep it running* — model the operational life cycle | Process modelling | BPMN 2.0 |
 
-## Lab 1 - PDF requirements
+There's also a bonus chapter — **`ism_final_exam_prep/`**, a 570-question quiz
+trainer that covers the whole course. More on that at the end.
 
-### What it contains
-- PDF handout: lab1/ISM_a_lab01_pop.pdf
-- No runnable code
+---
 
-### How to use it
-1. Read the PDF.
-2. Use it as the domain reference for labs 2 to 5.
-3. Submit any deliverables required by your course.
+## Toolbelt (set this up once)
 
-### Lab 1 summary
-- The PDF defines a self-hosted ModellingClub platform for hobbyists to share builds.
-- Users are Guests (read-only), Members (create and collaborate), and Admins (moderate).
-- Core features: accounts, build lifecycle (draft to review to published), media uploads,
-  collaboration invites, flight logs for UAV builds, public browsing, comments, and voting.
-- It lists system limits such as upload size, max files per build, and flight log rules.
-- Quality goals include fast pages, secure auth, backups, accessibility, and mobile-friendly UI.
-- It also covers GDPR and EU drone compliance, plus moderation and takedown rules.
-- The PDF proposes a Linux stack (Python, PostgreSQL, Nginx) for deployment, but the labs
-  implement the same requirements using Java and Angular.
+| Tool | Needed for | Notes |
+|------|-----------|-------|
+| **Git** | everything | clone the repo |
+| **Java 21** | labs 2–4 | the Spring Boot backends |
+| **Java 11+** | lab 5 | RDF4J demo |
+| **Maven 3.9+** | labs 2–5 | or use the bundled wrapper `mvnw` / `mvnw.cmd` |
+| **Node.js 20 + npm 10+** | lab 4 frontend | Angular build |
+| **Node.js ≥ 18** | labs 6 & 7 | zero-dependency generators — no `npm install` |
+| **Python + `rdflib`** | lab 6 (optional) | offline JSON-LD validation |
+| **A modern browser** | labs 4, 6 & exam prep | Chrome / Edge / Firefox |
 
-## Lab 2 - API contract + backend skeleton
+**Ports:** backend (labs 2–4) `http://localhost:8080` · Angular frontend (lab 4)
+`http://localhost:4200` · lab 6 dev server `http://localhost:3000`.
 
-### What it contains
-- lab2/file.yaml: OpenAPI contract
-- lab2/StudentService: Spring Boot 3.5.6, Java 21
-- SQLite database (test.db) created on startup
+**First-time check:** run `java -version`, `node -v`, `npm -v`. If a command is
+missing, install that tool and reopen the terminal. If `mvn` isn't found, use the
+Maven wrapper (`mvnw.cmd` on Windows, `./mvnw` elsewhere).
 
-### Run it
-1. cd lab2/StudentService
-2. Start the app:
-   - Windows: mvnw.cmd spring-boot:run
-   - macOS/Linux: ./mvnw spring-boot:run
-3. Open Swagger UI:
-   - http://localhost:8080/StudentsApp/swagger-ui/index.html
+---
 
-### Reset the database
-1. Stop the app.
-2. Delete test.db in lab2/StudentService.
-3. Restart the app.
+## Lab 1 — Know the problem *(requirements engineering)*
 
-## Lab 3 - Full backend with authentication
+Every system starts with a question: *what are we actually building?* Lab 1 is
+the answer — a requirements specification for the ModellingClub platform.
 
-### What it contains
-- lab3/StudentService_vlab3: Spring Boot 3.5.6, Java 21
-- H2 database (file-based)
-- JWT authentication
+**What it defines**
+- A self-hosted platform for hobbyists to publish and collaborate on builds.
+- Three **actors**: Guests (read-only), Members (create & collaborate), Admins
+  (moderate).
+- **Functional requirements**: accounts, the build lifecycle (draft → review →
+  published), media uploads, collaboration invites, UAV flight logs, public
+  browsing, comments and voting.
+- **Non-functional requirements (NFRs)**: performance, secure authentication,
+  backups, accessibility, mobile-friendly UI — plus hard limits (upload size,
+  files per build, flight-log rules).
+- **Compliance**: GDPR and EU drone regulations, moderation and takedown rules.
 
-### Run it
-1. cd lab3/StudentService_vlab3
-2. Build: mvn clean compile
-3. Start: mvn spring-boot:run
-4. Verify:
-   - Health: http://localhost:8080/StudentsApp/api/v1/health
-   - Swagger UI: http://localhost:8080/StudentsApp/swagger-ui/index.html
-   - H2 console: http://localhost:8080/StudentsApp/h2-ui
-     - JDBC URL: jdbc:h2:file:./modellingclubdb
-     - User: sa
-     - Password: (blank)
+Interestingly, the document proposes a Linux / Python / PostgreSQL / Nginx
+deployment stack — but the labs deliberately satisfy the **same requirements**
+using a Java + Angular stack. The requirements are the contract; the technology
+is a choice.
 
-### Basic login flow
-1. POST /auth/register
-2. POST /auth/login to get a JWT
-3. Send Authorization: Bearer <token> for protected endpoints
+**Deliverable:** `lab1/AlimuzzamanBhuiyan_ISM_a_lab01_pop.pdf` (read it first —
+it's the domain reference for every lab that follows).
 
-### Reset the database
-1. Stop the app.
-2. Delete modellingclubdb.mv.db and modellingclubdb.trace.db.
-3. Restart the app.
+---
 
-## Lab 4 - Full stack app (backend + frontend)
+## Lab 2 — Agree the interface *(API-first, contract-first)*
 
-### What it contains
-- lab4/StudentService: Spring Boot backend with seed data
-- lab4/angular-rest-client-student-crud: Angular 21 frontend
-- lab4/guide.txt: detailed demo guide
-- AOP usage stats + service logging + performance timing + security audit
-- Global API error handler that returns clean ProblemDetail responses
-- Dev config (H2) and production profile (application-prod.properties)
+With the requirements understood, the next move isn't to write code — it's to
+**design the contract**. Lab 2 specifies the REST API **before** implementing it,
+the API-first way, so client and server can be built against a single agreed
+shape.
 
-### Run it
-1. Backend terminal:
-   - cd lab4/StudentService
-   - mvn spring-boot:run
-2. Frontend terminal:
-   - cd lab4/angular-rest-client-student-crud
-   - npm ci
-   - npm start
-3. Open:
-   - Backend API: http://localhost:8080/StudentsApp/api/v1
-   - H2 console: http://localhost:8080/StudentsApp/h2-ui
-   - Frontend UI: http://localhost:4200
+**What was built**
+- `lab2/file.yaml` — an **OpenAPI** specification describing the resources and
+  endpoints.
+- `lab2/StudentService` — a **Spring Boot 3.5.6 / Java 21** skeleton that
+  realises the contract, backed by an on-startup **SQLite** database (`test.db`).
+- Interactive API docs via **Swagger UI**.
 
-### Configuration notes (simple)
-- Media uploads are limited to 20 MB per file and 50 files per build.
-- Uploads are served at http://localhost:8080/StudentsApp/uploads/...
-- JWT tokens use a random key in dev; set jwt.secret for stable tokens in prod.
-- CORS allows http://localhost:4200 by default (change cors.allowed-origins for prod).
+**Run it**
+```bash
+cd lab2/StudentService
+./mvnw spring-boot:run          # Windows: mvnw.cmd spring-boot:run
+# Swagger UI: http://localhost:8080/StudentsApp/swagger-ui/index.html
+```
+To reset: stop the app, delete `test.db`, restart.
 
-### Production profile (optional)
-1. Set env vars: JWT_SECRET, CORS_ORIGINS, APP_PUBLIC_BASE_URL
-2. Start with: mvn spring-boot:run -Dspring-boot.run.profiles=prod
+---
 
-### Demo accounts
-| Role   | Email                      | Password  | Username   |
-|--------|----------------------------|-----------|------------|
-| admin  | admin@modellingclub.local  | admin123  | admin      |
-| member | demo@modellingclub.local   | DemoUser1 | demo_pilot |
+## Lab 3 — Make it real & secure *(backend + authentication)*
 
-### Reseed data
-1. Stop the backend.
-2. Delete modellingclubdb.mv.db and modellingclubdb.trace.db.
-3. Delete lab4/StudentService/uploads if present.
-4. Restart the backend.
+The skeleton grows into a proper backend, and — because the requirements demand
+secure accounts — this is where **authentication** arrives.
 
-### Note on the Angular folder layout
-There are two Angular project copies:
-- lab4/angular-rest-client-student-crud (use this one)
-- lab4/angular-rest-client-student-crud/angular-rest-client-student-crud
+**What was added**
+- `lab3/StudentService_vlab3` — Spring Boot 3.5.6 / Java 21 with a **file-based
+  H2** database (real persistence between runs).
+- **JWT (JSON Web Token)** stateless authentication: register, log in for a
+  token, then send `Authorization: Bearer <token>` on protected endpoints.
+- A **health endpoint**, Swagger UI, and the H2 web console.
 
-## Lab 5 - Ontology demo (RDF4J)
+**Run it**
+```bash
+cd lab3/StudentService_vlab3
+mvn clean compile
+mvn spring-boot:run
+# Health:  http://localhost:8080/StudentsApp/api/v1/health
+# Swagger: http://localhost:8080/StudentsApp/swagger-ui/index.html
+# H2 UI:   http://localhost:8080/StudentsApp/h2-ui  (JDBC: jdbc:h2:file:./modellingclubdb, user sa, no password)
+```
+Auth flow: `POST /auth/register` → `POST /auth/login` (get JWT) → call protected
+endpoints with the bearer token. Reset by deleting `modellingclubdb.mv.db` and
+`modellingclubdb.trace.db`.
 
-### What it contains
-- lab5/sesameExample_sol: Java 11, RDF4J 3.6.3
-- ontology.ttl and sample-data.ttl
+---
 
-### Run it
-Option A - IntelliJ
-1. Open lab5/sesameExample_sol as a Maven project.
-2. Ensure Project SDK is Java 11 or newer.
-3. Run App.java (pl.edu.pwr.modellingclub.App).
+## Lab 4 — Ship the product *(full-stack engineering)*
 
-Option B - Maven
-1. cd lab5/sesameExample_sol
-2. mvn compile exec:java
+Now it becomes a **product**: a secure Spring Boot API joined to a modern
+single-page frontend. This is the flagship lab.
 
-### Expected output
-- Logs that the ontology and sample data loaded
-- SPARQL query results printed in the console
+**Backend (`lab4/StudentService`)**
+- Seed data for an instant demo.
+- **Aspect-Oriented Programming (AOP)** cross-cutting concerns: usage
+  statistics, service logging, performance timing and a security audit trail.
+- A **global exception handler** returning clean RFC-7807 **`ProblemDetail`**
+  responses.
+- Separate **dev (H2)** and **production** profiles
+  (`application-prod.properties`).
+- **File uploads** capped at 20 MB/file and 50 files/build, served under
+  `/StudentsApp/uploads/...`.
+- **JWT** auth and configurable **CORS** (defaults to the Angular origin).
 
-## Lab 6 - Embedding semantic data in web pages (RDFa + JSON-LD)
+**Frontend (`lab4/angular-rest-client-student-crud`)**
+- An **Angular 21** SPA consuming the REST API (CRUD over the domain).
 
-### What it contains
-- lab6/index.html, builds.html, build-falcon.html, marketplace.html, member-alice.html, testrun.html
-- lab6/styles.css (theme snapshot aligned with lab4 look)
-- lab6/vocabulary/ontology.ttl (custom ontology delivered with the lab)
-- lab6/vocabulary/mc-context.jsonld (JSON-LD context for custom vocabulary)
-- lab6/verify_jsonld.py (local parsing helper)
+**Run it (two terminals)**
+```bash
+# Terminal 1 — backend
+cd lab4/StudentService && mvn spring-boot:run
+# Terminal 2 — frontend
+cd lab4/angular-rest-client-student-crud && npm ci && npm start
+# Backend API: http://localhost:8080/StudentsApp/api/v1   ·   Frontend: http://localhost:4200
+```
 
-### Goal
-- Annotate page content with schema.org terms where possible.
-- Use custom `mc:` terms where schema.org lacks equivalent classes/properties.
-- Publish each snapshot using both RDFa attributes in HTML and a JSON-LD script in `<head>`.
+**Demo accounts**
 
-### Why static snapshots are used
-- The live Angular app renders client-side, which can hide semantic data from parsers that only inspect initial HTML.
-- Lab 6 provides server-rendered style snapshots that expose semantic markup directly in source.
+| Role   | Email                     | Password  |
+|--------|---------------------------|-----------|
+| admin  | admin@modellingclub.local | admin123  |
+| member | demo@modellingclub.local  | DemoUser1 |
 
-### Run it
-1. Open the HTML pages directly in a browser, or serve `lab6` locally.
-2. Optional local server:
-   - cd lab6
-   - python -m http.server 8000
-   - open http://localhost:8000
+Production profile: set `JWT_SECRET`, `CORS_ORIGINS`, `APP_PUBLIC_BASE_URL`, then
+`mvn spring-boot:run -Dspring-boot.run.profiles=prod`. Reseed by deleting the
+`modellingclubdb.*` files and the `uploads/` folder, then restarting.
+See `lab4/guide.txt` for a full demo walkthrough.
 
-### Verify
-1. Use RDFa Play (http://rdfa.info/play/) by pasting page source.
-2. Use Schema Markup Validator (https://validator.schema.org/) or Rich Results Test.
-3. Optionally run local JSON-LD parsing checks with `verify_jsonld.py`.
+---
 
-## How the labs connect
-- Lab 1 defines the requirements and rules for the ModellingClub domain.
-- Lab 2 turns that domain into an OpenAPI contract and a starter backend.
-- Lab 3 implements a working backend with authentication and a real database.
-- Lab 4 adds the frontend and a complete user experience.
-- Lab 5 models the same domain as an ontology for semantic queries.
-- Lab 6 publishes that domain data in HTML snapshots using RDFa and JSON-LD.
+## Lab 5 — Give it meaning *(knowledge modelling)*
+
+The app can store and serve data — but the data has no *formal meaning*. Lab 5
+models the ModellingClub domain as an **ontology** so machines can reason about
+it, not just display it.
+
+**What was built**
+- `lab5/sesameExample_sol` — a **Java 11 / RDF4J 3.6.3** demo.
+- `ontology.ttl` — the **TBox** (the vocabulary: classes and properties, the
+  `mc:` schema) — and `sample-data.ttl` — the **ABox** (instances).
+- Loads both into an in-memory **triplestore** and runs **SPARQL** queries.
+
+**Run it**
+```bash
+cd lab5/sesameExample_sol
+mvn compile exec:java
+# Console prints load confirmation + SPARQL query results
+```
+(Or open it in IntelliJ as a Maven project with a Java 11+ SDK and run
+`pl.edu.pwr.modellingclub.App`.)
+
+This ontology is the seed for Lab 6 — the same IRIs and vocabulary get reused.
+
+---
+
+## Lab 6 — Make it findable *(Semantic Web + SEO)*
+
+Here the story turns outward: how does the wider web — search engines, crawlers,
+knowledge graphs — *understand* our pages? Lab 6 publishes the domain data as
+**machine-readable semantic markup** so it qualifies for rich results and Linked
+Data.
+
+**The problem it solves.** A client-rendered Angular view is hostile to crawlers:
+a bot fetching the page sees only `<app-root></app-root>` — the real content is
+painted later by JavaScript. The industry fix is **server-side rendering /
+static site generation (SSR/SSG)**: render the data on the server and embed it in
+two machine-readable forms — **RDFa 1.1** attributes woven into the HTML, and a
+**JSON-LD** script — favouring the **schema.org** vocabulary, and falling back to
+the custom **`mc:`** vocabulary only where schema.org has no matching term
+(flight logs, telemetry, reputation…).
+
+**The engineering (this was rebuilt from earlier static pages).** The data is
+**not** hand-written into the pages any more. A small **zero-dependency Node app**
+(`lab6/app/`) is the **single source of truth** (`app/data/*.json`, the ABox) and
+**generates** both the RDFa and the JSON-LD from it, so the two can never drift.
+
+```
+app/data/*.json ─► one renderer ─► RDFa + JSON-LD ─┬─► dynamic SSR server (npm run dev)
+                                                    └─► static snapshots  (npm run build → app/dist/)
+```
+
+It also serves **dereferenceable Linked Data**: every resource IRI answers under
+**content negotiation** — `Accept: application/ld+json` returns the RDF graph;
+`Accept: text/html` returns a `303` redirect to the human page.
+
+**Run it**
+```bash
+cd lab6/app
+npm run dev        # http://localhost:3000 — pages rendered on each request
+npm run build      # writes the static site to app/dist/
+npm run validate   # build, then parse every page's JSON-LD with rdflib
+```
+No `npm install` needed (zero dependencies). `validate` also needs Python +
+`rdflib`.
+
+**Verify the markup** with **RDFa Play** (`rdfa.info/play`), the **Schema Markup
+Validator** (`validator.schema.org`) and Google's **Rich Results Test** — the
+same tooling used for real-world **SEO / structured-data** work. The delivered
+custom ontology is `lab6/vocabulary/ontology.ttl` (schema.org and XSD are
+existing vocabularies — referenced, not redelivered). Engineering detail lives in
+[`lab6/app/README.md`](lab6/app/README.md).
+
+---
+
+## Lab 7 — Keep it running *(BPMN 2.0 process modelling)*
+
+The final chapter zooms out from the *software* to the *organisation around it*.
+A running system needs maintenance, deployments, data governance and a business
+life cycle — processes governed by rules, good practice and external commitments,
+not by application source code. Lab 7 models eight of them in **BPMN 2.0**.
+
+**The eight processes (four themes)**
+
+| Theme | Process |
+|-------|---------|
+| Maintenance & operations | 1 · Scheduled Backup & Verification · 2 · Software Upgrade / Dependency Patch |
+| Deployment & migration | 3 · Release & **Blue-Green Deployment (CI/CD)** · 4 · H2 → PostgreSQL Database Migration |
+| Data governance & security | 5 · Data Archiving, Retention & **GDPR Erasure** · 6 · **Security Incident Response** |
+| Business life cycle | 7 · Member Onboarding & Hosting Provisioning · 8 · System Decommissioning / End-of-Life |
+
+Each is a BPMN **collaboration** (pools, lanes, sequence flows, message flows)
+involving real stakeholders — DevOps, Release Manager, DBA, Data Protection
+Officer, Security on-call, Cloud Provider, the GDPR supervisory authority.
+Between them they exercise timer/message/signal start events, boundary error and
+timer events, exclusive/parallel/event-based gateways, and terminate ends.
+
+**How it's built.** Like lab 6, a **zero-dependency Node generator** holds the
+eight processes **once** as a data model (`src/specs.js`) and emits everything
+from it, so nothing can drift:
+
+```
+src/specs.js ─► generator ─┬─► diagrams/*.svg         (rendered BPMN)
+                           ├─► bpmn/*.bpmn            (editable, Camunda-ready, with DI)
+                           └─► report/lab7-report.pdf (the deliverable)
+```
+
+**Regenerate**
+```bash
+cd lab7
+npm run build     # diagrams/*.svg + bpmn/*.bpmn
+npm run pdf       # build + report.html → report/lab7-report.pdf
+```
+Node ≥ 18; the PDF step drives a headless Chromium (Edge/Chrome). Every `.bpmn`
+imports **without warnings** in `bpmn-moddle` (the parser behind Camunda Modeler
+/ bpmn.io), and every model was checked against BPMN execution semantics.
+Details in [`lab7/README.md`](lab7/README.md).
+
+---
+
+## How it all connects
+
+1. **Lab 1** captures *what* to build (requirements).
+2. **Lab 2** freezes the *interface* as an API-first contract.
+3. **Lab 3** turns the contract into a *secure, persistent* backend.
+4. **Lab 4** ships the full *product* — API + Angular UI.
+5. **Lab 5** gives the domain *formal meaning* as an ontology.
+6. **Lab 6** *publishes* that meaning to the web for search engines and Linked
+   Data consumers.
+7. **Lab 7** models the *operational processes* that keep the whole thing alive.
+
+One domain, followed from an idea on paper all the way to a governed, findable,
+running system.
+
+---
+
+## Bonus — ISM final exam prep
+
+**`ism_final_exam_prep/`** is a self-contained, zero-dependency quiz trainer for
+the ISM final exam: **570 questions** across all 14 lectures plus a 220-question
+Test set, with Quiz / Learn / Review / Search modes, a section timer, and
+progress saved in the browser. Just open `ism_final_exam_prep/index.html`.
+Full guide: [`ism_final_exam_prep/README.md`](ism_final_exam_prep/README.md).
+
+---
+
+## Common fixes (beginner-friendly)
+
+- **`mvn` not found** → use the wrapper: `mvnw.cmd` (Windows) or `./mvnw`.
+- **Port 8080 busy** → stop the other app or change `server.port`.
+- **`npm install` fails (lab 4)** → delete `node_modules` and
+  `package-lock.json`, then run `npm ci`.
+- **Wrong Java version** → set `JAVA_HOME` and open a new terminal.
+- **Labs 6 & 7 won't start** → they need Node ≥ 18; no `npm install` required.
 
 ## License
+
 No license specified.
