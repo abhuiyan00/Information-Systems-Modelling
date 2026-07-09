@@ -1,0 +1,36 @@
+[
+  {
+    "id": "listing-esc",
+    "name": "BLHeli32 45A ESC",
+    "types": ["Product", "mc:MarketplaceListing"],
+    "category": "Electronics",
+    "categoryIndividual": "cat-electronics",
+    "categoryType": "mc:ElectronicsPart",
+    "seller": "user-alice",
+    "offer": {
+      "id": "offer-esc",
+      "price": "29.90",
+      "priceCurrency": "PLN",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/UsedCondition",
+      "conditionLabel": "used"
+    }
+  },
+  {
+    "id": "listing-frame",
+    "name": "5-inch Carbon Frame",
+    "types": ["Product", "mc:MarketplaceListing"],
+    "category": "Frame",
+    "categoryIndividual": "cat-frame",
+    "categoryType": "mc:FramePart",
+    "seller": "user-dave",
+    "offer": {
+      "id": "offer-frame",
+      "price": "49.00",
+      "priceCurrency": "PLN",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/UsedCondition",
+      "conditionLabel": "used"
+    }
+  }
+]

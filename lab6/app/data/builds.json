@@ -1,0 +1,80 @@
+[
+  {
+    "id": "build-falcon",
+    "slug": "falcon",
+    "name": "Falcon FPV Racer",
+    "genre": "drone",
+    "mcType": "mc:DroneBuild",
+    "genreBadge": "badge-drone",
+    "statusBadge": "badge-published",
+    "emoji": "🚀",
+    "description": "5-inch FPV racing drone, custom carbon frame.",
+    "author": "user-alice",
+    "dateCreated": "2024-03-12",
+    "dateCreatedDisplay": "12 Mar 2024",
+    "featured": true,
+    "status": { "label": "Approved", "display": "approved", "individual": "status-approved" },
+    "aggregateRating": { "ratingValue": 87, "bestRating": 100, "worstRating": 0, "ratingCount": 3 },
+    "image": {
+      "id": "media-falcon-hero",
+      "types": ["ImageObject", "mc:ImageFile"],
+      "contentUrl": "https://media.modellingclub.local/falcon/hero.jpg",
+      "alt": "Falcon FPV Racer — hero shot"
+    },
+    "specs": [
+      { "name": "Frame Size", "value": 220, "unitText": "mm" },
+      { "name": "Motors", "value": 4 },
+      { "name": "Flight Controller", "value": "Kakute H7 V2" },
+      { "name": "Max Takeoff Weight", "value": 480, "unitText": "g" }
+    ],
+    "votes": { "like": 2, "dislike": 0 },
+    "flightLog": { "id": "flightlog-001", "altitude": "118.5", "pilotLicenseId": "PL-AB123456" },
+    "telemetry": { "id": "telemetry-falcon", "topSpeed": "142.0", "maxRange": "1500.0", "crashCount": 1 },
+    "comments": [
+      { "id": "comment-001", "author": "user-bob", "text": "Clean wiring, great work!" },
+      { "id": "comment-002", "author": "user-carol", "text": "Try a stiffer prop set." }
+    ]
+  },
+  {
+    "id": "build-arm",
+    "slug": "arm",
+    "name": "6-DOF Arm",
+    "genre": "robot",
+    "mcType": "mc:RobotBuild",
+    "genreBadge": "badge-other",
+    "statusBadge": "badge-published",
+    "emoji": "🤖",
+    "description": "Servo-driven robotic arm.",
+    "author": "user-alice",
+    "featured": true,
+    "status": { "label": "Approved", "display": "approved" }
+  },
+  {
+    "id": "build-rover",
+    "slug": "rover",
+    "name": "Desert Rover",
+    "genre": "car",
+    "mcType": "mc:RCCarBuild",
+    "genreBadge": "badge-car",
+    "statusBadge": "badge-pending_review",
+    "emoji": "🚗",
+    "description": "1:10 scale off-road RC car.",
+    "author": "user-bob",
+    "featured": true,
+    "status": { "label": "Submitted", "display": "submitted" }
+  },
+  {
+    "id": "build-glider",
+    "slug": "glider",
+    "name": "Silent Glider",
+    "genre": "aircraft",
+    "mcType": "mc:AircraftBuild",
+    "genreBadge": "badge-fixed_wing",
+    "statusBadge": "badge-draft",
+    "emoji": "🪁",
+    "description": "2m wingspan thermal glider.",
+    "author": "user-dave",
+    "featured": false,
+    "status": { "label": "Draft", "display": "draft" }
+  }
+]

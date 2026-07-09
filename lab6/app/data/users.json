@@ -1,0 +1,34 @@
+{
+  "user-alice": {
+    "username": "alice",
+    "initials": "AL",
+    "email": "alice@modellingclub.local",
+    "types": ["Person", "mc:User", "mc:Builder"],
+    "registeredAt": "2024-03-12T10:15:00Z",
+    "registeredAtDisplay": "12 Mar 2024",
+    "memberOf": "comm-microfpv",
+    "knows": ["user-bob"],
+    "reputation": {
+      "id": "rep-alice",
+      "builderScore": 95,
+      "helperScore": 40,
+      "organiserScore": 10,
+      "reliabilityScore": 88
+    }
+  },
+  "user-bob": {
+    "username": "bob",
+    "initials": "BO",
+    "types": ["Person", "mc:User"]
+  },
+  "user-carol": {
+    "username": "carol",
+    "initials": "CA",
+    "types": ["Person", "mc:AdminUser"]
+  },
+  "user-dave": {
+    "username": "dave",
+    "initials": "DA",
+    "types": ["Person", "mc:User"]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "website": {
+    "id": "https://modellingclub.local/#website",
+    "type": "WebSite",
+    "name": "ModellingClub",
+    "url": "https://modellingclub.local/",
+    "description": "The hobbyist club for drone and scale-model pilots. Document builds, share flight logs, vote and collaborate.",
+    "tagline": "The hobbyist club for drone and scale-model pilots.",
+    "heroText": "Document your builds, share photos and flight logs, vote on community work, and collaborate with co-authors. Self-hosted and self-moderated."
+  },
+  "org": {
+    "id": "https://modellingclub.local/#org",
+    "type": "Organization",
+    "additionalType": "mc:Community",
+    "name": "ModellingClub",
+    "url": "https://modellingclub.local/",
+    "description": "A self-hosted, self-moderated community of drone and scale-model builders."
+  },
+  "kpis": [
+    { "label": "Total Builds", "value": 4, "accent": "kpi-accent-primary" },
+    { "label": "Approved", "value": 2, "accent": "kpi-accent-success" },
+    { "label": "Drone Builds", "value": 1, "accent": "kpi-accent-secondary" },
+    { "label": "Members", "value": 4, "accent": "kpi-accent-warning" }
+  ]
+}

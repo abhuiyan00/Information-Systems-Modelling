@@ -1,0 +1,15 @@
+{
+  "name": "modellingclub-semantic",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dynamic, data-driven semantic publishing for ModellingClub (RDFa 1.1 + JSON-LD, schema.org + custom mc: vocabulary). Single source of truth -> SSR pages with content-negotiated Linked Data + static snapshot export.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
+    "build": "node scripts/build.js",
+    "validate": "node scripts/build.js && python scripts/validate.py"
+  },
+  "dependencies": {}
+}
