@@ -1,5 +1,8 @@
 # Information Systems Modelling — One Domain, Seven Labs
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Open source](https://img.shields.io/badge/open%20source-free%20to%20use-brightgreen.svg)](#license)
+
 This repository tells a single story. Across **seven labs** we take **one**
 domain — *ModellingClub*, a community platform where hobbyists share RC-car,
 drone, robot and scale-model builds — and carry it through the **entire software
@@ -333,4 +336,6 @@ Full guide: [`ism_final_exam_prep/README.md`](ism_final_exam_prep/README.md).
 
 ## License
 
-No license specified.
+Released under the [MIT License](LICENSE) — open source and free to use. You may use, copy,
+modify, and redistribute everything in this repository for any purpose, including commercially;
+the only condition is to keep the copyright and license notice.
