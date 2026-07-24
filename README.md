@@ -18,6 +18,49 @@ where the last one left off.
 > invites, flight logs for UAV builds, public browsing, comments and voting —
 > all under GDPR and EU drone-compliance rules.
 
+<p align="center">
+  <img src="lab4/screenshots/frontend-home.png" alt="The ModellingClub full-stack app home — a hobbyist club for drone and scale-model pilots, with build stats and a recently-published feed" width="720">
+</p>
+
+<p align="center"><sub><b>One domain, seven labs.</b> <i>ModellingClub</i> carried through the full SDLC — shown here at its midpoint: the Lab 4 full-stack product (Spring Boot + Angular).</sub></p>
+
+## Screenshots
+
+One representative view per chapter of the arc — every image is a real capture from that lab's own build.
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="lab3/screenshots/swagger-ui.png" alt="Swagger UI for the secured Spring Boot API">
+      <br><sub><b>Labs 2–3 · API-first backend.</b> An OpenAPI contract and a JWT-secured Spring Boot service, browsable in Swagger UI.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="lab4/screenshots/explore.png" alt="The Angular front end exploring ModellingClub builds">
+      <br><sub><b>Lab 4 · Full-stack product.</b> The Angular front end browsing builds against the live backend, with auth and uploads.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="lab5/screenshots/sparql-console.png" alt="A SPARQL query running against the RDF ontology">
+      <br><sub><b>Lab 5 · Formal ontology.</b> The domain modelled in RDF/OWL and queried live over SPARQL.</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="lab6/screenshots/marketplace.png" alt="The semantic-web marketplace page with embedded Linked Data">
+      <br><sub><b>Lab 6 · Semantic web.</b> The same data republished as Linked Data (RDFa + JSON-LD) — machine-readable and SEO-ready.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="lab7/screenshots/p3-cicd.png" alt="A BPMN 2.0 diagram of the CI/CD process">
+      <br><sub><b>Lab 7 · Process modelling.</b> The operational life cycle in BPMN 2.0 (here, the CI/CD pipeline).</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="ism_final_exam_prep/screenshots/quiz.png" alt="The ISM exam-prep quiz trainer">
+      <br><sub><b>Bonus · Exam trainer.</b> A self-contained 570-question quiz app covering the whole course.</sub>
+    </td>
+  </tr>
+</table>
+
 ---
 
 ## The arc at a glance
