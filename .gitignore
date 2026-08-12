@@ -1,0 +1,14 @@
+# Maven build output
+target/
+
+# Node dependency trees and generated static sites
+node_modules/
+dist/
+
+# Python bytecode and local virtual environments
+__pycache__/
+.venv/
+
+# JetBrains IDE project files
+.idea/
+*.iml
