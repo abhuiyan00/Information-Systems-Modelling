@@ -1,8 +1,5 @@
 # Information Systems Modelling — One Domain, Seven Labs
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Open source](https://img.shields.io/badge/open%20source-free%20to%20use-brightgreen.svg)](#license)
-
 This repository tells a single story. Across **seven labs** we take **one**
 domain — *ModellingClub*, a community platform where hobbyists share RC-car,
 drone, robot and scale-model builds — and carry it through the **entire software
@@ -377,8 +374,23 @@ Full guide: [`ism_final_exam_prep/README.md`](ism_final_exam_prep/README.md).
 - **Wrong Java version** → set `JAVA_HOME` and open a new terminal.
 - **Labs 6 & 7 won't start** → they need Node ≥ 18; no `npm install` required.
 
+## Technology
+
+- **Spring Boot, Java, and JPA** — implement the contract-first services and persistent ModellingClub backend across the lifecycle labs.
+- **OpenAPI** — fixes the API shape before the service implementation and drives its documented interface.
+- **SQLite and H2** — provide the embedded persistence used by the successive backend exercises.
+- **Angular** — renders the Lab 4 client that consumes the ModellingClub API.
+- **RDF4J** — loads the Turtle ontology into an in-memory repository for SPARQL exploration.
+- **Node.js** — runs the zero-dependency semantic publishing and BPMN generators that derive deliverables from their source models.
+
+## Skills demonstrated
+
+- Carrying one domain from requirements through API design, implementation, and operations.
+- Building a Java REST service with persistence, authentication, and documented contracts.
+- Connecting an Angular client to a backend service.
+- Expressing domain semantics in RDF/OWL and querying them with SPARQL.
+- Generating semantic-web and BPMN artefacts from maintained source definitions.
+
 ## License
 
-Released under the [MIT License](LICENSE) — open source and free to use. You may use, copy,
-modify, and redistribute everything in this repository for any purpose, including commercially;
-the only condition is to keep the copyright and license notice.
+MIT ([`LICENSE`](LICENSE)).
